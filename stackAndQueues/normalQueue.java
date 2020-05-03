@@ -35,9 +35,11 @@ public class normalQueue {
       if(size == data.length) {
         int[] temp = new int[data.length * 2];
         for(int i = 0; i < data.length; i++){
-            temp[i] = data[i];
-        }
-        data = temp;
+            int idx = (front + i) % data.length;
+              temp[i] = data[idx];
+          }
+          data = temp;
+          front = 0;
       } else {
           int rear = (front + size) % data.length;
           data[rear] = val;
