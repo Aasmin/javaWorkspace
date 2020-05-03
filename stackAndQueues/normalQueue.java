@@ -33,7 +33,11 @@ public class normalQueue {
     void add(int val) {
       // write ur code here
       if(size == data.length) {
-          System.out.println("Queue overflow");
+        int[] temp = new int[data.length * 2];
+        for(int i = 0; i < data.length; i++){
+            temp[i] = data[i];
+        }
+        data = temp;
       } else {
           int rear = (front + size) % data.length;
           data[rear] = val;
