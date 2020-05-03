@@ -34,7 +34,14 @@ public class buildNormalStack {
     void push(int val) {
       // write ur code here
       if(tos == data.length - 1){
-          System.out.println("Stack overflow");
+          // System.out.println("Stack overflow");
+        int[] tempStack = new int[data.length * 2];
+        for(int i = 0; i < data.length; i++){
+            tempStack[i] = data[i];
+        }
+        data = tempStack;
+        tos++;
+        data[tos] = val;
       } else {
           tos++;
           data[tos] = val;
