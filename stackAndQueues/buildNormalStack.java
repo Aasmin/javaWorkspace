@@ -1,6 +1,6 @@
 package stackAndQueues;
 /**
- *  @author Aasminpreet Singh Kainth
+ *  Created by Aasminpreet Singh Kainth on 02/may/2020
  *  Building a normal stack from scratch
  */
 import java.io.*;
@@ -19,31 +19,33 @@ public class buildNormalStack {
 
     int size() {
       // write ur code here
-      return data.length;
+      return tos + 1;
     }
-
+    
     void display() {
       // write ur code here
-      for(int i = 0; i < tos + 1; i++) {
+      for(int i = tos; i >= 0; i--) {
           System.out.print(data[i] + " ");
       }
-      System.out.print('\n');
+      System.out.println();
     }
 
+    //push -> Should accept new data if there is space available in the underlying array or print "Stack overflow" otherwise
     void push(int val) {
       // write ur code here
-      if(this.tos + 1 > this.size()) {
-          System.out.print("Stack overflow");
+      if(tos == data.length - 1){
+          System.out.println("Stack overflow");
       } else {
           tos++;
           data[tos] = val;
       }
     }
 
+    // pop -> Should remove and return last data if available or print "Stack underflow" otherwise and return -1
     int pop() {
       // write ur code here
-      if(this.tos == -1) {
-          System.out.print("Stack underflow");
+      if(tos == -1) {
+          System.out.println("Stack underflow");
           return -1;
       } else {
           int val = data[tos];
@@ -51,11 +53,11 @@ public class buildNormalStack {
           return val;
       }
     }
-
+    //top -> Should return last data if available or print "Stack underflow" otherwise and return -1
     int top() {
        // write ur code here
-       if(this.tos == -1) {
-          System.out.print("Stack underflow");
+      if(tos == -1) {
+          System.out.println("Stack underflow");
           return -1;
       } else {
           int val = data[tos];
@@ -91,5 +93,5 @@ public class buildNormalStack {
       }
       str = br.readLine();
     }
-  }
+}
 }
