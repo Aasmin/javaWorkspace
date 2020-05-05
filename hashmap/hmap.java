@@ -61,7 +61,7 @@ class HashMap {
         int bi = hashfun(key); //return bucket index
         int di = findWithinBucket(key, bi); //returns data index
         if(di == -1) {
-           return -1;
+            return -1;
         } else {
             int value = bucket[bi].remove(di).value;
             size--;
@@ -100,10 +100,33 @@ class HashMap {
             return true;
         }
     }
+
+    public int size() {
+        return this.size;
+    }
+
+    public void display() {
+        for(int b = 0; b < bucket.length; b++) {
+            System.out.print("b" + b + " -> "); 
+            for (Node n : bucket[b]){
+                System.out.print("[" + n.key + " - " + n.value + "], ");
+            }
+            System.out.println();
+        }
+    }
 }
 
 public class hmap {
     public static void main(String[] args) {
-        System.out.println("India".hashCode());
+        HashMap map = new HashMap();
+        map.put("india", 1000);
+        map.put("pak", 10);
+        map.put("UK", 150);
+        map.put("india", 1000);
+
+        System.out.println(map.get("india"));
+        System.out.println(map.get("India"));
+        System.out.println(map.containsKey("India"));
+
     }
 }
