@@ -1,12 +1,12 @@
 import java.util.*;
 
-// key = String, value = integer -- Assumption
-class Hashmap {
+// key = K, value = integer -- Assumption
+class Hash_map<K, V> {
     private class Node {
-        String key;
-        int value;
+        K key;
+        V value;
 
-        Node(String key, int value) {
+        Node(K key, V value) {
             this.key = key;
             this.value = value;
         }
@@ -24,12 +24,12 @@ class Hashmap {
         }
     }
 
-    private int hashfun(String key) {
+    private int hashfun(K key) {
         int bi = Math.abs(key.hashCode()) % bucket.length;
         return bi;
     }
 
-    private int findWithinBucket(String key, int bi) {
+    private int findWithinBucket(K key, int bi) {
         int di = -1;
         int i = 0;
         for(Node n : bucket[bi]) {
@@ -52,12 +52,12 @@ class Hashmap {
         }
     }
 
-    public Hashmap() {
+    public Hash_map() {
         init(4);
         size = 0;
     }
 
-    public void put(String key, int value) {
+    public void put(K key, V value) {
         int bi = hashfun(key); // hashfun return bucket index for particular key
         int di = findWithinBucket(key, bi);
         if(di == -1) {
@@ -74,31 +74,31 @@ class Hashmap {
         }
     }
 
-    public int remove(String key) {
+    public V remove(K key) {
         int bi = hashfun(key); // hashfun return bucket index for particular key
         int di = findWithinBucket(key, bi);
         if(di == -1) {
-            return -1;
+            return null;
         } else {
-            int value = bucket[bi].remove(di).value;
+            V value = bucket[bi].remove(di).value;
             size--;
             return value;
         }
     }
 
-    public int get(String key) {
+    public V get(K key) {
         int bi = hashfun(key); // hashfun return bucket index for particular key
         int di = findWithinBucket(key, bi);
         if(di == -1) {
-            return -1;
+            return null;
         } else {
             // key is present
             return bucket[bi].get(di).value;
         }
     }
 
-    public ArrayList<String> keySet() {
-        ArrayList<String> keys = new ArrayList<>();
+    public ArrayList<K> keySet() {
+        ArrayList<K> keys = new ArrayList<>();
 
         for(LinkedList<Node> list : bucket) {
             for(Node n : list) {
@@ -108,7 +108,7 @@ class Hashmap {
         return keys;
     }
 
-    public boolean containsKey(String key) {
+    public boolean containsKey(K key) {
         int bi = hashfun(key); // hashfun return bucket index for particular key
         int di = findWithinBucket(key, bi);
         if(di == -1) {
@@ -133,31 +133,19 @@ class Hashmap {
     }
 }
 
-public class hmap {
+public class gmap {
     public static void main(String[] args) {
-        Hashmap map = new Hashmap();
-        map.put("india", 1000);
-        map.put("pak", 10);
-        map.put("UK", 150);
-        map.put("America", 400);
-        map.put("Canada", 500);
-        map.put("China", 10);
-        map.put("india", 2000);
-        map.put("india1", 1000);
-        map.put("pak1", 10);
-        map.put("UK1", 150);
-        map.put("America1", 400);
-        map.put("Canada1", 500);
-        map.put("China1", 10);
-        map.put("india1", 2000);
-
-        System.out.println(map.remove("India"));
-
-        // System.out.println(map.get("india"));
-        // System.out.println(map.get("India"));
-        // System.out.println(map.containsKey("India"));
-        // System.out.println(map.containsKey("india"));
-
+        Hash_map<String, String> map = new Hash_map<>();
+        map.put("India", "delhi");
+        map.put("India1", "delhi");
+        map.put("India2", "delhi");
+        map.put("India3", "delhi");
+        map.put("India4", "delhi");
+        map.put("India12", "delhi");
+        map.put("India12", "delhi");
+        map.put("India22", "delhi");
+        map.put("India32", "delhi");
+        map.put("India42", "delhi");
         map.display();
 
     }
