@@ -255,13 +255,100 @@ int floodfill(int sr, int sc, int dr, int dc, vector<vector<int>> &board, string
         int x = sr + dirA[i][0];
         int y = sc + dirA[i][1];
 
-        if(x >= 0 && x <= dr && y >= 0 && y <= dc && board[x][y] == 0)
+        if(x >= 0 && x < board.size() && y >= 0 && y < board[0].size() && board[x][y] == 0)
             count += floodfill(x, y, dr, dc, board, ans + dirS[i]);
     }
     board[sr][sc] = 0;
     return count;
 }
 
+class FFPair {
+    public:
+    string path;
+    int len;
+    FFPair(string path_, int len_) {
+        path = path_;
+        len = len_;
+    }
+};
+
+FFPair longestHeight(int sr, int sc, int dr, int dc, vector<vector<int>> &board) { //0 free cell, 1 blocked
+    if(sr == dr && sc == dc) {
+        // cout << ans << endl;
+        FFPair base("", 0);
+        return base;
+    }
+
+    // int maxHeight = 0;
+    FFPair myAns("", 0);
+    board[sr][sc] = 1;  //mark
+    for(int i = 0; i < dirA.size(); i++) {
+        for(int jump = 0; jump < board.size(); jump ++) {
+        int x = sr + jump * dirA[i][0];
+        int y = sc + jump * dirA[i][1];
+
+        if(x >= 0 && x < board.size() && y >= 0 && y < board[0].size() && board[x][y] == 0){
+            FFPair smallAns = longestHeight(x, y, dr, dc, board);
+            if(myAns.len < smallAns.len + 1) {
+                myAns.len = smallAns.len + 1;
+                myAns.path = dirS[i] + to_string(jump) + smallAns.path;
+            }
+        }
+        }
+    }
+    board[sr][sc] = 0;
+    return myAns;
+}
+
+
+FFPair shortestHeight(int sr, int sc, int dr, int dc, vector<vector<int>> &board) { //0 free cell, 1 blocked
+    if(sr == dr && sc == dc) {
+        // cout << ans << endl;
+        FFPair base("", 0);
+        return base;
+    }
+
+    // int maxHeight = 0;
+    FFPair myAns("", board.size() * board[0].size());
+    board[sr][sc] = 1;  //mark
+    for(int i = 0; i < dirA.size(); i++) {
+        for(int jump = 1; jump < 2; jump ++) {
+        int x = sr + jump * dirA[i][0];
+        int y = sc + jump * dirA[i][1];
+
+        if(x >= 0 && x < board.size() && y >= 0 && y < board[0].size() && board[x][y] == 0){
+            FFPair smallAns = shortestHeight(x, y, dr, dc, board);
+            if(smallAns.len + 1 < myAns.len ) {
+                myAns.len = smallAns.len + 1;
+                myAns.path = dirS[i] + to_string(jump) + smallAns.path;
+            }
+        }
+        }
+    }
+    board[sr][sc] = 0;
+    return myAns;
+}
+
+// int shortestHeight(int sr, int sc, int dr, int dc, vector<vector<int>> &board) { //0 free cell, 1 blocked
+//     if(sr == dr && sc == dc) {
+//         // cout << ans << endl;
+//         return 0;
+//     }
+
+//     int minHeight = board.size() * board[0].size();     
+//     board[sr][sc] = 1;  //mark
+//     for(int i = 1; i < dirA.size(); i++) {
+//         // for(int jump = 0; jump < board.size(); jump ++) {
+//             int x = sr +  dirA[i][0];
+//             int y = sc + dirA[i][1];
+
+//             if(x >= 0 && x < board.size() && y >= 0 && y < board[0].size() && board[x][y] == 0)
+//                 minHeight = min(minHeight, shortestHeight(x, y, dr, dc, board));
+//         }
+//     // }
+//     board[sr][sc] = 0;
+//     return minHeight + 1;
+// }
 
 
 void pathType() {
@@ -273,7 +360,9 @@ void pathType() {
     //     cout << s << endl;
     // }
     vector<vector<int>> board(3, vector<int>(3, 0)); 
-    cout << floodfill(0, 0, 2, 2, board, "");
+    // FFPair ans =  longestHeight(0, 0, 2, 2, board);
+    FFPair ans =  shortestHeight(0, 0, 2, 2, board);
+    cout << ans.len << " " << ans.path << endl;
 }
 
 void solve() {
