@@ -39,7 +39,7 @@ public class l002 {
         for(int i = idx; i < arr.length; i++) {
             int coin = arr[i];
             if(tar - coin >= 0) {
-                count += coinChangeComb_ONE(arr, i, tar - coin, ans + coin);
+                count += coinChangeComb_ONE(arr, idx, tar - coin, ans + coin);
             }
         }
         return count;
