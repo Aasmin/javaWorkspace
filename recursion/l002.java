@@ -29,6 +29,22 @@ public class l002 {
         return count;
     }
 
+    public static int coinChangeComb_INF(int[] arr, int idx, int tar, String ans) {
+        if(tar == 0) {
+            System.out.println(ans);
+            return 1;
+        }
+
+        int count = 0;
+        for(int i = idx; i < arr.length; i++) {
+            int coin = arr[i];
+            if(tar - coin >= 0) {
+                count += coinChangeComb_INF(arr, i, tar - coin, ans + coin);
+            }
+        }
+        return count;
+    }
+
     public static int coinChangeComb_ONE(int[] arr, int idx, int tar, String ans) {
         if(tar == 0) {
             System.out.println(ans);
@@ -39,7 +55,7 @@ public class l002 {
         for(int i = idx; i < arr.length; i++) {
             int coin = arr[i];
             if(tar - coin >= 0) {
-                count += coinChangeComb_ONE(arr, i, tar - coin, ans + coin);
+                count += coinChangeComb_ONE(arr, i + 1, tar - coin, ans + coin);
             }
         }
         return count;
