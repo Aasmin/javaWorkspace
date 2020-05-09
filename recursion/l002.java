@@ -38,7 +38,7 @@ public class l002 {
         int count = 0;
         for(int i = 0; i < arr.length; i++) {
             int coin = arr[i];
-            if(tar - coin >= 0 && arr[i] > 0) {
+            if(arr[i] > 0 && tar - coin >= 0) {
                 arr[i] = -arr[i];
                 count += coinChangePermutation_ONE(arr, tar - coin, ans + coin);
                 arr[i] = -arr[i];
