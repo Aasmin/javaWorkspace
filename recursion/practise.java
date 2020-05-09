@@ -5,6 +5,7 @@ public class practise{
      }
 
 
+
     public static int coinChangePermutation_INF(int[] arr,int lidx, int tar, String ans){
         if(lidx==arr.length || tar==0){
             if(tar==0){
@@ -341,10 +342,32 @@ public static void Nqueen(){
     System.out.println(Nqueen_05(n,n,0,n,""));
 }
 
+static int tarSum(int[] arr, int tar, int lidx) {
+    if(tar == 0){
+        return 1;
+    }
+
+    int count = 0;
+
+    for(int i = lidx; i < arr.length; i++) {
+        if(tar - arr[lidx] > 0 && count <= 2)
+            count += tarSum(arr, tar - arr[lidx], lidx + 1);
+    }
+
+    return count;
+}
+
+static void amazon() {
+    int[] arr = {1, 5, 7, -1};
+    int tar = 6;
+    System.out.println(tarSum(arr, tar, 0));
+}
+
 public static void solve(){
     // coinChange();
     // queenProblem();
-    Nqueen();
+    // Nqueen();
+    amazon();
 }
 
 }
