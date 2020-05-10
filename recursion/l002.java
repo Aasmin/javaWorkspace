@@ -167,22 +167,25 @@ public class l002 {
         }
         return count;
     }
-
-    public static int nQueens02(boolean[][] board, int tnq, String ans) {
-        if(tnq == 0) {
-            System.out.println(ans);
-            return 1;
+    
+    //nqueens using subsequence method
+    public static int nQueens02(boolean[][] board, int idx, int tnq, String ans) {
+        if(tnq == 0 || idx == board.length * board[0].length) {
+            if(tnq == 0) {
+                System.out.println(ans);
+                return 1;
+            }
+            return 0;
         }
         int count = 0;
-        for(int r = 0; r < board.length * board[0].length; r++) {
-            int x = r / board[0].length;
-            int y = r % board[0].length;
-            if(isAValidMove(board, x, y)) {   
-                board[x][y] = true;
-                count  += nQueens02(board, tnq - 1, ans + "(" + x + ", " + y + ")");
-                board[x][y] = false;
-            }
+        int x = idx / board[0].length;
+        int y = idx % board[0].length;
+        if(isAValidMove(board, x, y)) {   
+            board[x][y] = true;
+            count  += nQueens02(board, idx + 1, tnq - 1, ans + "(" + x + ", " + y + ")");
+            board[x][y] = false;
         }
+        count  += nQueens02(board, idx + 1, tnq, ans);
         return count;
     }
 
@@ -207,7 +210,7 @@ public class l002 {
         boolean[][] rooms = new boolean[4][4];
         int tnq = 4;
         // System.out.println(nQueens01(rooms, 0, tnq, ""));
-        System.out.println(nQueens02(rooms, tnq, ""));
+        System.out.println(nQueens02(rooms, 0, tnq, ""));
     }
 
 
