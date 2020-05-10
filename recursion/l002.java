@@ -1,3 +1,4 @@
+import java.util.Arrays;
 public class l002 {
 
     public static int coinChangePermutation_INF(int[] arr, int tar, String ans) {
@@ -133,7 +134,7 @@ public class l002 {
 //nQueens.===============================================
     public static boolean isAValidMove(boolean[][] board, int r, int c) {
         int[][] dirA = {{0, -1}, {-1, -1}, {-1, 0}, {-1, 1}};
-
+        // int[][] dirA = {{0, -1}, {-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}};   //for permutations
         for(int d = 0; d < dirA.length; d++) {
             for(int rad = 1; rad < board.length; rad++) {
                 int x = r + rad * dirA[d][0];
@@ -167,7 +168,7 @@ public class l002 {
         }
         return count;
     }
-    
+
     //nqueens using subsequence method
     public static int nQueens02(boolean[][] board, int idx, int tnq, String ans) {
         if(tnq == 0 || idx == board.length * board[0].length) {
@@ -188,6 +189,56 @@ public class l002 {
         count  += nQueens02(board, idx + 1, tnq, ans);
         return count;
     }
+    
+
+    //permutation
+    public static int nQueens03(boolean[][] board, int idx, int tnq, String ans) {
+        if(tnq == 0 || idx == board.length * board[0].length) {
+            if(tnq == 0) {
+                System.out.println(ans);
+                return 1;
+            }
+            return 0;
+        }
+        int count = 0;
+        int x = idx / board[0].length;
+        int y = idx % board[0].length;
+        if(!board[x][y] && isAValidMove(board, x, y)) {   //checking board pe queen pehle se to nahi padi
+            board[x][y] = true;
+            count  += nQueens03(board, 0, tnq - 1, ans + "(" + x + ", " + y + ")");
+            board[x][y] = false;
+        }
+        count  += nQueens03(board, idx + 1, tnq, ans);
+        return count;
+    }
+
+
+// knight problem
+public static boolean nKnight(int[][] board, int r, int c, int move) {
+    board[r][c] = move;
+    if(move == 63) {
+        for(int i = 0; i < board.length; i++) {
+            for(int j = 0; j < board[0].length; j++) {
+
+                System.out.print(board[i][j] + "\t");
+            }
+            System.out.println();
+        }
+        return true;
+    }
+    int xMove[] = { 2, 1, -1, -2, -2, -1,  1,  2 }; 
+    int yMove[] = { 1, 2,  2,  1, -1, -2, -2, -1 }; 
+    boolean res = false;
+    for(int d = 0; d < xMove.length; d++) {
+        int x = r + xMove[d];
+        int y = c + yMove[d];
+        if(x >= 0 && y >= 0 && x < board.length && y < board[0].length && board[x][y] == -1){
+            res = res || nKnight(board, x, y, move + 1);
+        }
+    }
+    board[r][c] = -1;
+    return res;
+}
 
     public static void coinChange() {
         int[] arr = { 2, 3, 5, 7 };
@@ -207,10 +258,17 @@ public class l002 {
     }
 
     public static void nQueens() {
-        boolean[][] rooms = new boolean[4][4];
-        int tnq = 4;
+        // boolean[][] rooms = new boolean[4][4];
+        // int tnq = 4;
         // System.out.println(nQueens01(rooms, 0, tnq, ""));
-        System.out.println(nQueens02(rooms, 0, tnq, ""));
+        // System.out.println(nQueens02(rooms, 0, tnq, ""));
+        // System.out.println(nQueens03(rooms, 0, tnq, ""));
+        int[][] board = new int[8][8];
+        for(int i = 0; i < board.length; i++)   {
+            Arrays.fill(board[i], -1);
+        }
+        System.out.println(nKnight(board, 0, 0, 0));
+
     }
 
 

@@ -1,9 +1,10 @@
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
+
 public class practise{
      public static void main(String[] args){
      solve();
      }
-
 
 
     public static int coinChangePermutation_INF(int[] arr,int lidx, int tar, String ans){
@@ -126,8 +127,8 @@ public static int queensPermutation2D(boolean[][] rooms,int tnq, String ans) // 
 //NqueenProblem.==================================================
 
 public static boolean isAValidMove(boolean[][] board,int r,int c){
-    // int[][] dirA={{0,-1},{-1,-1},{-1,0},{-1,1}};
-    int[][] dirA={{0,-1},{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1}};
+    int[][] dirA={{0,-1},{-1,-1},{-1,0},{-1,1}};
+    // int[][] dirA={{0,-1},{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1}};
 
     for(int d=0;d<dirA.length;d++){
         for(int rad=1;rad<=board.length;rad++){
@@ -236,34 +237,6 @@ public static boolean Nqueen_04(boolean[][] rooms,int idx,int tnq, String ans) /
     return res;
 }
 
-static boolean[] ROW;
-static boolean[] COL;
-static boolean[] DIAG;
-static boolean[] ADIAG;
-
-public static int Nqueen_05(int n,int m,int idx,int tnq, String ans) // qpsf: queen place so far.
-{
-    if (tnq==0)
-    {
-        System.out.println(ans);
-        return 1;
-    }
-
-    int count = 0;
-    for (int r = idx; r < n*m; r++){
-        int x = r / m;
-        int y = r % m;
-
-        if (!ROW[x] && !COL[y] && !DIAG[x+y] && !ADIAG[x-y+m-1])
-        {
-            ROW[x]=true; COL[y]=true; DIAG[x+y]=true; ADIAG[x-y+m-1]=true;
-            count+= Nqueen_05(n,m,r+1,tnq-1,  ans + "(" + x + ", " + y + ") ");
-            ROW[x]=false; COL[y]=false; DIAG[x+y]=false; ADIAG[x-y+m-1]=false;           
-        }
-    }
-    return count;
-}
-
 
 public static boolean nKnight(int[][] board,int r,int c,int move){
     board[r][c]=move;
@@ -294,6 +267,106 @@ public static boolean nKnight(int[][] board,int r,int c,int move){
 }
 
 
+//optimised========================================================================
+
+static boolean[] ROW;
+static boolean[] COL;
+static boolean[] DIAG;
+static boolean[] ADIAG;
+
+public static int Nqueen_05(int n,int m,int idx,int tnq, String ans) // qpsf: queen place so far.
+{
+    if (tnq==0)
+    {
+        // System.out.println(ans);
+        return 1;
+    }
+
+    int count = 0;
+    for (int r = idx; r < n*m; r++){
+        int x = r / m;
+        int y = r % m;
+
+        if (!ROW[x] && !COL[y] && !DIAG[x+y] && !ADIAG[x-y+m-1])
+        {
+            ROW[x]=true; COL[y]=true; DIAG[x+y]=true; ADIAG[x-y+m-1]=true;
+            count+= Nqueen_05(n,m,r+1,tnq-1,  ans);
+            ROW[x]=false; COL[y]=false; DIAG[x+y]=false; ADIAG[x-y+m-1]=false;           
+        }
+    }
+    return count;
+}
+
+static int row=0;
+static int col=0;
+static int diag=0;
+static int adiag=0;
+
+public static int Nqueen_06(int n,int m,int idx,int tnq, String ans) // qpsf: queen place so far.
+{
+    if (tnq==0)
+    {
+        // System.out.println(ans);
+        return 1;
+    }
+
+    int count = 0;
+    for (int r = idx; r < n*m; r++){
+        int x = r / m;
+        int y = r % m;
+
+        if ((row & (1<<x))==0 && (col & (1<<y))==0 && (diag & (1<<(x+y)))==0 && (adiag & (1<<(x-y + m - 1)))==0)
+        {
+            row^=(1<<x);
+            col^=(1<<y);
+            diag^=(1<<(x+y));
+            adiag^=(1<<(x-y+m-1));
+
+            count+= Nqueen_06(n,m,r+1,tnq-1,  ans );
+           
+            row^=(1<<x);
+            col^=(1<<y);
+            diag^=(1<<(x+y));
+            adiag^=(1<<(x-y+m-1));
+        }
+    }
+    return count;
+}
+
+//==========================================================================
+
+public static String[] words={"mobile","samsung","sam","sung", 
+"man","mango","icecream","and", 
+ "go","like","i","ice","cream","ilik","esa"};
+ 
+ public static boolean isContains(String word){
+     for(String s: words) if(s.equals(word)) return true;
+      return false;
+ }
+ 
+ public static int wordBreak(String str,int idx,String ans){
+   if(idx==str.length()){
+       System.out.println(ans);
+       return 1;
+   }
+
+    int count=0;
+    for(int i=idx+1;i<=str.length();i++){
+        String smallStr=str.substring(idx,i);
+        if(isContains(smallStr))
+          count+=wordBreak(str,i,ans+ smallStr + " ");
+    }
+
+    return count;
+}
+ 
+
+ public static void wordBreak(){
+     String str="ilikesamsungandmangoandicecream";
+    System.out.println(wordBreak(str,0,""));
+ }
+
+
 
 // ==========================================================================
 
@@ -320,54 +393,42 @@ public static void queenProblem()
 }
 
 public static void Nqueen(){
-    // boolean[][] rooms=new boolean[4][4];
-    // int tnq=4;
+    boolean[][] board=new boolean[4][4];
+    int tnq=4;
     // System.out.println(Nqueen_01(board,0,tnq,""));
     // System.out.println(Nqueen_02(board,0,tnq,""));
-    // System.out.println(Nqueen_03(board,0,tnq,""));
+    System.out.println(Nqueen_03(board,0,tnq,""));
     // System.out.println(Nqueen_04(board,0,tnq,""));
 
-
     // int[][] board=new int[8][8];
-   
     // for(int i=0;i<board.length;i++)
     //   Arrays.fill(board[i],-1);
-   
     // System.out.println(nKnight(board,0,0,0));
-    int n=32;
-    ROW=new boolean[n];
-    COL=new boolean[n];
-    DIAG=new boolean[n+n-1];
-    ADIAG=new boolean[n+n-1];
-    System.out.println(Nqueen_05(n,n,0,n,""));
-}
 
-static int tarSum(int[] arr, int tar, int lidx) {
-    if(tar == 0){
-        return 1;
-    }
+    // int n=10;
+    // ROW=new boolean[n];
+    // COL=new boolean[n];
+    // DIAG=new boolean[n+n-1];
+    // ADIAG=new boolean[n+n-1];
+    
+    // long s= System.currentTimeMillis();
+    // System.out.println(Nqueen_05(n,n,0,n,""));
+    // long e= System.currentTimeMillis();
+    // System.out.println(e-s);
 
-    int count = 0;
 
-    for(int i = lidx; i < arr.length; i++) {
-        if(tar - arr[lidx] > 0 && count <= 2)
-            count += tarSum(arr, tar - arr[lidx], lidx + 1);
-    }
+    // long s= System.currentTimeMillis();
+    // System.out.println(Nqueen_06(n,n,0,n,""));
+    // long e= System.currentTimeMillis();
+    // System.out.println(e-s);
 
-    return count;
-}
-
-static void amazon() {
-    int[] arr = {1, 5, 7, -1};
-    int tar = 6;
-    System.out.println(tarSum(arr, tar, 0));
 }
 
 public static void solve(){
     // coinChange();
     // queenProblem();
-    // Nqueen();
-    amazon();
+    Nqueen();
+    // wordBreak();
 }
 
 }
