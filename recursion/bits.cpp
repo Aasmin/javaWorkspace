@@ -17,11 +17,20 @@ int onToOff02(int num, int k) {
     else return (num ^ mask);
 }
 
+int countAllSetBits_02(unsigned num) {
+    int count = 0;
+    while(num != 0) {
+        if((num & 1) == 1) count++;
+        num = (num >> 1);
+    }
+    return count;
+}
 
 int main() {
     // cout << offToOn(10, 0);
     // cout << onToOff01(5, 2);
     // cout << onToOff02(5, 2);
-    cout << (onToOff01(5, 2) == onToOff02(5, 2));
+    // cout << (onToOff01(5, 2) == onToOff02(5, 2));
+    cout << countAllSetBits_02(121223);
     return 0;
 }
