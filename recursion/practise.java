@@ -397,8 +397,8 @@ public static void Nqueen(){
     int tnq=4;
     // System.out.println(Nqueen_01(board,0,tnq,""));
     // System.out.println(Nqueen_02(board,0,tnq,""));
-    System.out.println(Nqueen_03(board,0,tnq,""));
-    // System.out.println(Nqueen_04(board,0,tnq,""));
+    // System.out.println(Nqueen_03(board,0,tnq,""));
+    System.out.println(Nqueen_04(board,0,tnq,""));
 
     // int[][] board=new int[8][8];
     // for(int i=0;i<board.length;i++)

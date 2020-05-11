@@ -212,6 +212,30 @@ public class l002 {
         return count;
     }
 
+    //practise this one again..
+    public static boolean nQueens04(boolean[][] rooms, int idx, int tnq, String ans) {
+        if (tnq==0)
+    {
+        System.out.println(ans);
+        return true;
+    }
+
+    int count = 0;
+    boolean res=false;
+    for (int r = idx; r < rooms.length*rooms[0].length; r++){
+        int x = r / rooms[0].length;
+        int y = r % rooms[0].length;
+
+        if (!rooms[x][y] && isAValidMove(rooms,x,y))
+        {
+            rooms[x][y] = true;
+            res=res || nQueens04(rooms,0,tnq-1,  ans + "(" + x + ", " + y + ") ");
+            rooms[x][y] = false;
+        }
+    }
+    return res;
+    }
+
 
 // knight problem
 public static boolean nKnight(int[][] board, int r, int c, int move) {
@@ -240,6 +264,33 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
     return res;
 }
 
+
+    //nQueens Optimized.==========================================================
+    static boolean[] ROW;
+    static boolean[] COL;
+    static boolean[] DIAG;
+    static boolean[] ADIAG;
+
+    public static int nQueens05(int n, int m, int idx, int tnq, String ans) {
+        if(tnq == 0) {
+            System.out.println(ans);
+            return 1;
+        }
+        int count = 0;
+
+        for(int i = idx; i < n * m; i++) {
+            int r = i / m;
+            int c = i % m;
+            if(!ROW[r] && !COL[c] && !DIAG[r+c] && !ADIAG[r-c + m-1]){
+                ROW[r] = true; COL[c] = true; DIAG[r+c] = true; ADIAG[r-c + m-1] = true; 
+                count += nQueens05(n, m, i + 1, tnq - 1, ans + "(" + r + ", " + c + ") ");
+                ROW[r] = false; COL[c] = false; DIAG[r+c] = false; ADIAG[r-c + m-1] = false; 
+            }
+        }
+        
+        return count;
+    }
+
     public static void coinChange() {
         int[] arr = { 2, 3, 5, 7 };
         int tar = 10;
@@ -263,12 +314,20 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
         // System.out.println(nQueens01(rooms, 0, tnq, ""));
         // System.out.println(nQueens02(rooms, 0, tnq, ""));
         // System.out.println(nQueens03(rooms, 0, tnq, ""));
-        int[][] board = new int[8][8];
-        for(int i = 0; i < board.length; i++)   {
-            Arrays.fill(board[i], -1);
-        }
-        System.out.println(nKnight(board, 0, 0, 0));
+        // System.out.println(nQueens04(rooms, 0, tnq, ""));
 
+        // int[][] board = new int[8][8];
+        // for(int i = 0; i < board.length; i++)   {
+        //     Arrays.fill(board[i], -1);
+        // }
+        // System.out.println(nKnight(board, 0, 0, 0));
+        
+        int n = 10;
+        ROW = new boolean[n];
+        COL = new boolean[n];
+        DIAG = new boolean[n + n - 1];
+        ADIAG = new boolean[n + n - 1];
+        System.out.println(nQueens05(n, n, 0, n, ""));
     }
 
 
