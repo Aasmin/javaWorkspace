@@ -75,6 +75,22 @@ using namespace std;
 //     }
 
 
+//leetcode 338
+// vector<int> countBits(int num) {
+// vector<int> out;    int val = 0;
+//     while(val <= num) {
+//         int count = 0;
+//         int temp = val;
+//         while(temp != 0) {
+//             count++;
+//             temp &= (temp - 1);
+//         }
+//         out.push_back(count);
+//         val++;
+//     }
+//     return out;
+// }
+
 
 int uniquePathsIII(vector<vector<int>>& grid) {
     vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};

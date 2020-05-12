@@ -26,11 +26,13 @@ int countAllSetBits_02(unsigned num) {
     return count;
 }
 
+
+
 int main() {
     // cout << offToOn(10, 0);
     // cout << onToOff01(5, 2);
     // cout << onToOff02(5, 2);
     // cout << (onToOff01(5, 2) == onToOff02(5, 2));
-    cout << countAllSetBits_02(121223);
+    // cout << countAllSetBits_02(121223);
     return 0;
 }
