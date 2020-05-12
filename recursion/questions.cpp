@@ -68,6 +68,14 @@ using namespace std;
 //     return res +  grid[r][c];
 // }
 
+
+//leetcode 232
+//  bool isPowerOfTwo(int n) {
+//         return n > 0 && !(n&=(n-1)) ;
+//     }
+
+
+
 int uniquePathsIII(vector<vector<int>>& grid) {
     vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
     int freeCells = 0;
