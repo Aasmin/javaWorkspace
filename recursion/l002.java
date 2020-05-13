@@ -291,6 +291,41 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
         return count;
     }
 
+
+    //nQueens Optimized.==========================================================
+    static int row = 0;
+    static int col = 0;
+    static int diag = 0;
+    static int adiag = 0;
+
+    public static int nQueens06(int n, int m, int idx, int tnq, String ans) {
+        if(tnq == 0) {
+            System.out.println(ans);
+            return 1;
+        }
+        int count = 0;
+        for (int r = idx; r < n*m; r++){
+            int x = r / m;
+            int y = r % m;
+    
+            if ((row & (1<<x))==0 && (col & (1<<y))==0 && (diag & (1<<(x+y)))==0 && (adiag & (1<<(x-y + m - 1)))==0)
+            {
+                row^=(1<<x);
+                col^=(1<<y);
+                diag^=(1<<(x+y));
+                adiag^=(1<<(x-y+m-1));
+    
+                count+= nQueens06(n,m,r+1,tnq-1, ans + "(" + x + ", " + y + ") " );
+               
+                row^=(1<<x);
+                col^=(1<<y);
+                diag^=(1<<(x+y));
+                adiag^=(1<<(x-y+m-1));
+            }
+        }
+        return count;
+    }
+
     public static void coinChange() {
         int[] arr = { 2, 3, 5, 7 };
         int tar = 10;
@@ -322,12 +357,13 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
         // }
         // System.out.println(nKnight(board, 0, 0, 0));
         
-        int n = 10;
+        int n = 4;
         ROW = new boolean[n];
         COL = new boolean[n];
         DIAG = new boolean[n + n - 1];
         ADIAG = new boolean[n + n - 1];
-        System.out.println(nQueens05(n, n, 0, n, ""));
+        // System.out.println(nQueens05(n, n, 0, n, ""));
+        System.out.println(nQueens06(n, n, 0, n, ""));
     }
 
 
