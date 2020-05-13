@@ -398,6 +398,45 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
      return true;
     }
 
+    // sudoko using bits optimised
+    // leetcode 37. Sudoku Solver
+    static int[] Srow = new int[9];
+    static int[] Scol = new int[9];
+    static int[][] Smat = new int[3][3];
+
+    boolean solveSudokuBits(char[][] board, ArrayList<Integer> calls, int idx) {
+        if(calls.size() == idx) return true;
+        int r = calls.get(idx) / 9;
+        int c = calls.get(idx) % 9;
+        for(int i = 1; i <= 9; i++) {
+            int mask = (1 << i);
+            if((Srow[r] & mask) == 0 && (Scol[c] & mask) == 0 && (Smat[r/3][c/3] & mask) == 0) {
+                Srow[r] ^= mask;    Scol[c] ^= mask;    Smat[r/3][c/3] ^= mask; board[r][c] = (char)(i + '0');
+                if(solveSudokuBits(board, calls, idx + 1) == true)  return true;
+                Srow[r] ^= mask;    Scol[c] ^= mask;    Smat[r/3][c/3] ^= mask; board[r][c] = '.';
+            }
+        }
+        return false;
+    }
+
+    public void solveSudokuBits(char[][] board) {
+        ArrayList<Integer> calls = new ArrayList<Integer>();
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; j < 9; j++) {
+                if(board[i][j] == '.') {
+                    calls.add(i * 9 + j);
+                } else {
+                    int num = board[i][j] - '0';
+                    int mask = (1<<num);
+                    Srow[i] ^= mask;    Scol[j] ^= mask; Smat[i/3][j/3] ^= mask;
+                }
+            }
+        }
+
+        solveSudokuBits(board, calls, 0);
+    }
+
+
 
     //========================
 
