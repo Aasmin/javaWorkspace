@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 public class l002 {
 
@@ -326,6 +327,83 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
         return count;
     }
 
+    //Sudoku.=======================
+    //leetcode 37
+    boolean isSafeToPlaceNumber(char[][] board, int x, int y, int num) {
+        //row
+        for(int i = 0; i < 9; i++){
+            if(board[x][i] - '0' == num)    return false;
+        }
+
+        for(int j = 0; j < 9; j++) {
+            if(board[j][y] - '0' == num)    return false;
+        }
+
+        x = (x / 3) * 3 ;  y = (y / 3) * 3;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(board[x + i][y + j] - '0' == num)    return false;
+            }
+        }
+
+        return true;
+    }
+
+    public boolean solveSudoku(char[][] board, ArrayList<Integer> calls, int idx) {
+        if(calls.size() == idx) return true;
+
+        boolean res = false;
+        int r = calls.get(idx) / 9;
+        int c = calls.get(idx) % 9;
+        for(int num = 1; num <= 9; num++) {
+            if(isSafeToPlaceNumber(board, r, c, num)) {
+                board[r][c] = (char)(num + '0');
+                if(solveSudoku(board, calls, idx + 1)) 
+                    return true;
+                board[r][c] = '.';
+            }
+        }
+        return res;
+    }
+    public boolean solveSudoku(char[][] board) {
+        ArrayList<Integer> calls = new ArrayList<>();
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                if(board[i][j] == '.') {
+                    calls.add(i * 9 + j);
+                }
+            }
+        }
+        return solveSudoku(board, calls, 0);
+    }
+    //leetcode 36 Valid Sudoku
+    public boolean isValidSudoku(char[][] board) {
+        int[] Srow = new int[9];
+        int[] Scol = new int[9];
+        int[][] Smat = new int[3][3];
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                if(board[i][j] != '.') {
+                    int num = board[i][j] - '0';
+                    if((Srow[i]&(1<<num)) != 0 || (Scol[j]&(1<<num)) != 0 || (Smat[i/3][j/3]&(1<<num)) != 0){
+                        return false;}
+                       else {
+                           Srow[i] ^= (1<<num);
+                           Scol[j] ^= (1<<num);
+                           Smat[i/3][j/3] ^= (1<<num);
+                       }
+            }
+        }
+       }
+     return true;
+    }
+
+
+    //========================
+
+    void sudoku() {
+    }
+
     public static void coinChange() {
         int[] arr = { 2, 3, 5, 7 };
         int tar = 10;
@@ -369,6 +447,7 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
 
     public static void main(String[] args) {
         // coinChange();
-        nQueens();
+        // nQueens();
     }
 }
+ 
