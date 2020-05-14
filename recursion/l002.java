@@ -465,8 +465,69 @@ public static int wordBreak(String str, int idx, String ans) {
     return count;
 }
 
+//Crypto Problem.================================
 
-    //========================
+
+static String str1 = "send";
+static String str2 = "more";
+static String str3 = "money";
+static int isNumberUsed = 0;
+static int[] assignedNumber = new int[26];
+
+    static int stringToNumber(String str) {
+        int res = 0;
+        for(int i = 0; i < str.length(); i++) {
+            res = res * 10 + assignedNumber[str.charAt(i) - 'a'];
+        }
+        return res;
+    }
+    static int cryptoSolver_(String str, int idx) {
+        int num1 = stringToNumber(str1);
+        int num2 = stringToNumber(str2);
+        int num3 = stringToNumber(str3);
+        if(str.length() == idx) {
+            if(assignedNumber[str1.charAt(0) - 'a'] != 0 && assignedNumber[str2.charAt(0) - 'a'] != 0 && 
+            assignedNumber[str3.charAt(0) - 'a'] != 0 && num1 + num2 == num3) {
+                System.out.println(num1 + "\n+ \n" + num2 + "\n-----\n" + num3);
+                System.out.println();
+                return 1;
+            }
+            return 0;
+        }
+
+        int count = 0;
+        for(int num = 0; num <= 9; num++) {
+            int mask = (1<<num);
+            if((isNumberUsed & mask) == 0) {
+                isNumberUsed ^= mask;
+                assignedNumber[str.charAt(idx) - 'a'] = num;
+                count += cryptoSolver_(str, idx + 1);
+                assignedNumber[str.charAt(idx) - 'a'] = 0;
+                isNumberUsed ^= mask;
+            }
+        }
+
+        return count;
+    }
+
+
+    static void crypto() {
+        String str = str1 + str2 + str3;
+        int[] freq = new int[26];
+        for(int i = 0; i < str.length(); i++) {
+            freq[str.charAt(i) - 'a']++;
+        }
+
+        str = "";
+        for(int i = 0; i < freq.length; i++) {
+            if(freq[i] > 0) {
+                str += (char)(i + 'a');
+            }
+        }
+        System.out.println(cryptoSolver_(str, 0));
+    }
+
+
 
    static void wordProblem() {
         String str="ilikesamsungandmangoandicecream";
@@ -522,7 +583,8 @@ public static int wordBreak(String str, int idx, String ans) {
     public static void main(String[] args) {
         // coinChange();
         // nQueens();
-        wordProblem();
+        // wordProblem();
+        crypto();
     }
 }
  
