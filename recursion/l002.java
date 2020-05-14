@@ -436,11 +436,46 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
         solveSudokuBits(board, calls, 0);
     }
 
+// Word Problem
+
+
+public static String[] words={"mobile","samsung","sam","sung", 
+"man","mango","icecream","and", "go","like","i","ice","cream","ilik","esa"};
+
+public static boolean isContains(String str) {
+    for(String word : words) {
+        if(str.equals(word))    return true;
+    }
+    return false;
+}
+
+public static int wordBreak(String str, int idx, String ans) {
+    if(str.length() == idx) {
+        System.out.println(ans);
+        return 1;
+    }
+    int count = 0;
+    for(int i = idx + 1; i <= str.length(); i++) {
+        String smallAns = str.substring(idx, i);
+        if(isContains(smallAns)) {
+            count += wordBreak(str, i, ans + smallAns + " ");
+        }
+    }
+
+    return count;
+}
 
 
     //========================
 
-    void sudoku() {
+   static void wordProblem() {
+        String str="ilikesamsungandmangoandicecream";
+        System.out.println(wordBreak(str, 0, ""));
+    }
+
+
+    static void sudoku() {
+
     }
 
     public static void coinChange() {
@@ -487,6 +522,7 @@ public static boolean nKnight(int[][] board, int r, int c, int move) {
     public static void main(String[] args) {
         // coinChange();
         // nQueens();
+        wordProblem();
     }
 }
  
