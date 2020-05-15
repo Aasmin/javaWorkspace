@@ -81,64 +81,58 @@ int coinChangeCombination(vector<int> &arr, int lidx, int tar, string ans)
     return count;
 }
 //Sudoku.=========================================================
-// bool isSafeToPlaceNumber(vector<vector<int>> &board, int num, int x, int y)
-// {
-//     //row
-//     for (int c = 0; c < 9; c++)
-//     {
-//         if (board[x][c] == num)
-//             return false;
-//     }
+bool isSafeToPlaceNumber(vector<vector<char>> &board, int num, int x, int y)
+{
+        for(int i = 0; i < 9; i++){
+            if(board[x][i] - '0' == num)    return false;
+        }
 
-//     //col
-//     for (int r = 0; r < 9; r++)
-//     {
-//         if (board[r][y] == num)
-//             return false;
-//     }
+        for(int j = 0; j < 9; j++) {
+            if(board[j][y] - '0' == num)    return false;
+        }
 
-//     //matrix
-//     int r = (x / 3) * 3;
-//     int c = (y / 3) * 3;
-//     for (int i = 0; i < 3; i++)
-//     {
-//         for (int j = 0; j < 3; j++)
-//         {
-//             if (board[r + i][c + j] == num)
-//                 return false;
-//         }
-//     }
+        x = (x / 3) * 3 ;  y = (y / 3) * 3;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                if(board[x + i][y + j] - '0' == num)    return false;
+            }
+        }
 
-//     return true;
-// }
+        return true;
+}
 
-// bool sudokuSolver_(vector<vector<char>> &board, vector<char> &calls, int idx) {
-//     if (idx == calls.size())
-//     {
-//         return true;
-//     }
 
-//     int i = calls[idx] / 9;
-//     int j = calls[idx] % 9;
-//     bool res = false;
+bool sudokuSolver_(vector<vector<char>> &board, vector<int> &calls, int idx) {
+    if(calls.size() == idx) return true;
 
-//     for (int num = 0; num < 9; num++)
-//     {
-//         if (isSafeToPlaceNumber(board, num, i, j))
-//         {
-//             board[i][j] = num;
-//             res = res || sudokuSolver_(board, calls, idx + 1);
-//             if (res)
-//                 return res;
-//             board[i][j] = 0;
-//         }
-//     }
-//     return true;
-// }
+        int r = calls[idx] / 9;
+        int c = calls[idx] % 9;
+        for(int num = 1; num <= 9; num++) {
+            if(isSafeToPlaceNumber(board, r, c, num)) {
+                board[r][c] = (char)(num + '0');
+                if(sudokuSolver_(board, calls, idx + 1)) 
+                    return true;
+                board[r][c] = '.';
+            }
+        }
+        return false;
+}
 
-// void sudoku() {
+bool solveSudoku(vector<vector<char>> &board) {
+        vector<int> calls;
+        for(int i = 0; i < 9; i++) {
+            for(int j = 0; j < 9; j++) {
+                if(board[i][j] == '.') {
+                    calls.push_back(i * 9 + j);
+                }
+            }
+        }
+        return sudokuSolver_(board, calls, 0);
+    }
+
+void sudoku() {
     
-// }
+}
 
 void coinChange()
 {
