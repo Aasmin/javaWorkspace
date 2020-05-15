@@ -34,14 +34,35 @@ public class questions {
     return res;
 }
 
+//leetcode 386
+public static List<Integer> lexicalOrder(int n) {
+    List<Integer> res = new ArrayList<>();
+    for(int i = 1; i < 10; i++) {
+        lexi(i, n, res);
+    }
+    return res;
+}
+
+public static void lexi(int cur, int n, List<Integer> res){
+    if(cur > n)     return;
+    res.add(cur);
+    for(int i = 0; i < 10; i++) {
+        int newNum = cur * 10 + i;
+        if(cur <= n) 
+            lexi(newNum, n, res);
+    }
+}
+
 
     public static void main(String[] args) {
         // int[] candidates = {10,1,2,7,6,1,5};
         // List<List<Integer>> ans = combinationSum2(candidates, 8);
-        for(List<Integer> arr : c) {
-            for(int ele : arr){
-                System.out.println(ele);
-            }
-        }
+        // for(List<Integer> arr : c) {
+        //     for(int ele : arr){
+        //         System.out.println(ele);
+        //     }
+        // }
+        List<Integer> ans = lexicalOrder(20);
+        System.out.println(ans);
     }
 }

@@ -584,7 +584,10 @@ static int[] assignedNumber = new int[26];
         // coinChange();
         // nQueens();
         // wordProblem();
-        crypto();
+        // crypto();
+        int a = 24;
+        String n = "" + a;
+        System.out.println(n.charAt(0) - '0');
     }
 }
  
