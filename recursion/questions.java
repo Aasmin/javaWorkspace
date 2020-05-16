@@ -53,6 +53,42 @@ public static void lexi(int cur, int n, List<Integer> res){
     }
 }
 
+    static int min = Integer.MAX_VALUE;
+    static int max = Integer.MIN_VALUE;
+
+static void missEle(int[] arr, int idx) {
+    if(arr.length == idx) {
+        // if(min == Integer.MAX_VALUE)    min = -1;
+        return;
+    }
+
+    if(min > arr[idx] && arr[idx] > 0) {
+        min = arr[idx];
+    }
+    if(max < arr[idx] && arr[idx] > 0) {
+        max = arr[idx];
+    }
+    missEle(arr, idx + 1);
+}
+
+public static int solution(int[] A) 
+    { 
+        int n = A.length; 
+
+        boolean[] present = new boolean[n + 1]; 
+
+        for (int i = 0; i < n; i++) { 
+
+            if (A[i] > 0 && A[i] <= n) 
+                present[A[i]] = true; 
+        } 
+
+        for (int i = 1; i <= n; i++) 
+            if (!present[i]) 
+                return i; 
+
+        return n + 1; 
+    } 
 
     public static void main(String[] args) {
         // int[] candidates = {10,1,2,7,6,1,5};
@@ -62,7 +98,15 @@ public static void lexi(int cur, int n, List<Integer> res){
         //         System.out.println(ele);
         //     }
         // }
-        List<Integer> ans = lexicalOrder(20);
-        System.out.println(ans);
+        // List<Integer> ans = lexicalOrder(20);
+        // System.out.println(ans);
+        // System.out.println(num);
+        int[] arr = {-3,  0, -4};
+        missEle(arr, 0);
+        for(int i = min; i > 0; i--) {
+            if(i < min)     min = i;
+        }
+        System.out.println(min);
+        System.out.println(max);
     }
 }
