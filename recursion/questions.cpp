@@ -47,6 +47,27 @@ vector<vector<int>> res;
         }
     }
 
+//leetcode 77
+vector<vector<int>> res;
+vector<vector<int>> combine(int n, int k) {
+    vector<int> ans;
+    combine_(n, k, 1, ans);
+    return res;
+}
+    
+void combine_(int n, int k, int idx, vector<int> &ans) {
+    if(k == 0){
+        res.push_back(ans);
+        return;
+    }
+    
+    for(int i = idx; i <= n; i++) {
+        ans.push_back(i);
+        combine_(n, k - 1, i + 1, ans);
+        ans.pop_back();
+    }
+}
+
 // leetcode 91.=================================
 int numDecodings(string &s, int idx)
 {
