@@ -24,6 +24,29 @@ vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
         return res;
 }
 
+//leetcode 216
+vector<vector<int>> res;
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> ans;
+        combinationSum3_(k, n, 1, ans);
+        return res;
+    }
+    
+    void combinationSum3_(int k, int target, int idx, vector<int> &ans) {
+        if(target == 0 && k == 0) {
+             res.push_back(ans);
+             return;
+        }
+        for(int i = idx; i <= 9; i++) {
+            int coin = i;
+            if(target - coin >= 0) {
+                ans.push_back(coin);
+                combinationSum3_(k-1, target - coin, i + 1, ans);
+                ans.pop_back();
+            }
+        }
+    }
+
 // leetcode 91.=================================
 int numDecodings(string &s, int idx)
 {

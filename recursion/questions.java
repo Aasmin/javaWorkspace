@@ -2,6 +2,31 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 public class questions {
+
+//leetcode 39
+public static int combinationSum_(int[] candidates, int target, List<List<Integer>> ans, List<Integer> smallAns) {
+    if(target == 0) {
+        ans.add()
+        return 1;
+    }
+    int count = 0;
+    for(int i = 0; i < candidates.length; i++) {
+        if(target - candidates[i] >= 0){
+            smallAns1.add(candidates[i]);
+            count += combinationSum_(candidates, target - candidates[i], ans, smallAns1);
+            smallAns1.remove(smallAns.size() - 1);
+        }
+    }
+    return count;
+}
+
+public List<List<Integer>> combinationSum(int[] candidates, int target) {
+    List<List<Integer>> ans = new ArrayList<List<Integer>>();
+    ArrayList<Integer> smallAns1 = new ArrayList<>();
+    combinationSum_(candidates, target, ans);
+    return ans;
+}
+
  //leetcode 40
 
  static List<List<Integer>> res;
@@ -101,12 +126,15 @@ public static int solution(int[] A)
         // List<Integer> ans = lexicalOrder(20);
         // System.out.println(ans);
         // System.out.println(num);
-        int[] arr = {-3,  0, -4};
-        missEle(arr, 0);
-        for(int i = min; i > 0; i--) {
-            if(i < min)     min = i;
-        }
-        System.out.println(min);
-        System.out.println(max);
+        // int[] arr = {-3,  0, -4};
+        // missEle(arr, 0);
+        // for(int i = min; i > 0; i--) {
+        //     if(i < min)     min = i;
+        // }
+        // System.out.println(min);
+        // System.out.println(max);
+
+        // int[] arr = {2,3,5};
+        // System.out.println(combinationSum_(arr, 8));
     }
 }

@@ -19,13 +19,13 @@ public static int equeSet(int[] arr, int idx, int sum1, int sum2,String set1, St
     public static int equeSet2(int[] arr, int idx, int sum1, int sum2,String set1, String set2) {
         int count = 0;
         
-        if(sum1 == sum2 && sum1 != 0) {
+        
+        
+        if(idx == arr.length) { 
+            if(sum1 == sum2 && sum1 != 0) {
             System.out.println(set1 + "== " + set2);
             count++;
         }
-        
-        if(idx == arr.length) { 
-            
             return count;
         }
         count += equeSet2(arr, idx + 1, sum1 + arr[idx], sum2, set1 + arr[idx] + " " , set2);
