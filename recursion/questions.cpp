@@ -47,6 +47,37 @@ vector<vector<int>> res;
         }
     }
 
+//lintcode 90
+
+void combSum_2(vector<int> &coins, int idx, int k, int tar, vector<int> &ans)
+{
+    if (tar == 0)
+    {
+        if (ans.size() == k)
+        {
+            res.push_back(ans);
+        }
+        return;
+    }
+
+    for (int i = idx; i < coins.size(); i++)
+    {
+        if (tar - coins[i] >= 0)
+        {
+            ans.push_back(coins[i]);
+            combSum_2(coins, i + 1, k, tar - coins[i], ans);
+            ans.pop_back();
+        }
+    }
+}
+
+vector<vector<int>> kSumII(vector<int> &A, int k, int target)
+{
+    vector<int> ans;
+    combSum_2(A, 0, k, target, ans);
+    return res;
+}
+
 //leetcode 77
 vector<vector<int>> res;
 vector<vector<int>> combine(int n, int k) {
