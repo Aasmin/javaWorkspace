@@ -1,6 +1,28 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+//leetcode 39
+vector<vector<int>> res;
+void combSum(vector<int> &candidates, int target, int idx, vector<int> &ans) {
+    if(target == 0) {
+        res.push_back(ans);
+        return;
+    }
+    for(int i = idx; i < candidates.size(); i++) {
+        int coin = candidates[i];
+        if(target - coin >= 0) {
+            ans.push_back(coin);
+            combSum(candidates, target - coin, i, ans);
+            ans.pop_back();
+        }
+    }
+
+}
+vector<vector<int>> combinationSum(vector<int> &candidates, int target) {
+        vector<int> ans;
+        combSum(candidates, target, 0, ans);
+        return res;
+}
 
 // leetcode 91.=================================
 int numDecodings(string &s, int idx)
@@ -40,33 +62,33 @@ int numDecodings(string s)
 }
 
 // leetcode 1219
-int getMaximumGold(vector<vector<int>>& grid) {
-    int res = 0;
-    vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-    for(int i = 0; i < grid.size(); i++) {
-        for(int j = 0; j < grid[0].size(); j++) {
-            if(grid[i][j] > 0)
-                res = max(res, getMaximumGold(i, j, grid, dir));
-        }
-    }
-}
+// int getMaximumGold(vector<vector<int>>& grid) {
+//     int res = 0;
+//     vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+//     for(int i = 0; i < grid.size(); i++) {
+//         for(int j = 0; j < grid[0].size(); j++) {
+//             if(grid[i][j] > 0)
+//                 res = max(res, getMaximumGold(i, j, grid, dir));
+//         }
+//     }
+// }
 
-int getMaximumGold(int r, int c, vector<vector<int>>& grid, vector<vector<int>> &dir) {
-    int res = 0;
-    grid[r][c] = -grid[r][c];
+// int getMaximumGold(int r, int c, vector<vector<int>>& grid, vector<vector<int>> &dir) {
+//     int res = 0;
+//     grid[r][c] = -grid[r][c];
 
-    for(int d = 0; d < 4; d++){
-        int x = r + dir[d][0];
-            int y = c + dir[d][1];
+//     for(int d = 0; d < 4; d++){
+//         int x = r + dir[d][0];
+//             int y = c + dir[d][1];
             
-            if(x >= 0 && y >= 0 && x < grid.size() && y < grid[0].size() && grid[x][y] > 0) {
-                res = max(res, getMaximumGold(x, y, grid, dir));
-            }
-    }
+//             if(x >= 0 && y >= 0 && x < grid.size() && y < grid[0].size() && grid[x][y] > 0) {
+//                 res = max(res, getMaximumGold(x, y, grid, dir));
+//             }
+//     }
 
-    grid[r][c] = -grid[r][c];
-    return res +  grid[r][c];
-}
+//     grid[r][c] = -grid[r][c];
+//     return res +  grid[r][c];
+// }
 
 
 //leetcode 232
@@ -131,45 +153,53 @@ vector<int> out;    int val = 0;
     }
 
 
-int uniquePathsIII(vector<vector<int>>& grid) {
-    vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
-    int freeCells = 0;
-    int sr, sc, dr, dc;
-    for(int i = 0; i < grid.size(); i++) {
-        for(int j = 0; j < grid[0].size(); j++) {
-            if(grid[i][j] == 0) {
-                freeCells++;
-            }
-            if(grid[i][j] == 1) {
-                sr = i;     sc = j;
-            }
-            if(grid[i][j] == 2) {
-                dr = i;     dc = j;
-            }
-        }
-    }
-    return uniquePathsIII(sr, sc, dr, dc, freeCells, grid, dir);
-}
+// int uniquePathsIII(vector<vector<int>>& grid) {
+//     vector<vector<int>> dir = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+//     int freeCells = 0;
+//     int sr, sc, dr, dc;
+//     for(int i = 0; i < grid.size(); i++) {
+//         for(int j = 0; j < grid[0].size(); j++) {
+//             if(grid[i][j] == 0) {
+//                 freeCells++;
+//             }
+//             if(grid[i][j] == 1) {
+//                 sr = i;     sc = j;
+//             }
+//             if(grid[i][j] == 2) {
+//                 dr = i;     dc = j;
+//             }
+//         }
+//     }
+//     return uniquePathsIII(sr, sc, dr, dc, freeCells, grid, dir);
+// }
 
-int uniquePathsIII(int sr, int sc, int dr, int dc, int freeCells, vector<vector<int>>& grid, vector<vector<int>> &dir) {
-   if(sr == dr && sc == dc && freeCells == 0){
-       return 1;
-   }
+// int uniquePathsIII(int sr, int sc, int dr, int dc, int freeCells, vector<vector<int>>& grid, vector<vector<int>> &dir) {
+//    if(sr == dr && sc == dc && freeCells == 0){
+//        return 1;
+//    }
     
-    int count = 0;
-    grid[sr][sc] = -1;
-    for(int d = 0; d < 4; d++){
-        int x = sr + dir[d][0];
-        int y = sc + dir[d][1];
-        if(x >= 0 && y >= 0 && x < grid.size() && y < grid[0].size() && (grid[x][y] == 0 || grid[x][y] == 2)) {
-            count += uniquePathsIII(x, y, dr, dc, freeCells - 1, grid, dir);
-        }
-    }
-    grid[sr][sc] = 0;
-    return count;
-    }
+//     int count = 0;
+//     grid[sr][sc] = -1;
+//     for(int d = 0; d < 4; d++){
+//         int x = sr + dir[d][0];
+//         int y = sc + dir[d][1];
+//         if(x >= 0 && y >= 0 && x < grid.size() && y < grid[0].size() && (grid[x][y] == 0 || grid[x][y] == 2)) {
+//             count += uniquePathsIII(x, y, dr, dc, freeCells - 1, grid, dir);
+//         }
+//     }
+//     grid[sr][sc] = 0;
+//     return count;
+//     }
 
 int main() {
-    vector<vector<int>> grid = {{1,0,0,0},{0,0,0,0},{0,0,2,-1}};
-    cout << uniquePathsIII(grid);
+    // vector<vector<int>> grid = {{1,0,0,0},{0,0,0,0},{0,0,2,-1}};
+    // cout << uniquePathsIII(grid);
+    vector<int> can = {2,3,6,7};
+    combinationSum(can, 7);
+    for(vector<int> list : res){
+        for(int ele : list) {
+            cout << ele;
+        }
+        cout << endl;
+    }
 }
