@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 public class l003 {
 //EquiSet Problem
 public static int equeSet(int[] arr, int idx, int sum1, int sum2,String set1, String set2) {
@@ -72,6 +73,26 @@ public static int equeSet(int[] arr, int idx, int sum1, int sum2,String set1, St
         
         return count;
     }
+    //leetcode 22
+    static List<String> res;
+    public static List<String> generateParenthesis(int n) {
+        res = new ArrayList<>();
+        generateParenthesis_(n, 0, 0, "");
+        return res;
+    }
+
+    public static void generateParenthesis_(int n, int OB, int CB, String ans) {
+        if(OB + CB == 2 * n) {
+            res.add(ans);
+            return;
+        }
+
+        if(OB < n)
+            generateParenthesis_(n, OB + 1, CB, ans + "(");
+        if(CB < OB)
+            generateParenthesis_(n, OB, CB  + 1, ans + ")");
+    }
+
 
     static void setProblem() {
         int[] arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
@@ -81,6 +102,8 @@ public static int equeSet(int[] arr, int idx, int sum1, int sum2,String set1, St
     }
     public static void main(String[] args) {
         // setProblem();
-        laxicographic(1, 1000);
+        // laxicographic(1, 1000);
+        generateParenthesis(3);
+        System.out.println(res);
     }
 }
