@@ -49,6 +49,30 @@ public static int equeSet(int[] arr, int idx, int sum1, int sum2,String set1, St
             laxicographic(st + 1, end);
         }
     }
+
+    //leetcode 1079
+    public int numTilePossibilities(String str) {
+        if(str.length() == 0)   return 0;
+        
+        // boolean[] vis = new boolean[26];
+        int vis = 0;
+        int count = 0;
+        for(int i = 0; i < str.length(); i++) {
+            int chIdx = str.charAt(i) - 'A';
+            int mask = (1 << chIdx);
+            // if(vis[chIdx] == false) {
+                // vis[chIdx] = true;
+            if((vis & mask) == 0)   {
+                vis ^= mask;
+                String nstr = str.substring(0, i) + str.substring(i+1);
+                count += numTilePossibilities(nstr) + 1;
+            }
+           
+        }
+        
+        return count;
+    }
+
     static void setProblem() {
         int[] arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
         // System.out.println(equeSet(arr, 0, 0, 0, "", ""));
