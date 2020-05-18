@@ -35,14 +35,28 @@ public static int equeSet(int[] arr, int idx, int sum1, int sum2,String set1, St
         return count;
         }
     
-        static void setProblem() {
-            int[] arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
-            // System.out.println(equeSet(arr, 0, 0, 0, "", ""));
-            System.out.println(equeSet2(arr, 0, 0, 0, "", ""));
-    
+    //laxicographical 
+    public static void laxicographic(int st, int end) {
+        if(st > end)   return;
+        System.out.println(st);
+        for(int i = 0; i < 10; i++) {
+            if(st * 10 + i < end) {
+                laxicographic(st * 10 + i, end);
+            }
+        }   
+
+        if(st + 1 < 10) {
+            laxicographic(st + 1, end);
         }
-    
+    }
+    static void setProblem() {
+        int[] arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100};
+        // System.out.println(equeSet(arr, 0, 0, 0, "", ""));
+        System.out.println(equeSet2(arr, 0, 0, 0, "", ""));
+
+    }
     public static void main(String[] args) {
-        setProblem();
+        // setProblem();
+        laxicographic(1, 1000);
     }
 }
