@@ -1,27 +1,9 @@
-50 in PRE order
-25 in PRE order
-12 in PRE order
-12 in IN order
-12 in POST order
-25 in IN order
-37 in PRE order
-30 in PRE order
-30 in IN order
-30 in POST order
-37 in IN order
-37 in POST order
-25 in POST order
-50 in IN order
-75 in PRE order
-62 in PRE order
-62 in IN order
-70 in PRE order
-70 in IN order
-70 in POST order
-62 in POST order
-75 in IN order
-87 in PRE order
-87 in IN order
-87 in POST order
-75 in POST order
-50 in POST order
+50
+25
+75
+12
+37
+62
+87
+30
+70
