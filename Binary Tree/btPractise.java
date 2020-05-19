@@ -83,7 +83,7 @@ public class btPractise {
         if(node == null)    return -1;  //return -1 for edges and 0 for nodes
         int lh = height(node.left);
         int rh = height(node.right);
-        int th = Math.max(lh, rh) + 1;
+        int th = Math.max(lh, rh) + 1; 
         return th;
     }
 
@@ -94,13 +94,23 @@ public class btPractise {
         int tm = Math.max(node.data, Math.max(lm, rm));
         return tm;
     }
+
+    public static void traversals(Node node) {
+        if(node == null) return;
+        System.out.println(node.data + " in PRE order");     //Euler left
+        traversals(node.left);
+        System.out.println(node.data + " in IN order");      //Euler between
+        traversals(node.right);
+        System.out.println(node.data + " in POST order");    //Euler right
+    }
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
         // display(root);
-        System.out.println(size(root));
-        System.out.println(sum(root));
-        System.out.println(height(root));   
-        System.out.println(max(root));
+        // System.out.println(size(root));
+        // System.out.println(sum(root));
+        // System.out.println(height(root));   
+        // System.out.println(max(root));
+        traversals(root);
     }
 }
