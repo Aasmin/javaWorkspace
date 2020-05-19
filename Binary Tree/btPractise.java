@@ -27,7 +27,7 @@ public class btPractise {
         while(st.size() > 0) {
             Pair top = st.peek();
             if(top.state == 1) {
-                idx++;
+                idx++;top.state++;
                 if(arr[idx] != null)  {
                     Node ln = new Node(arr[idx], null, null);
                     top.node.left = ln;
@@ -35,17 +35,16 @@ public class btPractise {
                     st.push(lp);
                 } else {
                     top.node.left = null;
-                }top.state++;
+                }
             } else if(top.state == 2) {
-                idx++;
-                
+                idx++;top.state++;
                 if(arr[idx] != null) {
                     top.node.right = new Node(arr[idx], null, null);
                     Pair rp = new Pair(top.node.right, 1);
                     st.push(rp);
                 } else {
                     top.node.right = null;
-                }top.state++;
+                }
             } else { 
                 st.pop();
             }
@@ -63,9 +62,45 @@ public class btPractise {
         display(node.left);
         display(node.right);
     }
+
+    public static int size (Node node) {
+        if(node == null)    return 0;
+        int ln = size(node.left);
+        int rn = size(node.right);
+        int tn = ln + rn + 1;
+        return tn;
+    }
+
+    public static int sum(Node node) {
+        if(node == null)    return 0;
+        int ls = sum(node.left);
+        int rs = sum(node.right);
+        int ts = ls + rs + node.data;
+        return ts;
+    }
+
+    public static int height(Node node) {   
+        if(node == null)    return -1;  //return -1 for edges and 0 for nodes
+        int lh = height(node.left);
+        int rh = height(node.right);
+        int th = Math.max(lh, rh) + 1;
+        return th;
+    }
+
+    public static int max(Node node) {
+        if(node == null)    return Integer.MIN_VALUE;
+        int lm = max(node.left);
+        int rm = max(node.right);
+        int tm = Math.max(node.data, Math.max(lm, rm));
+        return tm;
+    }
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
-        display(root);
+        // display(root);
+        System.out.println(size(root));
+        System.out.println(sum(root));
+        System.out.println(height(root));   
+        System.out.println(max(root));
     }
 }
