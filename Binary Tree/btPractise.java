@@ -1,6 +1,8 @@
 import java.util.Stack;
 import java.util.ArrayDeque;
 import java.util.Queue;
+import java.util.ArrayList;
+
 public class btPractise {
     public static class Node {
         int data;
@@ -154,6 +156,31 @@ public class btPractise {
         System.out.println("POST: \t" + post );
     }
 
+    public static boolean nodeToRootPath(Node node, int data, ArrayList<Integer> path) {
+        if(node == null)    return false;
+
+        if(node.data == data) {
+            path.add(data);
+            return true;
+        }
+
+        //find in left child
+        boolean filc = nodeToRootPath(node.left, data, path);
+        if(filc) {
+            path.add(node.data);
+            return true;
+        }
+
+        //find in right child
+        boolean filr = nodeToRootPath(node.right, data, path);
+        if(filr) {
+            path.add(node.data);
+            return true;
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
@@ -164,6 +191,9 @@ public class btPractise {
         // System.out.println(max(root));
         // traversals(root);
         // levelOrder(root);
-        IterativePrePostInTraversal(root);
+        // IterativePrePostInTraversal(root);
+        ArrayList<Integer> path = new ArrayList<>();
+        System.out.println(nodeToRootPath(root, 87 , path));
+        System.out.println(path);
     }
 }
