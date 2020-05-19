@@ -114,14 +114,46 @@ public class btPractise {
             int count = mq.size();
             for(int i = 0; i < count; i++) {
                 node = mq.remove();
-                System.out.println(node.data);
-
+                System.out.print(node.data + " ");
                 if(node.left != null)   mq.add(node.left);
                 if(node.right != null)   mq.add(node.right);
             }
+            System.out.println();
+        }
+    }
+    
+    public static void IterativePrePostInTraversal(Node node) {
+        Pair rtp = new Pair(node, 1);
+        Stack<Pair> st = new Stack<>();
+        st.push(rtp);
+
+        String pre = "";
+        String in = "";
+        String post = "";
+
+        while(st.size() > 0) {
+            Pair top = st.peek();
+            if(top.state == 1) {
+                pre += top.node.data + " ";
+                if(top.node.left != null)
+                    st.push(new Pair(top.node.left, 1));
+                top.state++;
+            } else if(top.state == 2) {
+                in += top.node.data + " ";
+                if(top.node.right != null)
+                    st.push(new Pair(top.node.right, 1));
+                top.state++;
+            } else {
+                post += top.node.data + " ";
+                st.pop();
+            }
         }
 
+        System.out.println("Pre: \t" + pre );
+        System.out.println("IN: \t" + in );
+        System.out.println("POST: \t" + post );
     }
+
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
@@ -131,6 +163,7 @@ public class btPractise {
         // System.out.println(height(root));   
         // System.out.println(max(root));
         // traversals(root);
-        levelOrder(root);
+        // levelOrder(root);
+        IterativePrePostInTraversal(root);
     }
 }
