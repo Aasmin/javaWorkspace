@@ -156,36 +156,46 @@ public class btPractise {
         System.out.println("POST: \t" + post );
     }
 
-    public static boolean nodeToRootPath(Node node, int data, ArrayList<Integer> path) {
+    public static boolean nodeToRootPath(Node node, int data, ArrayList<Node> path) {
         if(node == null)    return false;
 
         if(node.data == data) {
-            path.add(data);
+            path.add(node);
             return true;
         }
 
         //find in left child
         boolean filc = nodeToRootPath(node.left, data, path);
         if(filc) {
-            path.add(node.data);
+            path.add(node);
             return true;
         }
 
         //find in right child
         boolean filr = nodeToRootPath(node.right, data, path);
         if(filr) {
-            path.add(node.data);
+            path.add(node);
             return true;
         }
 
         return false;
     }
 
-    public static void kLevelsDown(Node node, int k) {
-        if(k < 0 || node == null)   return;
+    public static void kLevelsDown(Node node, int k, Node block) {
+        if(k < 0 || node == null || node == block)   return;
         if(k == 0)  System.out.println(node.data);
-        kLevelsDown(node.left, k - 1);
-        kLevelsDown(node.right, k - 1);
+        kLevelsDown(node.left, k - 1, block);
+        kLevelsDown(node.right, k - 1, block);
+    }
+
+    public static void printkNodesFar(Node node, int data, int k) {
+        ArrayList<Node> path = new ArrayList<>();
+        nodeToRootPath(node, data, path);
+        // for(Node ele : path)    System.out.print(ele.data + " ");
+        // System.out.println();
+        for(int i = 0; i < path.size(); i++) {
+            kLevelsDown(path.get(i), k - i, i == 0 ? null : path.get(i - 1));
+        }
     }
 
     public static void main(String[] args) {
@@ -199,9 +209,10 @@ public class btPractise {
         // traversals(root);
         // levelOrder(root);
         // IterativePrePostInTraversal(root);
-        // ArrayList<Integer> path = new ArrayList<>();
-        // System.out.println(nodeToRootPath(root, 87 , path));
-        // System.out.println(path);
-        kLevelsDown(root, 0);
+        // ArrayList<Node> path = new ArrayList<>();
+        // System.out.println(nodeToRootPath(root, 70 , path));
+        // for(Node ele : path)    System.out.println(ele.data);
+        // kLevelsDown(root, 0, null);
+        printkNodesFar(root, 25, 2);
     }
 }
