@@ -208,10 +208,20 @@ public class btPractise {
         pathToLeaf(node.right, path + node.data + " ", sum + node.data);
     }
 
+    public static Node createLeftCloneTree(Node node) {
+        if(node == null) return null;
+        Node lcr = createLeftCloneTree(node.left);
+        Node rcr = createLeftCloneTree(node.right);
+        
+        Node nn = new Node(node.data, lcr, null);
+        node.left = nn;
+        node.right = rcr;
+        return node;
+    }
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
-        // display(root);
+        display(root);
         // System.out.println(size(root));
         // System.out.println(sum(root));
         // System.out.println(height(root));   
@@ -224,6 +234,9 @@ public class btPractise {
         // for(Node ele : path)    System.out.println(ele.data);
         // kLevelsDown(root, 0, null);
         // printkNodesFar(root, 25, 2);
-        pathToLeaf(root, "", 0);
+        // pathToLeaf(root, "", 0);
+        System.out.println("\n-----New Tree------");
+        Node node = createLeftCloneTree(root);
+        display(node);  
     }
 }
