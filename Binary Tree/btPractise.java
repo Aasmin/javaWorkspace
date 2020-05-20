@@ -2,6 +2,7 @@ import java.util.Stack;
 import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class btPractise {
     public static class Node {
@@ -156,6 +157,7 @@ public class btPractise {
         System.out.println("POST: \t" + post );
     }
 
+    //find node and trace the path(divide in 5 parts and solve )
     public static boolean nodeToRootPath(Node node, int data, ArrayList<Node> path) {
         if(node == null)    return false;
 
@@ -229,10 +231,32 @@ public class btPractise {
         return node;
     }
 
+    static class BPair{
+        int num;    String str = "";
+        BPair(int num, String b)  {this.num = num;     this.str = b;} 
+    }
+
+    public static void printNumInBinaryTillN(int n) {
+        LinkedList<BPair> queue = new LinkedList<>();
+        queue.add(new BPair(1, "1"));
+        while(queue.size() > 0) {
+            BPair rem = queue.removeFirst();
+            System.out.println(rem.num + "\t->\t" + rem.str);
+            //left add
+            if((2 * rem.num) <= n) {
+                queue.add(new BPair(2 * rem.num, rem.str + "0"));
+            }
+            //right add
+            if((2 * rem.num + 1) <= n) {
+                queue.add(new BPair(2 * rem.num + 1, rem.str + "1"));
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
-        display(root);
+        // display(root);
         // System.out.println(size(root));
         // System.out.println(sum(root));
         // System.out.println(height(root));   
@@ -246,11 +270,13 @@ public class btPractise {
         // kLevelsDown(root, 0, null);
         // printkNodesFar(root, 25, 2);
         // pathToLeaf(root, "", 0);
-        System.out.println("\n-----New Tree------");
-        Node node = createLeftCloneTree(root);
-        display(node);  
-        System.out.println("\n-----Org Tree------");
-        node = transformFromLeftClonedTree(root);
-        display(node);  
+        // System.out.println("\n-----New Tree------");
+        // Node node = createLeftCloneTree(root);
+        // display(node);  
+        // System.out.println("\n-----Org Tree------");
+        // node = transformFromLeftClonedTree(root);
+        // display(node);  
+        printNumInBinaryTillN(8);
+
     }
 }
