@@ -198,6 +198,16 @@ public class btPractise {
         }
     }
 
+    public static void pathToLeaf(Node node, String path, int sum) {
+        if(node == null) return;
+        if(node.left == null && node.right == null) {
+            System.out.print(path + node.data + " = " + (sum + node.data) + "\n");
+            return;
+        }
+        pathToLeaf(node.left, path + node.data + " ", sum + node.data);
+        pathToLeaf(node.right, path + node.data + " ", sum + node.data);
+    }
+
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
@@ -213,6 +223,7 @@ public class btPractise {
         // System.out.println(nodeToRootPath(root, 70 , path));
         // for(Node ele : path)    System.out.println(ele.data);
         // kLevelsDown(root, 0, null);
-        printkNodesFar(root, 25, 2);
+        // printkNodesFar(root, 25, 2);
+        pathToLeaf(root, "", 0);
     }
 }
