@@ -218,6 +218,17 @@ public class btPractise {
         node.right = rcr;
         return node;
     }
+
+    public static Node transformFromLeftClonedTree(Node node) {
+        if(node == null)    return null;
+        Node lnn = transformFromLeftClonedTree(node.left.left); //left normal node
+        Node rnn = transformFromLeftClonedTree(node.right); //left normal node
+
+        node.left = lnn;
+        node.right = rnn;
+        return node;
+    }
+
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         Node root = construct(arr);
@@ -237,6 +248,9 @@ public class btPractise {
         // pathToLeaf(root, "", 0);
         System.out.println("\n-----New Tree------");
         Node node = createLeftCloneTree(root);
+        display(node);  
+        System.out.println("\n-----Org Tree------");
+        node = transformFromLeftClonedTree(root);
         display(node);  
     }
 }
