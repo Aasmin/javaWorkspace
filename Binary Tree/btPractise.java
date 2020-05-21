@@ -272,6 +272,21 @@ public class btPractise {
         return node;
     }
 
+    private static void removeLeaves02(Node parent, Node child) {
+        if(child == null) return;
+        if(child.left == null && child.right == null) {
+            if(parent.left == child)    parent.left = null;
+            else    parent.right = null;
+        }
+        removeLeaves02(child, child.left);
+        removeLeaves02(child, child.right);
+    }
+
+    public static void removeLeaves02(Node node) {
+        if(node.left == null && node.right == null)    node = null;
+        removeLeaves02(node, node.left);
+        removeLeaves02(node, node.right);
+    }
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         // Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, 60, null, null, null, null};
@@ -298,7 +313,9 @@ public class btPractise {
         // display(node);  
         // printNumInBinaryTillN(8);
         // printSingleChild(root); 
-        Node r  = removeLeaves(root);
-        display(r);
+        // Node r  = removeLeaves(root);
+        // display(r);
+        removeLeaves02(root);
+        display(root);
     }
 }
