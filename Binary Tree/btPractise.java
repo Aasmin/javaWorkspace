@@ -253,8 +253,19 @@ public class btPractise {
         }
     }
 
+    public static void printSingleChild(Node node) {
+        if(node == null) return ;
+        printSingleChild(node.left);
+        printSingleChild(node.right);
+        if(node.left == null && node.right != null)
+            System.out.println(node.right.data);
+        if(node.left != null && node.right == null)
+            System.out.println(node.left.data);
+        return;
+    }
     public static void main(String[] args) {
-        Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
+        // Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
+        Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, 60, null, null, null, null};
         Node root = construct(arr);
         // display(root);
         // System.out.println(size(root));
@@ -276,7 +287,8 @@ public class btPractise {
         // System.out.println("\n-----Org Tree------");
         // node = transformFromLeftClonedTree(root);
         // display(node);  
-        printNumInBinaryTillN(8);
+        // printNumInBinaryTillN(8);
+        printSingleChild(root);
 
     }
 }
