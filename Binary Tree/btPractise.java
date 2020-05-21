@@ -263,11 +263,20 @@ public class btPractise {
             System.out.println(node.left.data);
         return;
     }
+
+    public static Node removeLeaves(Node node) {
+        if(node == null) return null;
+        if(node.left == null && node.right == null)   return null;
+        node.left = removeLeaves(node.left);
+        node.right = removeLeaves(node.right);
+        return node;
+    }
+
     public static void main(String[] args) {
-        // Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
-        Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, 60, null, null, null, null};
+        Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
+        // Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, 60, null, null, null, null};
         Node root = construct(arr);
-        // display(root);
+        display(root);
         // System.out.println(size(root));
         // System.out.println(sum(root));
         // System.out.println(height(root));   
@@ -281,14 +290,15 @@ public class btPractise {
         // kLevelsDown(root, 0, null);
         // printkNodesFar(root, 25, 2);
         // pathToLeaf(root, "", 0);
-        // System.out.println("\n-----New Tree------");
+        System.out.println("\n-----New Tree------");
         // Node node = createLeftCloneTree(root);
         // display(node);  
         // System.out.println("\n-----Org Tree------");
         // node = transformFromLeftClonedTree(root);
         // display(node);  
         // printNumInBinaryTillN(8);
-        printSingleChild(root);
-
+        // printSingleChild(root); 
+        Node r  = removeLeaves(root);
+        display(r);
     }
 }
