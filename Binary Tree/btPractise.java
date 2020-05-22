@@ -85,7 +85,7 @@ public class btPractise {
     }
 
     public static int height(Node node) {   
-        if(node == null)    return -1;  //return -1 for edges and 0 for nodes
+        if(node == null)    return 0;  //return -1 for edges and 0 for nodes
         int lh = height(node.left);
         int rh = height(node.right);
         int th = Math.max(lh, rh) + 1; 
@@ -186,7 +186,7 @@ public class btPractise {
     public static void kLevelsDown(Node node, int k, Node block) {
         if(k < 0 || node == null || node == block)   return;
         if(k == 0)  System.out.println(node.data);
-        kLevelsDown(node.left, k - 1, block);
+        kLevelsDown(node.left, k - 1, block);   
         kLevelsDown(node.right, k - 1, block);
     }
 
@@ -287,10 +287,26 @@ public class btPractise {
         removeLeaves02(node, node.left);
         removeLeaves02(node, node.right);
     }
+
+    //leetcode 543
+    // static int maxDia = Integer.MIN_VALUE;
+    public static int diameter(Node node) {   //in terms of nodes
+        if(node == null)    return 1;
+        int lheight = height(node.left);
+        int rheight = height(node.right);
+        int ld = diameter(node.left);
+        int rd = diameter(node.right);
+        
+        int selfD = lheight + rheight + 1;
+        return Math.max(Math.max(ld, rd), selfD);
+    }
+
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         // Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, 60, null, null, null, null};
-        Node root = construct(arr);
+        Integer[] arr1 = {1, 2, 4, 8, 12, 18, null, null, null, null, null, 8, 10, 14, null, 21, 28, null, 31, null, null, null, 
+             null, 11, 16, null, null, 17, null, null, 3, null, 4, 8, 12, 18, null, null, null, null, null, null};
+        Node root = construct(arr1);
         display(root);
         // System.out.println(size(root));
         // System.out.println(sum(root));
@@ -305,7 +321,7 @@ public class btPractise {
         // kLevelsDown(root, 0, null);
         // printkNodesFar(root, 25, 2);
         // pathToLeaf(root, "", 0);
-        System.out.println("\n-----New Tree------");
+        // System.out.println("\n-----New Tree------");
         // Node node = createLeftCloneTree(root);
         // display(node);  
         // System.out.println("\n-----Org Tree------");
@@ -315,7 +331,8 @@ public class btPractise {
         // printSingleChild(root); 
         // Node r  = removeLeaves(root);
         // display(r);
-        removeLeaves02(root);
-        display(root);
+        // removeLeaves02(root);
+        // display(root);
+        System.out.println(diameter(root));
     }
 }
