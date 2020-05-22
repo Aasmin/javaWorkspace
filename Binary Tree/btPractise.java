@@ -363,17 +363,43 @@ public class btPractise {
         return nn;
     }
 
+    //MSFT Interview Que
     //BT constructor given level and In
-    public static Node construct3(int[] inorder, int[] levelOrder, int iStart, int iEnd) {
-		
+    public static Node construct3(int[] inorder, int[] levelOrder, int inSt, int inEnd) {
+        if(inSt > inEnd)    return null;
+        int data = levelOrder[0];
+        Node nn = new Node(data, null, null);
+        int idx = findIndex(inorder, data, inSt, inEnd);
+
+        int[] leftLvl = newLevelOrder(inorder, levelOrder, inSt, idx - 1); 
+        int[] rightLvl = newLevelOrder(inorder, levelOrder, idx + 1, inEnd); 
+        
+        nn.left = construct3(inorder, leftLvl, inSt, idx - 1);
+        nn.right = construct3(inorder, rightLvl, idx + 1, inEnd);
+
+        return nn;
 	}
 
 	public static int[] newLevelOrder(int[] inorder, int[] levelOrder, int iStart,int iEnd) {
-		
+        int[] newArr = new int[iEnd - iStart + 1];
+        int x = 0;
+        for(int i = 0; i < levelOrder.length; i++) {
+            if(findIndex(inorder, levelOrder[i], iStart, iEnd) != -1) {
+                newArr[x] = levelOrder[i];
+                x++;
+            }
+        }
+        return newArr;
 	}
 
-	public static int findIndex(int[] inorder, int value, int iStart, int iEnd) {
-		
+	public static int findIndex(int[] inorder, int value, int inSt, int inEnd) {
+		int idx = -1;
+        for(int i  = inSt; i <= inEnd; i++) {
+            if(value == inorder[i]) {
+                idx = i;    break;
+            }
+        }
+        return idx;
 	}
     
 
@@ -425,7 +451,7 @@ public class btPractise {
 
         int[] lvl = {50, 25, 75, 12, 37, 62, 87, 30, 70};
         int[] in = {12, 25, 30, 37, 50, 62, 70, 75, 87};
-        Node node = makeBTree(in, lvl, 0, in.length - 1);
+        Node node = construct3(in, lvl, 0, in.length - 1);
         display(node);
     }
 }
