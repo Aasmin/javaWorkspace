@@ -288,25 +288,68 @@ public class btPractise {
         removeLeaves02(node, node.right);
     }
 
-    //leetcode 543
+    //leetcode 543  // in terms of nodes
     // static int maxDia = Integer.MIN_VALUE;
     public static int diameter(Node node) {   //in terms of nodes
         if(node == null)    return 1;
-        int lheight = height(node.left);
-        int rheight = height(node.right);
+        
         int ld = diameter(node.left);
         int rd = diameter(node.right);
-        
+
+        int lheight = height(node.left);
+        int rheight = height(node.right);
         int selfD = lheight + rheight + 1;
+
         return Math.max(Math.max(ld, rd), selfD);
+    }
+    //O(n)  in terms of nodes
+    static class DiaPair {
+        int ht; int dia;
+    }
+
+    static DiaPair diameter02(Node node) {
+        if(node == null) {
+            DiaPair base = new DiaPair();
+            base.dia = 0;
+            base.ht = 0;
+            return base;
+        }
+
+        DiaPair lPair = diameter02(node.left);
+        DiaPair rPair = diameter02(node.right);
+
+        DiaPair selfPair = new DiaPair();
+        selfPair.ht = Math.max(lPair.ht, rPair.ht) + 1;
+        selfPair.dia = Math.max(Math.max(lPair.dia, rPair.dia), lPair.ht + rPair.ht + 1);
+
+        return selfPair;
+    }
+
+    //BT constructor given Pre and In
+    static Node construct1(int[] pre, int[] in, int preSt, int preEnd, int inSt, int inEnd) {
+        if(preSt > preEnd || inSt > inEnd) {
+            return null;
+        }
+
+        int idx = -1;
+        Node node = new Node(pre[preSt], null, null);
+        for(int i = inSt; i <= inEnd; i++) {
+            if(in[i] == pre[preSt]) {
+                idx = i;    break;
+            }
+        }
+        int ildc = idx - inSt;
+        node.left = construct1(pre, in, preSt + 1, preSt + ildc, inSt, idx - 1);
+        node.right = construct1(pre, in, preSt + ildc + 1, preEnd, idx + 1, inEnd);
+        return node;
     }
 
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         // Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, 60, null, null, null, null};
-        Integer[] arr1 = {1, 2, 4, 8, 12, 18, null, null, null, null, null, 8, 10, 14, null, 21, 28, null, 31, null, null, null, 
-             null, 11, 16, null, null, 17, null, null, 3, null, 4, 8, 12, 18, null, null, null, null, null, null};
-        Node root = construct(arr1);
+        // Integer[] arr1 = {1, 2, 4, 8, 12, 18, null, null, null, null, null, 8, 10, 14, null, 21, 28, null, 31, null, null, null, 
+        //      null, 11, 16, null, null, 17, null, null, 3, null, 4, 8, 12, 18, null, null, null, null, null, null};
+        Node root = construct(arr);
         display(root);
         // System.out.println(size(root));
         // System.out.println(sum(root));
@@ -321,7 +364,7 @@ public class btPractise {
         // kLevelsDown(root, 0, null);
         // printkNodesFar(root, 25, 2);
         // pathToLeaf(root, "", 0);
-        // System.out.println("\n-----New Tree------");
+        System.out.println("\n-----New Tree------");
         // Node node = createLeftCloneTree(root);
         // display(node);  
         // System.out.println("\n-----Org Tree------");
@@ -333,6 +376,12 @@ public class btPractise {
         // display(r);
         // removeLeaves02(root);
         // display(root);
-        System.out.println(diameter(root));
+        // System.out.println(diameter(root));
+        // System.out.println(diameter02(root).dia);
+
+        int[] pre = {50, 25, 12, 20, 37, 30, 75, 62, 87};
+        int[] in = {12, 20, 25, 30, 37, 50, 62, 75, 87};
+        Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
+        display(node);
     }
 }
