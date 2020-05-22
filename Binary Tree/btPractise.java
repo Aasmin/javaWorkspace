@@ -345,6 +345,8 @@ public class btPractise {
         return node;
     }
 
+
+    //BT constructor given post and In
     static Node construct2(int[] post, int[] in, int postSt, int postEnd, int inSt, int inEnd) {
         if(postSt > postEnd || inSt > inEnd)    return null;
         int data = post[postEnd];
@@ -360,6 +362,19 @@ public class btPractise {
         nn.right = construct2(post, in, postSt + ildc + 1, postEnd - 1, idx + 1, inEnd);
         return nn;
     }
+
+    //BT constructor given level and In
+    public static Node construct3(int[] inorder, int[] levelOrder, int iStart, int iEnd) {
+		
+	}
+
+	public static int[] newLevelOrder(int[] inorder, int[] levelOrder, int iStart,int iEnd) {
+		
+	}
+
+	public static int findIndex(int[] inorder, int value, int iStart, int iEnd) {
+		
+	}
     
 
     public static void main(String[] args) {
@@ -397,14 +412,20 @@ public class btPractise {
         // System.out.println(diameter(root));
         // System.out.println(diameter02(root).dia);
 
-        int[] pre = {50, 25, 12, 20, 37, 30, 75, 62, 87};
-        int[] in = {12, 20, 25, 30, 37, 50, 62, 75, 87};
-        Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
-        display(node);
+        // int[] pre = {50, 25, 12, 20, 37, 30, 75, 62, 87};
+        // int[] in = {12, 20, 25, 30, 37, 50, 62, 75, 87};
+        // Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
+        // display(node);
 
         // int[] post = {12, 30, 37, 25, 70, 62, 87, 75, 50};
         // int[] in = {12, 25, 30, 37, 50, 62, 70, 75, 87};
         // Node node = construct2(post, in, 0, post.length - 1, 0, in.length - 1);
         // display(node);
+        
+
+        int[] lvl = {50, 25, 75, 12, 37, 62, 87, 30, 70};
+        int[] in = {12, 25, 30, 37, 50, 62, 70, 75, 87};
+        Node node = makeBTree(in, lvl, 0, in.length - 1);
+        display(node);
     }
 }
