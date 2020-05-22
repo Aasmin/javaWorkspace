@@ -52,7 +52,39 @@ public class leetcode {
 
         return false;
     }
-    
+
+    // way 2 (without blocking)
+
+    public void kDown(TreeNode node, int K) {
+        if(K < 0 || node == null)   return;
+        if(K == 0) System.out.println(node.val);;
+        kDown(node.left, K - 1);
+        kDown(node.right, K - 1);
+    }
+    public int nodeToRootPath_03(TreeNode node, int target, int k) {
+        if(node.val == target) {
+            kDown(node, k);
+            return 1;
+        }
+
+        int leftDistance = nodeToRootPath_03(node.left, target, k);
+        if(leftDistance != -1) {
+            if(k - leftDistance == 0) System.out.println(node.val + " ");
+            else kDown(node.right, k - leftDistance - 1);
+            return leftDistance + 1;
+        }
+
+        int rightDistance = nodeToRootPath_03(node.right, target, k);
+        if(rightDistance != -1) {
+            if(k - rightDistance == 0) System.out.println(node.val + " ");
+            else kDown(node.left, k - rightDistance - 1);
+            return leftDistance + 1;
+        }
+
+        return 0;
+    }
+
+
     public static void main(String[] args) {
         
     }

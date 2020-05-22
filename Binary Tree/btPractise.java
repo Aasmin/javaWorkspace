@@ -364,7 +364,9 @@ public class btPractise {
     }
 
     //MSFT Interview Que
+    //https://algorithms.tutorialhorizon.com/construct-a-binary-tree-from-given-inorder-and-level-order-traversal/
     //BT constructor given level and In
+    
     public static Node construct3(int[] inorder, int[] levelOrder, int inSt, int inEnd) {
         if(inSt > inEnd)    return null;
         int data = levelOrder[0];
