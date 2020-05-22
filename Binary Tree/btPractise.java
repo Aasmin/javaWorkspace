@@ -325,6 +325,7 @@ public class btPractise {
         return selfPair;
     }
 
+    //leetcode 105
     //BT constructor given Pre and In
     static Node construct1(int[] pre, int[] in, int preSt, int preEnd, int inSt, int inEnd) {
         if(preSt > preEnd || inSt > inEnd) {
@@ -343,6 +344,24 @@ public class btPractise {
         node.right = construct1(pre, in, preSt + ildc + 1, preEnd, idx + 1, inEnd);
         return node;
     }
+
+    static Node construct2(int[] post, int[] in, int postSt, int postEnd, int inSt, int inEnd) {
+        if(postSt > postEnd || inSt > inEnd) {
+            return null;
+        }
+        Node node = new Node(post[postEnd], null, null);
+        int idx = - 1;
+        for(int i = inSt; i <= inEnd; i++) {
+            if(in[i] == post[postEnd]) {
+                idx = i;    break;
+            }
+        }
+        int ildc = idx - inSt - 1;
+        node.left = construct2(post, in, postSt, postSt + ildc, inSt, idx - 1);
+        node.right = construct2(post, in, postSt + ildc + 1, postEnd - 1, idx + 1, inEnd);
+        return node;
+    }
+    
 
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
@@ -379,9 +398,14 @@ public class btPractise {
         // System.out.println(diameter(root));
         // System.out.println(diameter02(root).dia);
 
-        int[] pre = {50, 25, 12, 20, 37, 30, 75, 62, 87};
-        int[] in = {12, 20, 25, 30, 37, 50, 62, 75, 87};
-        Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
+        // int[] pre = {50, 25, 12, 20, 37, 30, 75, 62, 87};
+        // int[] in = {12, 20, 25, 30, 37, 50, 62, 75, 87};
+        // Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
+        // display(node);
+
+        int[] post = {12, 30, 37, 25, 70, 62, 87, 75, 50};
+        int[] in = {12, 25, 30, 37, 50, 62, 70, 75, 87};
+        Node node = construct2(post, in, 0, post.length - 1, 0, in.length - 1);
         display(node);
     }
 }
