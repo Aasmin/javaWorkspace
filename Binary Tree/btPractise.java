@@ -424,6 +424,38 @@ public class btPractise {
         return true;
     }
     
+    //leetcode 110(Efficient - O(n))
+    static class BalPair {
+        int ht = 0;  boolean isBal = true;
+        BalPair() {
+        }
+        BalPair(int ht, boolean isBal) {
+            this.ht = ht;
+            this.isBal = isBal;
+        }
+    }
+    
+    public static BalPair isBalanced2(Node node) {
+        if(node == null) {
+            BalPair myPair = new BalPair(0, true);
+            return myPair;
+        }
+
+        BalPair lBal = isBalanced2(node.left);
+        if(lBal.isBal == true) {
+            BalPair rBal = isBalanced2(node.right);
+            BalPair mypair = new BalPair();
+            mypair.ht = Math.max(lBal.ht, rBal.ht) + 1;
+            int factor = Math.abs(lBal.ht - rBal.ht);
+            mypair.isBal = lBal.isBal && rBal.isBal && (factor >= 0 && factor <= 1);
+            return mypair;
+        } else {
+            BalPair myPair = new BalPair(0, false);
+            return myPair;
+        }
+    }
+    
+    
 
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
@@ -476,6 +508,9 @@ public class btPractise {
         // Node node = construct3(in, lvl, 0, in.length - 1);
         // display(node);
 
-
+        int[] pre = {50, 25, 12, 37, 30, 40, 38, 42, 75, 87, 80};
+        int[] in = {12, 25, 30, 37, 38, 40, 42, 50, 75, 80, 87};
+        Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
+        System.out.println(isBalanced2(node).isBal);
     }
 }
