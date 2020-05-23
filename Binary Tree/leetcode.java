@@ -98,7 +98,26 @@ public class leetcode {
     }
 
     //leetcode 113
+    public void pathSum(TreeNode root, int sum, List<List<Integer>> res, List<Integer> smallAns) {
+        if(root == null)    return;
+        if(root.left == null && root.right == null && sum - root.val == 0) {
+            List<Integer> base = new ArrayList<>(smallAns);
+            base.add(root.val);
+            res.add(base);
+            return;
+        }
+        smallAns.add(root.val);
+        pathSum(root.left, sum - root.val, res, smallAns);
+        pathSum(root.right, sum - root.val, res, smallAns);
+        smallAns.remove(smallAns.size() - 1);
+    }
 
+    public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        List<Integer> smallAns = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        pathSum(root, sum, res, smallAns);
+        return res;
+    }
 
     // public static void main(String[] args) {
         
