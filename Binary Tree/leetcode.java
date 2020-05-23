@@ -2,6 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class leetcode {
+    public static class Node {
+        int data;
+        Node left;
+        Node right;
+
+        Node(int data, Node left, Node right) {
+            this.data = data;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
     public class TreeNode {
         int val;
         TreeNode left;
@@ -10,7 +22,7 @@ public class leetcode {
         TreeNode(int val, TreeNode left, TreeNode right) {
             this.val = val; this.left = left; this.right = right;
     }
-
+}
     //leetcode 863
     public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
         ArrayList<TreeNode> path = new ArrayList<>();
@@ -119,8 +131,27 @@ public class leetcode {
         return res;
     }
 
-    // public static void main(String[] args) {
+    //GFG: https://practice.geeksforgeeks.org/problems/maximum-path-sum/
+    public static int max_leafToLeafSum = (int) -1e8;
+
+    public static int leafToLeaf(Node node) {
+        if(node == null)    return 0;
+
+        int leftNodeToLeafSum = leafToLeaf(node.left);
+        int rightNodeToLeafSum = leafToLeaf(node.right);
+
+        if(node.left != null && node.right != null) {
+            int selfNodeToLeafSum = leftNodeToLeafSum + rightNodeToLeafSum + node.data;
+            max_leafToLeafSum = Math.max(max_leafToLeafSum, selfNodeToLeafSum);
+            return max_leafToLeafSum;
+        }
         
-    // }
-}
+        return (node.left == null ? rightNodeToLeafSum : leftNodeToLeafSum) + node.data;
+    }
+
+    //leetcode 1123
+
+    public static void main(String[] args) {
+        
+    }
 }

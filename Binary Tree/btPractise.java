@@ -402,7 +402,27 @@ public class btPractise {
             }
         }
         return idx;
-	}
+    }
+    
+    //is Balanced
+    //leetcode 110
+    public static boolean isBalanced(Node node) {
+        if(node == null)    return true;
+
+        int lHeight = height(node.left);
+        int rHeight = height(node.right);
+        int diff = Math.abs(lHeight - rHeight);
+        if(diff != 0 && diff != 1) 
+            return false;
+        
+        boolean lres = isBalanced(node.left);
+        if(!lres)   return false;
+
+        boolean rres = isBalanced(node.right);
+        if(!rres)   return false;
+
+        return true;
+    }
     
 
     public static void main(String[] args) {
@@ -451,9 +471,11 @@ public class btPractise {
         // display(node);
         
 
-        int[] lvl = {50, 25, 75, 12, 37, 62, 87, 30, 70};
-        int[] in = {12, 25, 30, 37, 50, 62, 70, 75, 87};
-        Node node = construct3(in, lvl, 0, in.length - 1);
-        display(node);
+        // int[] lvl = {50, 25, 75, 12, 37, 62, 87, 30, 70};
+        // int[] in = {12, 25, 30, 37, 50, 62, 70, 75, 87};
+        // Node node = construct3(in, lvl, 0, in.length - 1);
+        // display(node);
+
+
     }
 }
