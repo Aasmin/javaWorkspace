@@ -100,6 +100,14 @@ public class btPractise {
         return tm;
     }
 
+    public static int min(Node node) {
+        if(node == null)    return Integer.MAX_VALUE;
+        int lm = min(node.left);
+        int rm = min(node.right);
+        int tm = Math.min(node.data, Math.min(lm, rm));
+        return tm;
+    }
+
     public static void traversals(Node node) {
         if(node == null) return;
         System.out.println(node.data + " in PRE order");     //Euler left
@@ -319,7 +327,7 @@ public class btPractise {
         DiaPair rPair = diameter02(node.right);
 
         DiaPair selfPair = new DiaPair();
-        selfPair.ht = Math.max(lPair.ht, rPair.ht) + 1;
+        selfPair.ht = Math.max(lPair.ht, rPair.ht) + 1;  
         selfPair.dia = Math.max(Math.max(lPair.dia, rPair.dia), lPair.ht + rPair.ht + 1);
 
         return selfPair;
@@ -455,7 +463,84 @@ public class btPractise {
         }
     }
     
+    //class(but cannot pass the leetcode)
+    static boolean isBST(Node node) {
+        if(node == null)    return true;
+        boolean lres = isBST(node.left);
+        if(lres) {
+            boolean rres = isBST(node.right);
+            if(rres) {
+                int lMax = max(node.left);      int rMin = min(node.right);
+                if(lMax < node.data && rMin > node.data) {
+                    return true;
+                }
+            }
+        }
+            return false;
+        
+    }
     
+    //leetcode 98
+    static Node prev = null;
+    //see if the inorder data is in ascending order
+    public static boolean isValidBST(Node root) {
+        if(root == null)    return true;
+        
+        boolean lres = isValidBST(root.left);
+        if(!lres)   return false;
+        
+        if(prev != null && prev.data >= root.data)    return false;
+        prev = root;
+        
+        boolean rres = isValidBST(root.right);
+        if(!rres)   return false;
+        
+        return true;
+    }
+
+    public static boolean isValidBST2(Node node) {
+        if(node == null)    return true;
+        boolean lres = isValidBST(node.left);
+        if(lres) {
+            boolean rres = isValidBST(node.right);
+            if(rres) {
+                int lMax = max(node.left);      int rMin = min(node.right);
+                if(lMax < node.data && rMin > node.data) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    static class BSTPair {
+        int max = (int) -1e8;
+        int min = (int) 1e8;
+        boolean isBST = true;
+    }
+
+    public static BSTPair isBST1(Node node) {
+        if(node == null) {
+            return new BSTPair();
+        }
+
+        BSTPair lpair = isBST1(node.left);
+        if(lpair.isBST == true) {
+            BSTPair rpair = isBST1(node.right);
+            
+            BSTPair myPair = new BSTPair();
+            myPair.isBST = lpair.isBST && rpair.isBST && (node.data > lpair.max && node.data < rpair.min);
+            myPair.min = Math.min(node.data, Math.min(lpair.min, rpair.min));
+            myPair.max = Math.max(node.data, Math.max(lpair.max, rpair.max));
+            return myPair;
+
+        } else {
+            BSTPair myPair = new BSTPair(); 
+            myPair.isBST = false;
+            return myPair;
+        }
+    }
 
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
@@ -463,7 +548,7 @@ public class btPractise {
         // Integer[] arr1 = {1, 2, 4, 8, 12, 18, null, null, null, null, null, 8, 10, 14, null, 21, 28, null, 31, null, null, null, 
         //      null, 11, 16, null, null, 17, null, null, 3, null, 4, 8, 12, 18, null, null, null, null, null, null};
         Node root = construct(arr);
-        display(root);
+        // display(root);
         // System.out.println(size(root));
         // System.out.println(sum(root));
         // System.out.println(height(root));   
@@ -508,9 +593,11 @@ public class btPractise {
         // Node node = construct3(in, lvl, 0, in.length - 1);
         // display(node);
 
-        int[] pre = {50, 25, 12, 37, 30, 40, 38, 42, 75, 87, 80};
-        int[] in = {12, 25, 30, 37, 38, 40, 42, 50, 75, 80, 87};
+        int[] pre = {50, 25, 12, 55, 30, 40, 38, 42, 75, 87, 80};
+        int[] in = {12, 25, 30, 55, 38, 40, 42, 50, 75, 80, 87};
         Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
-        System.out.println(isBalanced2(node).isBal);
+        // System.out.println(isBalanced2(node).isBal);
+        // System.out.println(isValidBST2(node));
+        System.out.println(isBST1(node).isBST);
     }
 }
