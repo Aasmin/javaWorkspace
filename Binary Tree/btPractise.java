@@ -518,6 +518,11 @@ public class btPractise {
         int max = (int) -1e8;
         int min = (int) 1e8;
         boolean isBST = true;
+
+        //var for largest bst
+        int size = 0;
+        Node bstRoot = null;
+
     }
 
     public static BSTPair isBST1(Node node) {
@@ -542,12 +547,44 @@ public class btPractise {
         }
     }
 
+
+    //Leetcode 333
+    public static BSTPair isLargestBST(Node node) {
+        if(node == null) {
+            return new BSTPair();
+        }
+
+        BSTPair lpair = isLargestBST(node.left);
+        BSTPair rpair = isLargestBST(node.right);
+            
+        BSTPair myPair = new BSTPair();
+        myPair.isBST = lpair.isBST && rpair.isBST && (node.data > lpair.max && node.data < rpair.min);
+        myPair.min = Math.min(node.data, Math.min(lpair.min, rpair.min));
+        myPair.max = Math.max(node.data, Math.max(lpair.max, rpair.max));
+        
+        if(myPair.isBST) {
+            myPair.size = lpair.size + rpair.size + 1;
+            myPair.bstRoot = node;
+        } else {
+            if(lpair.size > rpair.size) {
+                myPair.size = lpair.size;
+                myPair.bstRoot = lpair.bstRoot;
+            } else {
+                myPair.size = rpair.size;
+                myPair.bstRoot = rpair.bstRoot;
+            }
+        }
+        return myPair;
+    }
+
+
+
     public static void main(String[] args) {
         Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, null, 70, null, null, 87, null, null};
         // Integer[] arr = {50, 25, 12, null, null, 37, 30, null, null, null, 75, 62, 60, null, null, null, null};
         // Integer[] arr1 = {1, 2, 4, 8, 12, 18, null, null, null, null, null, 8, 10, 14, null, 21, 28, null, 31, null, null, null, 
         //      null, 11, 16, null, null, 17, null, null, 3, null, 4, 8, 12, 18, null, null, null, null, null, null};
-        Node root = construct(arr);
+        // Node root = construct(arr);
         // display(root);
         // System.out.println(size(root));
         // System.out.println(sum(root));
@@ -593,11 +630,18 @@ public class btPractise {
         // Node node = construct3(in, lvl, 0, in.length - 1);
         // display(node);
 
-        int[] pre = {50, 25, 12, 55, 30, 40, 38, 42, 75, 87, 80};
-        int[] in = {12, 25, 30, 55, 38, 40, 42, 50, 75, 80, 87};
+        // int[] pre = {50, 25, 12, 55, 30, 40, 38, 42, 75, 87, 80};
+        // int[] in = {12, 25, 30, 55, 38, 40, 42, 50, 75, 80, 87};
+        // Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
+        // // System.out.println(isBalanced2(node).isBal);
+        // // System.out.println(isValidBST2(node));
+        // System.out.println(isBST1(node).isBST);
+
+        int[] pre = {70, 60, 50, 25, 12, 37, 75, 62, 59, 67, 87, 65, 62, 80, 75, 90, 85, 95};
+        int[] in = {12, 25, 37, 50, 59, 62, 67, 75, 87, 60, 62, 65, 70, 75, 80, 85, 90, 95};
         Node node = construct1(pre, in, 0, pre.length - 1, 0, in.length - 1);
-        // System.out.println(isBalanced2(node).isBal);
-        // System.out.println(isValidBST2(node));
-        System.out.println(isBST1(node).isBST);
+        BSTPair res = isLargestBST(node);
+        display(res.bstRoot);
+        System.out.println(res.size);
     }
 }
