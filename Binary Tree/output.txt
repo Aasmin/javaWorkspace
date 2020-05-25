@@ -10,8 +10,4 @@
 110 <- 70 -> 120
  . <- 110 -> .
  . <- 120 -> .
-size: 12
-height: 3
-max: 120
-min: 10
-find: false
+Not Found

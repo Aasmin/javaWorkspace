@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 public class btL001 {
     public static class Node {
         int data;   Node left = null;   Node right = null;
@@ -5,7 +6,7 @@ public class btL001 {
     }
     static int idx = 0;
     static Node constructTree(int[] arr) {
-        if(arr.length == idx || arr[idx] == -1) {
+        if(arr.length <= idx || arr[idx] == -1) {
             idx++;
             return null;
         }
@@ -47,15 +48,24 @@ public class btL001 {
         if(node.data == data)   return true;
         return find(node.left, data) || find(node.right, data);
     }
-
+    public static boolean rootToNode(Node node, int data, ArrayList<Node> path) {
+        if(node == null)    return false;
+        if(node.data == data)   {path.add(node); return true;}
+        if(rootToNode(node.left, data, path))   {path.add(node);    return true;}
+        if(rootToNode(node.right, data, path))   {path.add(node);   return true;}
+        return false;
+    }
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
         display(root);
-        System.out.println("size: " + size(root));
-        System.out.println("height: " + height(root));
-        System.out.println("max: " + max(root));
-        System.out.println("min: " + min(root));
-        System.out.println("find: " + find(root, 1110));
+        // System.out.println("size: " + size(root));
+        // System.out.println("height: " + height(root));
+        // System.out.println("max: " + max(root));
+        // System.out.println("min: " + min(root));
+        // System.out.println("find: " + find(root, 1110));
+        ArrayList<Node> res = new ArrayList<>();
+        System.out.println(rootToNode(root, 900, res) ? "Found" : "Not Found");
+        for(Node ele : res) System.out.print(ele.data + " ");
     }
 }
