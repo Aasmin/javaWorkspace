@@ -43,7 +43,7 @@ public class btL001 {
         if(node == null) return (int)1e8;
         return Math.min(Math.min(min(node.left), min(node.right)), node.data);
     }
-    public static boolean find(Node node, int data) {
+    public static boolean find(Node node, int data) {   //best
         if(node == null)    return false;
         if(node.data == data)   return true;
         return find(node.left, data) || find(node.right, data);
@@ -115,6 +115,24 @@ public class btL001 {
         return new ArrayList<>();
     }
 
+    //lowest common ancestor
+    public static Node lowestCommonAncestor(Node root, int p, int q) {
+        ArrayList<Node> res1 = new ArrayList<>();
+        ArrayList<Node> res2 = new ArrayList<>();
+        rootToNode_(root, p, res1);
+        rootToNode_(root, q, res2);
+        Node LCA = null;
+        int i = res1.size() - 1;
+        int j = res2.size() - 1;
+        while(i >= 0 || j >= 0) {
+            if(i < 0 || j < 0 || res1.get(i) != res2.get(j))  break;
+            LCA = res1.get(i);
+            i--;    j--;
+        }
+        return LCA;
+    }
+    
+
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
@@ -124,11 +142,13 @@ public class btL001 {
         // System.out.println("max: " + max(root));
         // System.out.println("min: " + min(root));
         // System.out.println("find: " + find(root, 1110));
-        ArrayList<Node> res = new ArrayList<>();
+        // ArrayList<Node> res = new ArrayList<>();
         // System.out.println(rootToNode(root, 900, res) ? "Found" : "Not Found");
         // System.out.println(rootToNode_(root, 100, res) ? "Found" : "Not Found");
         // for(Node ele : res) System.out.print(ele.data + " ");
-        res = rootToNode02_(root, 90);
-        for(Node ele : res) System.out.print(ele.data + " ");
+        // res = rootToNode02_(root, 90);
+        // for(Node ele : res) System.out.print(ele.data + " ");
+        int lca = lowestCommonAncestor(root, 50, 50).data;
+        System.out.println(lca);
     }
 }
