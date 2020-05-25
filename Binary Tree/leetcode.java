@@ -151,6 +151,30 @@ public class leetcode {
 
     //leetcode 1123
 
+    
+
+
+
+   //Leetcode 124.====================================
+
+   int max_nodeToNodeSum = (int)-1e8;
+   public int maxPathSum(TreeNode root) {
+       maxPathSum_(root);
+       return max_nodeToNodeSum;
+   }     
+  public int maxPathSum_(TreeNode node){
+   if(node==null) return 0;
+
+   int leftNodeToNodeSum = maxPathSum_(node.left);
+   int rightNodeToNodeSum = maxPathSum_(node.right);
+   
+   int max_=Math.max(leftNodeToNodeSum,rightNodeToNodeSum) + node.val;
+   max_nodeToNodeSum=Math.max(Math.max(max_nodeToNodeSum,node.val),Math.max(leftNodeToNodeSum + node.val + rightNodeToNodeSum, max_));
+
+   return Math.max(max_,node.val);
+}
+
+
     public static void main(String[] args) {
         
     }
