@@ -48,13 +48,73 @@ public class btL001 {
         if(node.data == data)   return true;
         return find(node.left, data) || find(node.right, data);
     }
-    public static boolean rootToNode(Node node, int data, ArrayList<Node> path) {
+    
+    //root to code path
+    public static boolean rootToNode(Node node, int data, ArrayList<Node> path) {   
         if(node == null)    return false;
         if(node.data == data)   {path.add(node); return true;}
         if(rootToNode(node.left, data, path))   {path.add(node);    return true;}
         if(rootToNode(node.right, data, path))   {path.add(node);   return true;}
         return false;
     }
+    public static boolean rootToNode_(Node node, int data, ArrayList<Node> path) {  //best and fast as we don't create and pass the addresses
+        if(node == null)    return false;
+        if(node.data == data) {
+            path.add(node); return true;
+        }
+
+        boolean res = rootToNode_(node.left, data, path) || rootToNode_(node.right, data, path);
+        if(res) path.add(node);
+        return res;
+    }
+    public static ArrayList<Node> rootToNode02(Node node, int data) {
+        if(node == null)    return new ArrayList<>();
+
+        if(node.data == data)   {
+            ArrayList<Node> base = new ArrayList<>();
+            base.add(node);
+            return base;
+        }
+
+        ArrayList<Node> left = rootToNode02(node.left, data);
+        if(left.size() != 0) {
+            left.add(node);
+            return left;
+        }
+
+        ArrayList<Node> right = rootToNode02(node.right, data);
+        if(right.size() != 0) {
+            right.add(node);
+            return right;
+        }
+
+        return new ArrayList<>();
+    }
+    public static ArrayList<Node> rootToNode02_(Node node, int data) {  //this is same as rootToNode02 only. NO CHANGE 
+        ArrayList<Node> res;
+        if(node == null)    return new ArrayList<>();
+
+        if(node.data == data)   {
+            ArrayList<Node> base = new ArrayList<>();
+            base.add(node);
+            return base;
+        }
+
+        res = rootToNode02_(node.left, data);
+        if(res.size() != 0) {
+            res.add(node);
+            return res;
+        }
+
+        res = rootToNode02_(node.right, data);
+        if(res.size() != 0) {
+            res.add(node);
+            return res;
+        }
+
+        return new ArrayList<>();
+    }
+
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
@@ -65,7 +125,10 @@ public class btL001 {
         // System.out.println("min: " + min(root));
         // System.out.println("find: " + find(root, 1110));
         ArrayList<Node> res = new ArrayList<>();
-        System.out.println(rootToNode(root, 900, res) ? "Found" : "Not Found");
+        // System.out.println(rootToNode(root, 900, res) ? "Found" : "Not Found");
+        // System.out.println(rootToNode_(root, 100, res) ? "Found" : "Not Found");
+        // for(Node ele : res) System.out.print(ele.data + " ");
+        res = rootToNode02_(root, 90);
         for(Node ele : res) System.out.print(ele.data + " ");
     }
 }
