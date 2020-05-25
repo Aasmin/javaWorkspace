@@ -42,6 +42,11 @@ public class btL001 {
         if(node == null) return (int)1e8;
         return Math.min(Math.min(min(node.left), min(node.right)), node.data);
     }
+    public static boolean find(Node node, int data) {
+        if(node == null)    return false;
+        if(node.data == data)   return true;
+        return find(node.left, data) || find(node.right, data);
+    }
 
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
@@ -51,5 +56,6 @@ public class btL001 {
         System.out.println("height: " + height(root));
         System.out.println("max: " + max(root));
         System.out.println("min: " + min(root));
+        System.out.println("find: " + find(root, 1110));
     }
 }
