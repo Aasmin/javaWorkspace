@@ -132,11 +132,32 @@ public class btL001 {
         return LCA;
     }
     
+    static Node LCA = null;
+    static boolean lowestCommonAncestor02(Node node, int p, int q) {    //leetcode 236 (LCA w/o storing paths)
+        if(node == null)    return false;
+
+        boolean selfDone = false;
+        if(node.data == p || node.data == q) {
+            selfDone = true;
+        }
+
+        boolean leftDone = lowestCommonAncestor02(node.left, p, q);
+        if(LCA != null) return true;
+        
+        boolean rightDone = lowestCommonAncestor02(node.right, p, q);
+        if(LCA != null) return true;
+
+        if((leftDone && rightDone) || (selfDone && rightDone) || (selfDone && leftDone))    //work done at post area
+            LCA = node;
+        
+        return selfDone || rightDone || leftDone;
+        
+    }
 
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
-        display(root);
+        // display(root);
         // System.out.println("size: " + size(root));
         // System.out.println("height: " + height(root));
         // System.out.println("max: " + max(root));
@@ -148,7 +169,9 @@ public class btL001 {
         // for(Node ele : res) System.out.print(ele.data + " ");
         // res = rootToNode02_(root, 90);
         // for(Node ele : res) System.out.print(ele.data + " ");
-        int lca = lowestCommonAncestor(root, 50, 50).data;
-        System.out.println(lca);
+        // int lca = lowestCommonAncestor(root, 50, 50).data;
+        // System.out.println(lca);
+        lowestCommonAncestor02(root, 90, 100);
+        System.out.println(LCA.data);
     }
 }
