@@ -23,6 +23,29 @@ public class leetcode {
             this.val = val; this.left = left; this.right = right;
     }
 }
+//leetcode 236 (LCA w/o storing paths)
+    static Node LCA = null;
+    static boolean lowestCommonAncestor02(Node node, int p, int q) {    
+        if(node == null)    return false;
+
+        boolean selfDone = false;
+        if(node.data == p || node.data == q) {
+            selfDone = true;
+        }
+
+        boolean leftDone = lowestCommonAncestor02(node.left, p, q);
+        if(LCA != null) return true;
+        
+        boolean rightDone = lowestCommonAncestor02(node.right, p, q);
+        if(LCA != null) return true;
+
+        if((leftDone && rightDone) || (selfDone && rightDone) || (selfDone && leftDone))    //work done at post area
+            LCA = node;
+        
+        return selfDone || rightDone || leftDone;
+        
+    }
+    
     //leetcode 863
     public List<Integer> distanceK(TreeNode root, TreeNode target, int K) {
         ArrayList<TreeNode> path = new ArrayList<>();
