@@ -154,6 +154,25 @@ public class btL001 {
         
     }
 
+    public static void kDown(Node node, int K, Node block) {
+        if(node == null || node == block)    return;
+        if(K == 0)  {
+            System.out.print(node.data + " ");  return;
+        }
+        kDown(node.left, K - 1, block);
+        kDown(node.right, K - 1, block);
+    }
+
+    public static void distanceK(Node node, int target, int K) {
+        ArrayList<Node> path = new ArrayList<>();
+        rootToNode_(node, target, path);
+        Node blockedNode = null;
+        for(int i = 0; i < path.size(); i++) {
+            kDown(path.get(i), K - i, blockedNode);
+            blockedNode = path.get(i);
+        }
+    }
+
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
@@ -171,7 +190,8 @@ public class btL001 {
         // for(Node ele : res) System.out.print(ele.data + " ");
         // int lca = lowestCommonAncestor(root, 50, 50).data;
         // System.out.println(lca);
-        lowestCommonAncestor02(root, 90, 100);
-        System.out.println(LCA.data);
+        // lowestCommonAncestor02(root, 50, 80);
+        // System.out.println(LCA.data);
+        distanceK(root, 50, 5);
     }
 }
