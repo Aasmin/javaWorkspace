@@ -248,8 +248,25 @@ public class btL001 {
 
         return -1;
     }
+    
+    //leetcode 543
+    public static class DiaPair {
+        int hei = 0;    int dia = 0;
+        DiaPair(int hei, int dia) {this.hei = hei;  this.dia = dia;}
+    }
 
+    public static DiaPair diameter(Node node) {
+        if(node == null) {return new DiaPair(-1, 0);}
 
+        DiaPair lr = diameter(node.left);
+        DiaPair rr = diameter(node.right);
+
+        DiaPair self = new DiaPair(-1, 0);
+        self.dia = Math.max(Math.max(lr.dia, rr.dia), lr.hei + rr. hei + 2);
+        self.hei = Math.max(lr.hei, rr.hei) + 1;
+
+        return self;
+    }
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
@@ -271,10 +288,10 @@ public class btL001 {
         // System.out.println(LCA.data);
         // distanceK(root, 50, 4);
         // System.out.println();
-        kNodeAway(root, 50, 3);
-        System.out.println();
-        kNodeAway02(root, 50, 3);
-        System.out.println();
-        kNodeAway03(root, 50, 3);
+        // kNodeAway(root, 50, 3);
+        // System.out.println();
+        // kNodeAway02(root, 50, 3);
+        // System.out.println();
+        // kNodeAway03(root, 50, 3);
     }
 }
