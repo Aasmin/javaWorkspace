@@ -197,6 +197,59 @@ public class btL001 {
         return -1;
     }
 
+    public static int kNodeAway02(Node node, int target, int K) {
+        if(node == null)    return -1;
+        
+        if(node.data == target) {
+            kDown(node, K, null);
+            return 1;
+        }
+
+        int leftDistance = kNodeAway02(node.left, target, K);
+        if(leftDistance != -1) {
+            if(K - leftDistance >= 0)   kDown(node, K - leftDistance, node.left);
+            return leftDistance + 1;
+        }
+
+        int rightDistance = kNodeAway02(node.right, target, K);
+        if(rightDistance != -1) {
+            if(K - rightDistance >= 0)   kDown(node, K - rightDistance, node.right);
+            return rightDistance + 1;
+        }
+
+        return -1;
+    }
+
+    static int kNodeAway03(Node node, int target, int K) {  //knodes aways without blocking 
+        if(node == null)    return -1;
+
+        if(node.data == target) {
+            kDown(node, K, null);
+            return 1;
+        }
+
+        int leftDistance = kNodeAway03(node.left, target, K);
+        if(leftDistance != -1) {
+            if(K - leftDistance == 0)
+                System.out.print(node.data + " ");
+            else 
+                kDown(node.right, K - leftDistance - 1, null);  // here K value is important
+            return leftDistance + 1;
+        }
+
+        int rightDistance = kNodeAway03(node.right, target, K);
+        if(rightDistance != -1) {
+            if(K - rightDistance == 0)
+                System.out.print(node.data + " ");
+            else 
+                kDown(node.left, K - rightDistance - 1, null);
+            return rightDistance + 1;
+        }
+
+        return -1;
+    }
+
+
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
@@ -218,6 +271,10 @@ public class btL001 {
         // System.out.println(LCA.data);
         // distanceK(root, 50, 4);
         // System.out.println();
-        kNodeAway(root, 50, 4);
+        kNodeAway(root, 50, 3);
+        System.out.println();
+        kNodeAway02(root, 50, 3);
+        System.out.println();
+        kNodeAway03(root, 50, 3);
     }
 }
