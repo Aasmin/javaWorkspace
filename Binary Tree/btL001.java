@@ -298,6 +298,7 @@ public class btL001 {
     }
 
     //leaf to leaf max path sum
+    //approach is similar to diameter
     public static int maxPathSum(Node root) {
         // your code here
         max_Sum = (int) -1e8;   //as two test cases were being tested in GFG so, when this is function is called again we set it deafult again
