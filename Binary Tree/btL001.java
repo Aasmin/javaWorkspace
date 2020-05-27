@@ -255,17 +255,29 @@ public class btL001 {
         DiaPair(int hei, int dia) {this.hei = hei;  this.dia = dia;}
     }
 
-    public static DiaPair diameter(Node node) {
-        if(node == null) {return new DiaPair(-1, 0);}
+    public static DiaPair diameter02(Node node) {
+        if(node == null) {return new DiaPair(-1, 0);}   //height for leaf node is -1
 
-        DiaPair lr = diameter(node.left);
-        DiaPair rr = diameter(node.right);
+        DiaPair lr = diameter02(node.left);
+        DiaPair rr = diameter02(node.right);
 
         DiaPair self = new DiaPair(-1, 0);
         self.dia = Math.max(Math.max(lr.dia, rr.dia), lr.hei + rr. hei + 2);
         self.hei = Math.max(lr.hei, rr.hei) + 1;
 
         return self;
+    }
+
+    static int diameter = 0;    //this will store the diameter of the tree
+    public static int diameter03(Node node) {   //we are returning height in this fuction
+        if(node == null) return -1;
+        
+        int lh = diameter03(node.left);
+        int rh = diameter03(node.right);
+
+        diameter = Math.max(diameter, lh + rh + 2);
+        
+        return Math.max(lh, rh) + 1; 
     }
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
@@ -293,5 +305,6 @@ public class btL001 {
         // kNodeAway02(root, 50, 3);
         // System.out.println();
         // kNodeAway03(root, 50, 3);
+        
     }
 }
