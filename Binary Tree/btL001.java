@@ -277,8 +277,47 @@ public class btL001 {
 
         diameter = Math.max(diameter, lh + rh + 2);
         
-        return Math.max(lh, rh) + 1; 
+        return Math.max(lh, rh) + 1; //returning height here
     }
+
+    public static boolean hasPathSum(Node root, int sum) {
+        if(root == null) return false;
+
+        if(root.left == null && root.right == null) {
+            sum -= root.data;
+            if(sum == 0)    return true;
+            else return false;
+        }
+
+        boolean lres = hasPathSum(root.left, sum - root.data);
+        if(lres)    return true;
+        boolean rres = hasPathSum(root.right, sum - root.data);
+        if(rres)    return true;
+
+        return false;
+    }
+
+    //leaf to leaf max path sum
+    public static int maxPathSum(Node root) {
+        // your code here
+        max_Sum = (int) -1e8;   //as two test cases were being tested in GFG so, when this is function is called again we set it deafult again
+        maxPathSum_(root);
+        return max_Sum;
+    }
+    static int max_Sum;
+    public static int maxPathSum_(Node root) {
+        if(root == null)    return 0;
+        
+        int leftNodeToLeafSum = maxPathSum_(root.left);  //gives max Sum from left child
+        int rightNodeToLeafSum = maxPathSum_(root.right);
+        
+        if(root.left != null && root.right != null) {   //case: when root has both L and R leaf
+            max_Sum = Math.max(max_Sum, leftNodeToLeafSum + rightNodeToLeafSum + root.data);    //compares with self Node leaf to leaf
+            return  Math.max(leftNodeToLeafSum, rightNodeToLeafSum) + root.data;
+        }
+        
+        return (root.left == null ? rightNodeToLeafSum: leftNodeToLeafSum) + root.data; //case: when either L or R is present [this case don't change the Max leaf to leaf sum, it only contributes as an node in the path]
+    } 
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
@@ -305,6 +344,8 @@ public class btL001 {
         // kNodeAway02(root, 50, 3);
         // System.out.println();
         // kNodeAway03(root, 50, 3);
-        
+        System.out.println(diameter02(root).dia);
+        diameter03(root);
+        System.out.println(diameter);
     }
 }

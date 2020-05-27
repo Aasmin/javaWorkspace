@@ -137,7 +137,7 @@ public class leetcode {
     public void pathSum(TreeNode root, int sum, List<List<Integer>> res, List<Integer> smallAns) {
         if(root == null)    return;
         if(root.left == null && root.right == null && sum - root.val == 0) {
-            List<Integer> base = new ArrayList<>(smallAns);
+            List<Integer> base = new ArrayList<>(smallAns); //deep copy
             base.add(root.val);
             res.add(base);
             return;
