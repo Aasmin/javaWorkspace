@@ -319,6 +319,20 @@ public class btL001 {
         
         return (root.left == null ? rightNodeToLeafSum: leftNodeToLeafSum) + root.data; //case: when either L or R is present [this case don't change the Max leaf to leaf sum, it only contributes as an node in the path]
     } 
+
+    //leetcode 124
+    static int max_nodeToNodeSum = (int) -1e8;
+    public static int maxPathNodeToNodeSum(Node node) {
+        if(node == null)    return (int) -1e8;
+
+        int leftNodeToNodeSum = maxPathNodeToNodeSum(node.left);
+        int rightNodeToNodeSum = maxPathNodeToNodeSum(node.right);
+
+        int max_subtree = Math.max(leftNodeToNodeSum, rightNodeToNodeSum) + node.data;  // Handles faith. 
+        max_nodeToNodeSum = Math.max(max_nodeToNodeSum, Math.max(node.data, Math.max(leftNodeToNodeSum + node.data + rightNodeToNodeSum, max_subtree)));
+        
+        return Math.max(max_subtree, node.data);
+    }
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
