@@ -298,7 +298,7 @@ public class btL001 {
     }
 
     //leaf to leaf max path sum
-    //approach is similar to diameter
+    //HINT: approach is similar to diameter
     public static int maxPathSum(Node root) {
         // your code here
         max_Sum = (int) -1e8;   //as two test cases were being tested in GFG so, when this is function is called again we set it deafult again
@@ -321,7 +321,8 @@ public class btL001 {
     } 
 
     //leetcode 124
-    static int max_nodeToNodeSum = (int) -1e8;
+    //node to node max path sum
+    static int max_nodeToNodeSum = (int) -1e8;  //left and right subtree ka max sambhal rakha
     public static int maxPathNodeToNodeSum(Node node) {
         if(node == null)    return (int) -1e8;
 
