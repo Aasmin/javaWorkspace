@@ -379,34 +379,49 @@ public class btL001 {
         }
     }
 
-    
     public static void levelOrder03(Node node) {
         LinkedList<Node> Que = new LinkedList<>();
-        Que.addLast(node);
+        Que.addLast(node);  //add parent
         int count = 0;
         while(Que.size() != 0) {
             System.out.print("\nLevel " + count++ + ": ");
             int size = Que.size();
             while(size-- > 0) {
-                Node rn = Que.removeFirst();
+                Node rn = Que.removeFirst();    //get and remove root
                 System.out.print(rn.data + " ");
-                if(rn.left != null) Que.addLast(rn.left);
+                if(rn.left != null) Que.addLast(rn.left);   //add children
                 if(rn.right != null) Que.addLast(rn.right);
             }
         }
     }
 
+    //View Category.===========================
+    public static void leftView(Node node) {    // same as levelOrder03
+        LinkedList<Node> Que = new LinkedList<>();
+        Que.addLast(node);  //add parent
+        while(Que.size() != 0) {
+            int size = Que.size();
+            System.out.print(Que.getFirst().data + " ");
+            while(size-- > 0) {
+                Node rn = Que.removeFirst();    //get and remove root
+                if(rn.left != null) Que.addLast(rn.left);   //add children
+                if(rn.right != null) Que.addLast(rn.right);
+            }
+        }
+    }
 
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
-        levelOrder03(node);
+        // levelOrder03(node);
+        leftView(node);
     }
 
     public static void main(String[] args) {
-        int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
+        // int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
+        int[] arr = {11, 6, 4, -1, 5, -1, -1, 8, -1, 10, -1, -1, 19, 17, -1, -1, 43, 31, -1, -1, 49, -1, -1};
         Node root = constructTree(arr);
-        // display(root);
+        display(root);
         // System.out.println("size: " + size(root));
         // System.out.println("height: " + height(root));
         // System.out.println("max: " + max(root));
