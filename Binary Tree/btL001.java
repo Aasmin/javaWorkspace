@@ -369,10 +369,32 @@ public class btL001 {
         }
     }
 
+    public static void levelOrder03(Node node) {
+        LinkedList<Node> Que = new LinkedList<>();
+        Que.addLast(node);
+        Que.addLast(null);
+        int count = 0;
+        System.out.print("Level " + count + ": ");
+        while(Que.size() != 1) {    //NOTE: null is also present in the end. So queue size = 1.
+            Node rn = Que.removeFirst();
+            System.out.print(rn.data + " ");
+            if(rn.left != null) Que.addLast(rn.left);
+            if(rn.right != null) Que.addLast(rn.right);
+            if(Que.getFirst() == null) {
+                Que.removeFirst();
+                Que.addLast(null);
+                count++;
+                if(Que.size() != 1) //to avoid printing of an empty level
+                    System.out.print("\nLevel " + count + ": ");
+            }
+        }
+    }
+
 
     public static void levelOrder(Node node) {
         // levelOrder01(node);
-        levelOrder02(node);
+        // levelOrder02(node);
+        levelOrder03(node);
     }
 
     public static void main(String[] args) {
