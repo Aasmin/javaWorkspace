@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 public class btL001 {
     public static class Node {
         int data;   Node left = null;   Node right = null;
@@ -334,6 +335,34 @@ public class btL001 {
         
         return Math.max(max_subtree, node.data);
     }
+
+    //LevelOrder Series.==============================================
+    public static void levelOrder01(Node node) {
+        LinkedList<Node> pQue = new LinkedList<>(); //addLast and remove first
+        LinkedList<Node> cQue = new LinkedList<>();
+
+        pQue.addLast(node);
+        while(pQue.size() != 0) {
+            Node rn = pQue.removeFirst();
+            System.out.print(rn.data + " ");
+            if(rn.left != null) cQue.addLast(rn.left);
+            if(rn.right != null) cQue.addLast(rn.right);
+
+            if(pQue.size() == 0) {
+                LinkedList<Node> temp = pQue;
+                pQue = cQue;
+                cQue = temp;
+
+                System.out.println();  
+            }
+        }
+    }
+
+
+    public static void levelOrder(Node node) {
+        levelOrder01(node);
+    }
+
     public static void main(String[] args) {
         int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         Node root = constructTree(arr);
@@ -360,8 +389,10 @@ public class btL001 {
         // kNodeAway02(root, 50, 3);
         // System.out.println();
         // kNodeAway03(root, 50, 3);
-        System.out.println(diameter02(root).dia);
-        diameter03(root);
-        System.out.println(diameter);
+        // System.out.println(diameter02(root).dia);
+        // diameter03(root);
+        // System.out.println(diameter);
+
+        levelOrder(root);
     }
 }
