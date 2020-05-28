@@ -425,12 +425,30 @@ public class btL001 {
         }
     }
 
+    //right view by storing the last element
+    public static void rightView02(Node node) {    // same as levelOrder03
+        LinkedList<Node> Que = new LinkedList<>();
+        Que.addLast(node);  //add parent
+        while(Que.size() != 0) {
+            int size = Que.size();
+            Node prev = null;
+            while(size-- > 0) { // this while loop means ek level khatam hogya
+                Node rn = Que.removeFirst();    //get and remove root
+                if(rn.left != null) Que.addLast(rn.left);   //add children
+                if(rn.right != null) Que.addLast(rn.right);
+                prev = rn;
+            }
+            System.out.print(prev.data + " ");
+        }
+    }
+
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
         // levelOrder03(node);
         // leftView(node);
-        rightView(node);
+        // rightView(node);
+        rightView02(node);
     }
 
     public static void main(String[] args) {
