@@ -358,9 +358,21 @@ public class btL001 {
         }
     }
 
+    public static void levelOrder02(Node node) {
+        LinkedList<Node> pQue = new LinkedList<>(); //addLast and remove first
+        pQue.addLast(node);
+        while(pQue.size() != 0) {
+            Node rn = pQue.removeFirst();
+            System.out.print(rn.data + " ");
+            if(rn.left != null) pQue.addLast(rn.left);
+            if(rn.right != null) pQue.addLast(rn.right);
+        }
+    }
+
 
     public static void levelOrder(Node node) {
-        levelOrder01(node);
+        // levelOrder01(node);
+        levelOrder02(node);
     }
 
     public static void main(String[] args) {
