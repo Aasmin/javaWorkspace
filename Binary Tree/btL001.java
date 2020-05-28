@@ -409,12 +409,28 @@ public class btL001 {
             }
         }
     }
+    
+    //right view can be achieved by calling the right child first
+    public static void rightView(Node node) {    // same as levelOrder03
+        LinkedList<Node> Que = new LinkedList<>();
+        Que.addLast(node);  //add parent
+        while(Que.size() != 0) {
+            int size = Que.size();
+            System.out.print(Que.getFirst().data + " ");
+            while(size-- > 0) {
+                Node rn = Que.removeFirst();    //get and remove root
+                if(rn.right != null) Que.addLast(rn.right);
+                if(rn.left != null) Que.addLast(rn.left);   //add children
+            }
+        }
+    }
 
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
         // levelOrder03(node);
-        leftView(node);
+        // leftView(node);
+        rightView(node);
     }
 
     public static void main(String[] args) {
