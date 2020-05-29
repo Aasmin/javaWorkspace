@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Collections;
+import java.util.List;
 public class btL001 {
     public static class Node {
         int data;   Node left = null;   Node right = null;
@@ -506,6 +508,33 @@ public class btL001 {
             System.out.println(arr);
     }
 
+    //leetcode 987
+    static List<List<Integer>> verticalOrderLC(Node node) {
+        width(node, 0);
+        int width = rightMaxValue - leftMinValue + 1;   
+        List<List<Integer>> ans = new ArrayList<>();  // Memory Diag. []
+        for(int i = 0; i < width; i++) 
+            ans.add(new ArrayList<>());     // Memory Diag.  [[], [], [], [], [], []]
+        
+        LinkedList<pairVO> Que = new LinkedList<>();
+        Que.addLast(new pairVO(node, -leftMinValue));  //add parent
+
+        while(Que.size() != 0) {
+            int size = Que.size();
+            while(size-- > 0) {
+                pairVO rn = Que.removeFirst();    
+                ans.get(rn.val).add(rn.node.data);  //accessing the virtual level in the arrayList then, adding the value
+                if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   //add children
+                if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 1));
+            }
+        }
+        
+        for(List<Integer> arr: ans){
+            Collections.sort(arr);
+            // System.out.println(arr);
+        }
+        return ans;
+    }
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
@@ -515,7 +544,9 @@ public class btL001 {
         // rightView02(node);
         verticalOrder(node);
         System.out.println();
-        verticalOrderSum(node);
+        // verticalOrderSum(node);
+        // List<List<Integer>> ans = verticalOrderLC(node);
+        // for(List<Integer> arr : ans)    System.out.println(arr);
     }
 
     public static void main(String[] args) {
