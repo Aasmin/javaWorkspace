@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Arrays;
+
 public class btL001 {
     public static class Node {
         int data;   Node left = null;   Node right = null;
@@ -535,6 +537,53 @@ public class btL001 {
         }
         return ans;
     }
+
+    //same as vertical order
+    static void BottomVeiw(Node node) {
+        width(node, 0);
+        int width = rightMaxValue - leftMinValue + 1;   
+        int[] ans = new int[width];  
+        
+        LinkedList<pairVO> Que = new LinkedList<>();
+        Que.addLast(new pairVO(node, -leftMinValue));  
+
+        while(Que.size() != 0) {
+            int size = Que.size();
+            while(size-- > 0) {
+                pairVO rn = Que.removeFirst();    
+                ans[rn.val] = rn.node.data;  // only change added
+                if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   
+                if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 1));
+            }
+        }
+        for(int arr: ans)
+            System.out.println(arr);
+    }
+
+    //same as vertical order
+    static void TopView(Node node) {
+        width(node, 0);
+        int width = rightMaxValue - leftMinValue + 1;   
+        int[] ans = new int[width];  
+        Arrays.fill(ans, (int)-1e8);    //initiated with an identification value
+        
+        LinkedList<pairVO> Que = new LinkedList<>();
+        Que.addLast(new pairVO(node, -leftMinValue));  
+
+        while(Que.size() != 0) {
+            int size = Que.size();
+            while(size-- > 0) {
+                pairVO rn = Que.removeFirst();    
+                if(ans[rn.val] == (int)-1e8)    //  to get the first element. i.e the place will be updated only once
+                    ans[rn.val] = rn.node.data;  // only change added
+                if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   
+                if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 1));
+            }
+        }
+        for(int arr: ans)
+            System.out.println(arr);
+    }
+
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
@@ -542,11 +591,14 @@ public class btL001 {
         // leftView(node);
         // rightView(node);
         // rightView02(node);
-        verticalOrder(node);
-        System.out.println();
+        // verticalOrder(node);
+        // System.out.println();
         // verticalOrderSum(node);
         // List<List<Integer>> ans = verticalOrderLC(node);
         // for(List<Integer> arr : ans)    System.out.println(arr);
+        BottomVeiw(node);
+        System.out.println();
+        TopView(node);
     }
 
     public static void main(String[] args) {
