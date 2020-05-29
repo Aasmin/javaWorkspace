@@ -442,13 +442,54 @@ public class btL001 {
         }
     }
 
+    //vertical Order
+    static int leftMinValue = 0;
+    static int rightMaxValue = 0;
+    static void width(Node node, int lev) {
+        if(node == null)    return;
+        
+        leftMinValue = Math.min(leftMinValue, lev);
+        rightMaxValue = Math.max(rightMaxValue, lev);
+        
+        width(node.left, lev - 1);
+        width(node.right, lev + 1);
+    }
+
+    static class pairVO {
+        Node node;  int val;
+        pairVO(Node node, int val) {this.node = node;   this.val = val;}
+    }
+
+    static void verticalOrder(Node node) {
+        width(node, 0);
+        int width = rightMaxValue - leftMinValue + 1;
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        for(int i = 0; i < width; i++) 
+            ans.add(new ArrayList<>());
+        
+        LinkedList<pairVO> Que = new LinkedList<>();
+        Que.addLast(new pairVO(node, -leftMinValue));  //add parent
+        while(Que.size() != 0) {
+            int size = Que.size();
+            while(size-- > 0) {
+                pairVO rn = Que.removeFirst();    //get and remove root
+                ans.get(rn.val).add(rn.node.data);
+                if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   //add children
+                if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 1));
+            }
+        }
+        for(ArrayList<Integer> arr: ans)
+            System.out.println(arr);
+    }
+
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
         // levelOrder03(node);
         // leftView(node);
         // rightView(node);
-        rightView02(node);
+        // rightView02(node);
+        verticalOrder(node);
     }
 
     public static void main(String[] args) {
