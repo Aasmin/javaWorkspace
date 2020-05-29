@@ -539,7 +539,7 @@ public class btL001 {
     }
 
     //same as vertical order
-    static void BottomVeiw(Node node) {
+    static void BottomView(Node node) {
         width(node, 0);
         int width = rightMaxValue - leftMinValue + 1;   
         int[] ans = new int[width];  
@@ -584,6 +584,30 @@ public class btL001 {
             System.out.println(arr);
     }
 
+    //same as Vertical order
+    static void diagonalView(Node node) {
+        width(node, 0);
+        int width = -leftMinValue + 1;   // change the width 
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>(); 
+        for(int i = 0; i < width; i++) 
+            ans.add(new ArrayList<>());     
+        
+        LinkedList<pairVO> Que = new LinkedList<>();
+        Que.addLast(new pairVO(node, -leftMinValue));  
+
+        while(Que.size() != 0) {
+            int size = Que.size();
+            while(size-- > 0) {
+                pairVO rn = Que.removeFirst();    
+                ans.get(rn.val).add(rn.node.data);  
+                if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   
+                if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 0));   //only change here
+            }
+        }
+        for(ArrayList<Integer> arr: ans)
+            System.out.println(arr);
+    }
+
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
@@ -596,9 +620,10 @@ public class btL001 {
         // verticalOrderSum(node);
         // List<List<Integer>> ans = verticalOrderLC(node);
         // for(List<Integer> arr : ans)    System.out.println(arr);
-        BottomVeiw(node);
-        System.out.println();
-        TopView(node);
+        // BottomView(node);
+        // System.out.println();
+        // TopView(node);
+        diagonalView(node);
     }
 
     public static void main(String[] args) {
