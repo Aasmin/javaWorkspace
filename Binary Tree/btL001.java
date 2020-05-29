@@ -456,29 +456,53 @@ public class btL001 {
     }
 
     static class pairVO {
-        Node node;  int val;
+        Node node;  //actual node
+        int val;    //vertical level
         pairVO(Node node, int val) {this.node = node;   this.val = val;}
     }
 
     static void verticalOrder(Node node) {
         width(node, 0);
-        int width = rightMaxValue - leftMinValue + 1;
-        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();
+        int width = rightMaxValue - leftMinValue + 1;   
+        ArrayList<ArrayList<Integer>> ans = new ArrayList<>();  // Memory Diag. []
         for(int i = 0; i < width; i++) 
-            ans.add(new ArrayList<>());
+            ans.add(new ArrayList<>());     // Memory Diag.  [[], [], [], [], [], []]
         
         LinkedList<pairVO> Que = new LinkedList<>();
         Que.addLast(new pairVO(node, -leftMinValue));  //add parent
+
         while(Que.size() != 0) {
             int size = Que.size();
             while(size-- > 0) {
-                pairVO rn = Que.removeFirst();    //get and remove root
-                ans.get(rn.val).add(rn.node.data);
+                pairVO rn = Que.removeFirst();    
+                ans.get(rn.val).add(rn.node.data);  //accessing the virtual level in the arrayList then, adding the value
                 if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   //add children
                 if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 1));
             }
         }
         for(ArrayList<Integer> arr: ans)
+            System.out.println(arr);
+    }
+
+    //vertical Order Sum (same as vertical Order only one line change)
+    static void verticalOrderSum(Node node) {
+        width(node, 0);
+        int width = rightMaxValue - leftMinValue + 1;   
+        int[] ans = new int[width];  
+        
+        LinkedList<pairVO> Que = new LinkedList<>();
+        Que.addLast(new pairVO(node, -leftMinValue));  
+
+        while(Que.size() != 0) {
+            int size = Que.size();
+            while(size-- > 0) {
+                pairVO rn = Que.removeFirst();    
+                ans[rn.val] += rn.node.data;  // only change added
+                if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   
+                if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 1));
+            }
+        }
+        for(int arr: ans)
             System.out.println(arr);
     }
 
@@ -490,6 +514,8 @@ public class btL001 {
         // rightView(node);
         // rightView02(node);
         verticalOrder(node);
+        System.out.println();
+        verticalOrderSum(node);
     }
 
     public static void main(String[] args) {
