@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PriorityQueue;
 import java.util.Arrays;
 
 public class btL001 {
@@ -511,30 +512,47 @@ public class btL001 {
     }
 
     //leetcode 987
-    static List<List<Integer>> verticalOrderLC(Node node) {
-        width(node, 0);
-        int width = rightMaxValue - leftMinValue + 1;   
-        List<List<Integer>> ans = new ArrayList<>();  // Memory Diag. []
-        for(int i = 0; i < width; i++) 
-            ans.add(new ArrayList<>());     // Memory Diag.  [[], [], [], [], [], []]
-        
-        LinkedList<pairVO> Que = new LinkedList<>();
-        Que.addLast(new pairVO(node, -leftMinValue));  //add parent
+    public static class PairVO_ implements Comparable<PairVO_> {
+        Node node;  //actual node
+        int vl; //virtual level
+        PairVO_(Node node, int vl) {this.node = node;   this.vl = vl;}
 
-        while(Que.size() != 0) {
-            int size = Que.size();
-            while(size-- > 0) {
-                pairVO rn = Que.removeFirst();    
-                ans.get(rn.val).add(rn.node.data);  //accessing the virtual level in the arrayList then, adding the value
-                if(rn.node.left != null) Que.addLast(new pairVO(rn.node.left, rn.val - 1));   //add children
-                if(rn.node.right != null) Que.addLast(new pairVO(rn.node.right, rn.val + 1));
-            }
+        @Override
+        public int compareTo(PairVO_ o) {
+            if(this.vl == o.vl) return this.node.data - o.node.data;    //if levels are same, less value is prioritized
+            return this.vl - o.vl;  //default behavious of queue (levels are different)
         }
+    }
+    static List<List<Integer>> verticalOrderLC(Node node) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if(node == null) return ans;
         
-        for(List<Integer> arr: ans){
-            Collections.sort(arr);
-            // System.out.println(arr);
-        }
+        width(node, 0);
+        int width = rightMaxValue - leftMinValue + 1;
+        for(int i = 0; i < width; i++)
+            ans.add(new ArrayList<>());
+        
+
+        PriorityQueue<PairVO_> pque =new PriorityQueue<>();
+        PriorityQueue<PairVO_> cque =new PriorityQueue<>();
+
+        pque.add(new PairVO_(node, -leftMinValue));
+
+        while(pque.size() != 0) {
+            int size = pque.size();
+            while(size-- > 0) {
+                PairVO_ rpair = pque.poll();    //remove first and get
+                ans.get(rpair.vl).add(rpair.node.data);
+    
+                if(rpair.node.left!=null) cque.add(new PairVO_(rpair.node.left,rpair.vl-1));
+                if(rpair.node.right!=null) cque.add(new PairVO_(rpair.node.right,rpair.vl+1));
+            }
+            
+            PriorityQueue<PairVO_> temp = pque;
+            pque=cque;
+            cque=temp;
+        } 
+        
         return ans;
     }
 
@@ -585,7 +603,7 @@ public class btL001 {
     }
 
     //same as Vertical order
-    static void diagonalView(Node node) {
+        static void diagonalView(Node node) {
         width(node, 0);
         int width = -leftMinValue + 1;   // change the width 
         ArrayList<ArrayList<Integer>> ans = new ArrayList<>(); 
@@ -669,14 +687,16 @@ public class btL001 {
         // BottomView(node);
         // System.out.println();
         // TopView(node);
-        // diagonalView(node);
+        diagonalView(node);
+        System.out.println();
         // diagonalViewSum(node);
-        diagonalViewRtoL(node);
+        // diagonalViewRtoL(node);
     }
 
     public static void main(String[] args) {
         // int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
-        int[] arr = {11, 6, 4, -1, 5, -1, -1, 8, -1, 10, -1, -1, 19, 17, -1, -1, 43, 31, -1, -1, 49, -1, -1};
+        // int[] arr = {11, 6, 4, -1, 5, -1, -1, 8, -1, 10, -1, -1, 19, 17, -1, -1, 43, 31, -1, -1, 49, -1, -1};
+        int[] arr = {11, 6, 4, -1, 5, 1, 2, 3, -1, -1, -1, -1, -1, 8, -1, 10, -1, -1, 19, 17, -1, -1, 43, 31, -1, -1, 49, -1, -1};
         Node root = constructTree(arr);
         display(root);
         // System.out.println("size: " + size(root));
