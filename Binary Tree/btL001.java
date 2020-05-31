@@ -511,7 +511,7 @@ public class btL001 {
             System.out.println(arr);
     }
 
-    //leetcode 987
+    // 
     public static class PairVO_ implements Comparable<PairVO_> {
         Node node;  //actual node
         int vl; //virtual level
@@ -672,6 +672,23 @@ public class btL001 {
             System.out.println(arr);
     }
 
+    static Node DLLhead = null;
+    static Node DLLprev = null;
+    public static void DLL(Node node) {
+        if(node == null)    return;
+
+        DLL(node.left);
+
+        if(DLLhead == null) DLLhead = node;
+        else {
+            DLLprev.right = node;
+            node.left = DLLprev;
+        }
+        DLLprev = node;
+
+        DLL(node.right);
+    }
+
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
@@ -693,10 +710,18 @@ public class btL001 {
         // diagonalViewRtoL(node);
     }
 
+    public static void set1(Node node) {
+        DLL(node);
+        while(DLLhead != null) {
+            System.out.print(DLLhead.data + " ");
+            DLLhead = DLLhead.right;
+        }
+    }
+
     public static void main(String[] args) {
         // int[] arr = {10, 20, 40, -1, -1, 50, 80, -1, -1, 90, -1, -1, 30, 60, 100, -1, -1, -1, 70, 110, -1, -1, 120, -1, -1};
         // int[] arr = {11, 6, 4, -1, 5, -1, -1, 8, -1, 10, -1, -1, 19, 17, -1, -1, 43, 31, -1, -1, 49, -1, -1};
-        int[] arr = {11, 6, 4, -1, 5, 1, 2, 3, -1, -1, -1, -1, -1, 8, -1, 10, -1, -1, 19, 17, -1, -1, 43, 31, -1, -1, 49, -1, -1};
+        int[] arr = {11, 6, 4, -1, 5, -1, -1, 8, -1, 10, -1, -1, 19, 17, -1, -1, 43, 31, -1, -1, 49, -1, -1};
         Node root = constructTree(arr);
         display(root);
         // System.out.println("size: " + size(root));
@@ -725,6 +750,7 @@ public class btL001 {
         // diameter03(root);
         // System.out.println(diameter);
 
-        levelOrder(root);
+        // levelOrder(root);
+        set1(root);
     }
 }
