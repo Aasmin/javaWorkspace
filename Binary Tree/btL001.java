@@ -673,21 +673,53 @@ public class btL001 {
     }
 
     static Node DLLhead = null;
-    static Node DLLprev = null;
+    static Node DLLprev = null; //prev node
     public static void DLL(Node node) {
         if(node == null)    return;
 
         DLL(node.left);
 
-        if(DLLhead == null) DLLhead = node;
-        else {
+        if(DLLhead == null) DLLhead = node; //this runs once. to set the head
+        else {              //work happening at each node to set left right of the current node
             DLLprev.right = node;
             node.left = DLLprev;
         }
-        DLLprev = node;
+        DLLprev = node;     //after work done, prev point to the curr node.
 
         DLL(node.right);
     }
+
+    static Node LLHead = null;
+    static Node LLroot = null;
+    public static void lineraize(Node node) {
+
+        if(LLHead == null)  {
+            LLroot = node; 
+        }
+        else {
+            LLHead.right = node;
+        }
+        LLHead = node;
+        
+        if(node.left != null) lineraize(node.left);
+        if(node.right != null) lineraize(node.right);
+    }
+
+
+    //leetcode 98
+    static long prev = (long) -1e12;    
+    static boolean isBST(Node node) {
+       if(node == null)    return true;
+       
+       if(!isBST(node.left))   return false;
+       
+       if(prev >= node.data)    return false;
+        prev = node.data;
+
+       if(!isBST(node.right))   return false;
+
+       return true;
+   }
 
     public static void levelOrder(Node node) {
         // levelOrder01(node);
@@ -704,17 +736,25 @@ public class btL001 {
         // BottomView(node);
         // System.out.println();
         // TopView(node);
-        diagonalView(node);
-        System.out.println();
+        // diagonalView(node);
+        // System.out.println();
         // diagonalViewSum(node);
         // diagonalViewRtoL(node);
     }
 
     public static void set1(Node node) {
-        DLL(node);
-        while(DLLhead != null) {
-            System.out.print(DLLhead.data + " ");
-            DLLhead = DLLhead.right;
+        //  BT to DLL 
+        // DLL(node);
+        // while(DLLhead != null) {
+        //     System.out.print(DLLhead.data + " ");
+        //     DLLhead = DLLhead.right;
+        // }
+
+        //linearize
+        lineraize(node);
+        while(LLroot != null) {
+            System.out.println(LLroot.data);
+            LLroot = LLroot.right;
         }
     }
 
