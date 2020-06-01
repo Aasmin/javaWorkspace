@@ -720,7 +720,7 @@ public class btL001 {
 
        return true;
    }
-
+   
    //leetcode 99
    static Node x_RT = null;
    static Node y_RT = null;    //this node will contain the first ambigous charcter
@@ -745,7 +745,6 @@ public class btL001 {
 
         return false;
    }
-
    static void recoverTree(Node node) {
     recoverTree_(node);
     if(x_RT != null) {  //if ambiguity found once/twice it will run as value of x_RT will be changed
@@ -753,6 +752,29 @@ public class btL001 {
         x_RT.data = y_RT.data;
         y_RT.data = temp;
     }
+   }
+
+   //Successor and Predecessor
+   public static class allSolution {
+       int height = 0;  int size = 0;   boolean find = false;
+       Node pred = null;    Node succ = null;   Node prev = null;
+   }
+
+   public static void allSol(Node node, int data, int level, allSolution pair)  {
+       if(node == null) return;
+
+        pair.size++;
+        pair.height = Math.max(pair.height, level);
+        pair.find = pair.find || node.data == data;
+
+        //Successor and Predecessor at preorder 
+        if(node.data == data && pair.pred != null)   pair.pred = pair.prev; //pair.prev != null is if there is no pred i.e data is first the node
+        if(pair.prev != null && pair.prev.data == data && pair.succ != null)  pair.succ = node;
+
+        pair.prev = node;   //Don't forget to shift the previous 
+       allSol(node.left, data, level + 1, pair);
+       //Successor and Predecessor at INORDER (just shift the lines, everything is same)
+       allSol(node.right, data, level + 1, pair);
    }
 
     public static void levelOrder(Node node) {
