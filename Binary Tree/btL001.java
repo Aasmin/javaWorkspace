@@ -721,6 +721,40 @@ public class btL001 {
        return true;
    }
 
+   //leetcode 99
+   static Node x_RT = null;
+   static Node y_RT = null;    //this node will contain the first ambigous charcter
+   static Node prev_RT = null;
+   static boolean recoverTree_(Node node) {
+        if(node == null)    return false;
+
+        if(recoverTree_(node.left)) return true;
+
+        if(prev_RT != null && prev_RT.data > node.data) {
+            x_RT = node;
+            if(y_RT == null) {  //first case (i.e first time ambiguity found)
+                y_RT = prev_RT;
+            } else {    //second case i.e second time ambiguity found so return truel because we don't want to move further
+                        //and we'll not change the value of y_RT
+                return true;
+            }
+        }
+        prev_RT = node;
+
+        if(recoverTree_(node.right)) return true;
+
+        return false;
+   }
+
+   static void recoverTree(Node node) {
+    recoverTree_(node);
+    if(x_RT != null) {  //if ambiguity found once/twice it will run as value of x_RT will be changed
+        int temp = x_RT.data;
+        x_RT.data = y_RT.data;
+        y_RT.data = temp;
+    }
+   }
+
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
