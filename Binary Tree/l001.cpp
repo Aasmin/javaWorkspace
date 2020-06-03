@@ -206,9 +206,9 @@ Node *constructBSTfromPreOrder(vector<int> &preOrder, int lb, int ele, int rb) {
     Node *node = new Node(ele);
     idxE++;
     
-    if(idxE < preOrder.size())
-        node->left = constructBSTfromPreOrder(preOrder, lb, preOrder[idxE], ele);
-    if(idxE < preOrder.size())
+    // if(idxE < preOrder.size())
+        node->left = constructBSTfromPreOrder(preOrder, lb, preOrder[idxE], ele);   //we are accessing the next element that's why we need the check here. Else, we'll get nullPointerException
+// if(idxE < preOrder.size())                                                           
         node->right = constructBSTfromPreOrder(preOrder, ele, preOrder[idxE], rb);
 
     return node;
@@ -226,10 +226,23 @@ Node *constructBSTfromPreOrder(vector<int> &preOrder, int lb, int rb) {
     return node;
 }
 
+//height of BST from preOrder without making the tree.
+int height(vector<int> &preOrder, int lb, int rb) {
+    if(idxE == preOrder.size() || preOrder[idxE] < lb || preOrder[idxE] > rb)   return -1;
+
+    int ele = preOrder[idxE];
+    idxE++;
+
+    int lh = height(preOrder, lb, ele);
+    int rh = height(preOrder, ele, rb);
+
+    return max(lh, rh) + 1;
+}
+
 Node *constructTreeFromPreOrder(vector<int> &preOrder)
 {
-    // return constructBSTfromPreOrder(preOrder, (int)-1e8, preOrder[0], (int)1e8);
-    return constructBSTfromPreOrder(preOrder, (int)-1e8, (int)1e8);
+    return constructBSTfromPreOrder(preOrder, (int)-1e8, preOrder[0], (int)1e8);
+    // return constructBSTfromPreO rder(preOrder, (int)-1e8, (int)1e8);
 }
 
 void solve()
@@ -239,6 +252,9 @@ void solve()
     vector<int> arr = {50, 17, 9, 14, 12, 23, 19, 76, 54, 72, 67};
     Node *root = constructTreeFromPreOrder(arr);
     display(root);
+
+    idxE = 0;
+    cout << height(arr, (int)-1e8, (int)1e8);
 }
 
 int main()
