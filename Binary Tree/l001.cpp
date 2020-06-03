@@ -214,9 +214,22 @@ Node *constructBSTfromPreOrder(vector<int> &preOrder, int lb, int ele, int rb) {
     return node;
 }
 
+Node *constructBSTfromPreOrder(vector<int> &preOrder, int lb, int rb) {
+    if(idxE == preOrder.size() || preOrder[idxE] < lb || preOrder[idxE] > rb)   return nullptr;
+
+    Node *node = new Node(preOrder[idxE]);
+    idxE++;
+
+    node->left = constructBSTfromPreOrder(preOrder, lb, node->data);
+    node->right = constructBSTfromPreOrder(preOrder, node->data, rb);
+
+    return node;
+}
+
 Node *constructTreeFromPreOrder(vector<int> &preOrder)
 {
-    return constructBSTfromPreOrder(preOrder, (int)-1e8, preOrder[0], (int)1e8);
+    // return constructBSTfromPreOrder(preOrder, (int)-1e8, preOrder[0], (int)1e8);
+    return constructBSTfromPreOrder(preOrder, (int)-1e8, (int)1e8);
 }
 
 void solve()
