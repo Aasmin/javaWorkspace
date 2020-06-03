@@ -252,7 +252,7 @@ Node *addNode(Node *node, int data) {
     if(data < node->data) 
         node->left = addNode(node->left, data);
     else
-        node->right = addNode(node->right, data);
+        node->right = addNode(node->right, data);   //agar equal hai data then it'll be added to right
     
     return node;
 }
@@ -272,7 +272,7 @@ Node *addNodeItr(Node *node, int data) {
         }
     }
     if(data < prev->data)   prev->left = new Node(data);
-    else prev->right = new Node(data);
+    else prev->right = new Node(data);  //agar equal hai data then it'll be added to right
 
     return node;
 }
