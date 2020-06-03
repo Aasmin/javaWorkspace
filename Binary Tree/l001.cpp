@@ -245,6 +245,7 @@ Node *constructTreeFromPreOrder(vector<int> &preOrder)
     // return constructBSTfromPreO rder(preOrder, (int)-1e8, (int)1e8);
 }
 
+//add node recursive(BEST)
 Node *addNode(Node *node, int data) {
     if(node == nullptr)     return new Node(data);
     
@@ -256,6 +257,25 @@ Node *addNode(Node *node, int data) {
     return node;
 }
 
+//add node iterative
+Node *addNodeItr(Node *node, int data) {
+    if(node == nullptr)     return new Node(data);
+    Node *curr = node;
+    Node *prev = nullptr;
+
+    while(curr != nullptr) {
+        prev = curr;
+        if(data < curr->data) {
+            curr = curr->left;
+        } else {
+            curr = curr->right;
+        }
+    }
+    if(data < prev->data)   prev->left = new Node(data);
+    else prev->right = new Node(data);
+
+    return node;
+}
 void solve()
 {
     // vector<int> arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130};
@@ -268,7 +288,8 @@ void solve()
     // cout << height(arr, (int)-1e8, (int)1e8);
     cout << endl;
     cout << "New Tree after modification" <<endl;
-    addNode(root, 23);
+    // addNode(root, 20);
+    addNodeItr(root, 20);
     display(root);
 }
 
