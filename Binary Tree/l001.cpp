@@ -199,11 +199,32 @@ void preAndSucc_InOrder(Node *node, int data) {
     }
 }
 
+int idxE = 0;
+Node *constructBSTfromPreOrder(vector<int> &preOrder, int lb, int ele, int rb) {
+    if(ele < lb || ele > rb || idxE == preOrder.size())      return nullptr;
+
+    Node *node = new Node(ele);
+    idxE++;
+    
+    if(idxE < preOrder.size())
+        node->left = constructBSTfromPreOrder(preOrder, lb, preOrder[idxE], ele);
+    if(idxE < preOrder.size())
+        node->right = constructBSTfromPreOrder(preOrder, ele, preOrder[idxE], rb);
+
+    return node;
+}
+
+Node *constructTreeFromPreOrder(vector<int> &preOrder)
+{
+    return constructBSTfromPreOrder(preOrder, (int)-1e8, preOrder[0], (int)1e8);
+}
 
 void solve()
 {
-    vector<int> arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130};
-    Node *root = constructBST(arr, 0, arr.size() - 1);
+    // vector<int> arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130};
+    // Node *root = constructBST(arr, 0, arr.size() - 1);
+    vector<int> arr = {50, 17, 9, 14, 12, 23, 19, 76, 54, 72, 67};
+    Node *root = constructTreeFromPreOrder(arr);
     display(root);
 }
 
