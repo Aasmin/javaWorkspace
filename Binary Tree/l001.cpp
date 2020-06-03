@@ -187,6 +187,8 @@ void preAndSucc_InOrder(Node *node, int data) {
                 cout << "Succ: " << succ->data <<endl;
             }
             
+            break;
+            
         } else if (data < curr->data) {
             succ = curr;
             curr = curr->left;
