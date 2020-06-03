@@ -245,6 +245,17 @@ Node *constructTreeFromPreOrder(vector<int> &preOrder)
     // return constructBSTfromPreO rder(preOrder, (int)-1e8, (int)1e8);
 }
 
+Node *addNode(Node *node, int data) {
+    if(node == nullptr)     return new Node(data);
+    
+    if(data < node->data) 
+        node->left = addNode(node->left, data);
+    else
+        node->right = addNode(node->right, data);
+    
+    return node;
+}
+
 void solve()
 {
     // vector<int> arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130};
@@ -253,8 +264,12 @@ void solve()
     Node *root = constructTreeFromPreOrder(arr);
     display(root);
 
-    idxE = 0;
-    cout << height(arr, (int)-1e8, (int)1e8);
+    // idxE = 0;
+    // cout << height(arr, (int)-1e8, (int)1e8);
+    cout << endl;
+    cout << "New Tree after modification" <<endl;
+    addNode(root, 23);
+    display(root);
 }
 
 int main()
