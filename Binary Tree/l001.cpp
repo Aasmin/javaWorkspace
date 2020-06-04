@@ -245,6 +245,7 @@ Node *constructTreeFromPreOrder(vector<int> &preOrder)
     // return constructBSTfromPreO rder(preOrder, (int)-1e8, (int)1e8);
 }
 
+//leetcode 701
 //add node recursive(BEST)
 Node *addNode(Node *node, int data) {
     if(node == nullptr)     return new Node(data);
@@ -274,6 +275,26 @@ Node *addNodeItr(Node *node, int data) {
     if(data < prev->data)   prev->left = new Node(data);
     else prev->right = new Node(data);  //agar equal hai data then it'll be added to right
 
+    return node;
+}
+
+//leetcode 450
+//remove data
+Node *removeData(Node *node, int data) {
+    if(node == nullptr)     return nullptr; //never found data
+    
+    if(data < node->data) 
+        node->left = removeData(node->left, data);
+    else if(data > node->data)
+        node->right = removeData(node->right, data);   
+    else {  //data found
+        if(node->left == nullptr || node->right == nullptr) 
+            return node->left == nullptr ? node->right : node->left;
+        
+        int maxInLeft = maximumEle(node->left);
+        node->data = maxInLeft;
+        node->left = removeData(node->left, maxInLeft);
+    }
     return node;
 }
 void solve()
