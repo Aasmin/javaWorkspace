@@ -85,6 +85,15 @@ public class GTrees {
         return res;
     }
      
+    public static boolean rootToNodePath(Node node, int data, ArrayList<Node> path) {
+        path.add(node);
+        if(node.data == data)   return true;
+        boolean res = false;
+        for(Node child : node.childs)  
+            res = res || rootToNodePath(child, data, path);
+        if(!res)    path.remove(path.size() - 1);
+        return res;
+    }
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 100, -1, 110, -1, -1, 90, -1, -1, 40, 120, 140, -1, 150, -1, -1, -1, -1};
         Node root = createGTree(arr);
@@ -93,6 +102,10 @@ public class GTrees {
         // preorder(root);
         // System.out.println("Level Order: ");
         // levelOrder(root);
-        System.out.println(find(root, 1430));
+        ArrayList<Node> path = new ArrayList<>();
+        System.out.println(rootToNodePath(root, 120, path));
+        for(Node node : path)
+            System.out.print(node.data + " ");
+        
     }
 }
