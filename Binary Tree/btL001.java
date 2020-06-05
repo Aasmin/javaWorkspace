@@ -689,20 +689,17 @@ public class btL001 {
         DLL(node.right);
     }
 
-    static Node LLHead = null;
-    static Node LLroot = null;
+    static Node prevLinear = null;
     public static void lineraize(Node node) {
+        if(node == null)    return;
 
-        if(LLHead == null)  {
-            LLroot = node; 
-        }
-        else {
-            LLHead.right = node;
-        }
-        LLHead = node;
+        lineraize(node.left);
         
-        if(node.left != null) lineraize(node.left);
-        if(node.right != null) lineraize(node.right);
+        prevLinear.left = node.right;
+        node.right = null;
+
+        prevLinear = node;
+        lineraize(node.right);
     }
 
 
@@ -777,6 +774,7 @@ public class btL001 {
        allSol(node.right, data, level + 1, pair);
    }
 
+   
     public static void levelOrder(Node node) {
         // levelOrder01(node);
         // levelOrder02(node);
@@ -807,11 +805,11 @@ public class btL001 {
         // }
 
         //linearize
-        lineraize(node);
-        while(LLroot != null) {
-            System.out.println(LLroot.data);
-            LLroot = LLroot.right;
-        }
+        // lineraize(node);
+        // while(LLroot != null) {
+        //     System.out.println(LLroot.data);
+        //     LLroot = LLroot.right;
+        // }
     }
 
     public static void main(String[] args) {

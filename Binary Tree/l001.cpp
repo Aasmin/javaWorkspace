@@ -201,15 +201,16 @@ void preAndSucc_InOrder(Node *node, int data) {
 
 int idxE = 0;
 Node *constructBSTfromPreOrder(vector<int> &preOrder, int lb, int ele, int rb) {
-    if(ele < lb || ele > rb || idxE == preOrder.size())      return nullptr;
+    if (ele < lb || ele > rb || idx == preOrder.size())
+        return nullptr;
 
     Node *node = new Node(ele);
-    idxE++;
-    
-    // if(idxE < preOrder.size())
-        node->left = constructBSTfromPreOrder(preOrder, lb, preOrder[idxE], ele);   //we are accessing the next element that's why we need the check here. Else, we'll get nullPointerException
-// if(idxE < preOrder.size())                                                           
-        node->right = constructBSTfromPreOrder(preOrder, ele, preOrder[idxE], rb);
+    idx++;
+
+    if (idx < preOrder.size())
+        node->left = constructBSTfromPreOrder(preOrder, lb, preOrder[idx], ele);
+    if (idx < preOrder.size())
+        node->right = constructBSTfromPreOrder(preOrder, ele, preOrder[idx], rb);
 
     return node;
 }
@@ -288,10 +289,10 @@ Node *removeData(Node *node, int data) {
     else if(data > node->data)
         node->right = removeData(node->right, data);   
     else {  //data found
-        if(node->left == nullptr || node->right == nullptr) 
+        if(node->left == nullptr || node->right == nullptr)     //handling case if either one leaf or no leaf is present
             return node->left == nullptr ? node->right : node->left;
-        
-        int maxInLeft = maximumEle(node->left);
+         
+        int maxInLeft = maximumEle(node->left); 
         node->data = maxInLeft;
         node->left = removeData(node->left, maxInLeft);
     }
@@ -301,17 +302,19 @@ void solve()
 {
     // vector<int> arr = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130};
     // Node *root = constructBST(arr, 0, arr.size() - 1);
-    vector<int> arr = {50, 17, 9, 14, 12, 23, 19, 76, 54, 72, 67};
+    // vector<int> arr = {50, 17, 9, 14, 12, 23, 19, 76, 54, 72, 67};
+    vector<int> arr = {50, 17, 9, 14, 12, 23, 19, 76, 54, 72, 67, 99, 100, 23, 2412, 531, 52, 523,5};
+    // vector<int> arr = {10, 20, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130};
     Node *root = constructTreeFromPreOrder(arr);
     display(root);
 
     // idxE = 0;
     // cout << height(arr, (int)-1e8, (int)1e8);
-    cout << endl;
-    cout << "New Tree after modification" <<endl;
-    // addNode(root, 20);
-    addNodeItr(root, 20);
-    display(root);
+    // cout << endl;
+    // cout << "New Tree after modification" <<endl;
+    // // addNode(root, 20);
+    // addNodeItr(root, 20);
+    // display(root);
 }
 
 int main()

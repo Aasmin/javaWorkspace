@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.LinkedList;
 
 public class GTrees {
    public static class Node{
@@ -28,6 +29,12 @@ public class GTrees {
     }
 
     public static void preorder(Node node) {
+        System.out.print(node.data + " ");
+        for(Node child : node.childs)
+            preorder(child);
+    }
+
+    public static void display(Node node) {
         String str = "";
         str += node.data + "\t->\t";
         for(Node child : node.childs){
@@ -37,14 +44,32 @@ public class GTrees {
         System.out.println(str);
 
         for(Node child : node.childs){
-            preorder(child);
+            display(child);
         } 
+    }
 
+    public static void levelOrder(Node node) {
+        LinkedList<Node> que = new LinkedList<>(); //removeFirst, addLast
+        que.addLast(node);
+        while(que.size() != 0){
+            int size = que.size();
+            while(size-- > 0) {
+                Node rn = que.removeFirst();
+                System.out.print(rn.data + " ");
+                for(Node child : rn.childs)
+                    que.addLast(child);
+            }
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 100, -1, 110, -1, -1, 90, -1, -1, 40, 120, 140, -1, 150, -1, -1, -1, -1};
         Node root = createGTree(arr);
+        display(root);
+        System.out.println("Preorder: ");
         preorder(root);
+        System.out.println("Level Order: ");
+        levelOrder(root);
     }
 }
