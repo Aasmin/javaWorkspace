@@ -63,13 +63,36 @@ public class GTrees {
         }
     }
 
+    public static int height(Node node) {
+        int h = 0;
+        for(Node child : node.childs)  
+            h = Math.max(h, height(child));
+        return h + 1;
+    }
+
+    public static int size(Node node) {
+        int s = 0;
+        for(Node child : node.childs)  
+            s += size(child);
+        return s + 1;
+    }
+
+    public static boolean find(Node node, int data) {
+        if(node.data == data)   return true;
+        boolean res = false;
+        for(Node child : node.childs)  
+            res = res || find(child, data);
+        return res;
+    }
+     
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 100, -1, 110, -1, -1, 90, -1, -1, 40, 120, 140, -1, 150, -1, -1, -1, -1};
         Node root = createGTree(arr);
         display(root);
-        System.out.println("Preorder: ");
-        preorder(root);
-        System.out.println("Level Order: ");
-        levelOrder(root);
+        // System.out.println("Preorder: ");
+        // preorder(root);
+        // System.out.println("Level Order: ");
+        // levelOrder(root);
+        System.out.println(find(root, 1430));
     }
 }
