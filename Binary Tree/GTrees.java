@@ -121,6 +121,20 @@ public class GTrees {
         return lastTail;
     }
 
+    public static void flattern(Node node) {
+        ArrayList<Node> nchilds = new ArrayList<>();
+        for(Node child : node.childs) {
+            flattern(child);
+
+            nchilds.add(child);
+            for(Node ch : child.childs) 
+                nchilds.add(ch);
+            child.childs.clear();
+        }
+        node.childs.clear();
+        node.childs = nchilds;
+    }
+
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 100, -1, 110, -1, -1, 90, -1, -1, 40, 120, 140, -1, 150, -1, -1, -1, -1};
         Node root = createGTree(arr);
@@ -133,8 +147,10 @@ public class GTrees {
         // System.out.println(rootToNodePath(root, 120, path));
         // for(Node node : path)
         //     System.out.print(node.data + " ");
-        System.out.println("Linearize: ");
-        linearize(root);
+        // System.out.println("Linearize: ");
+        System.out.println("Flattern: ");
+        // linearize(root);
+        flattern(root);
         display(root);
         
     }
