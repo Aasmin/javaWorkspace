@@ -94,6 +94,18 @@ public class GTrees {
         if(!res)    path.remove(path.size() - 1);
         return res;
     }
+
+    public static boolean isMirror(Node root1, Node root2) {
+        if(root1.childs.size() != root2.childs.size() || root1.data != root2.data)  return false;
+
+        for(int i = 0, j = root2.childs.size() - 1; j >= 0; i++, j--) {
+            Node first = root1.childs.get(i);
+            Node second = root2.childs.get(j);
+            if(!isMirror(first, second)) return false;
+        }
+
+        return true;
+    }
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 100, -1, 110, -1, -1, 90, -1, -1, 40, 120, 140, -1, 150, -1, -1, -1, -1};
         Node root = createGTree(arr);
@@ -103,7 +115,7 @@ public class GTrees {
         // System.out.println("Level Order: ");
         // levelOrder(root);
         ArrayList<Node> path = new ArrayList<>();
-        System.out.println(rootToNodePath(root, 120, path));
+        System.out.println(rootToNodePath(root, 12 0, path));
         for(Node node : path)
             System.out.print(node.data + " ");
         
