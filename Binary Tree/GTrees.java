@@ -98,7 +98,7 @@ public class GTrees {
     public static boolean isMirror(Node root1, Node root2) {
         if(root1.childs.size() != root2.childs.size() || root1.data != root2.data)  return false;
 
-        for(int i = 0, j = root2.childs.size() - 1; j >= 0; i++, j--) {
+        for(int i = 0, j = root1.childs.size() - 1; j >= 0; i++, j--) {
             Node first = root1.childs.get(i);
             Node second = root2.childs.get(j);
             if(!isMirror(first, second)) return false;
@@ -106,6 +106,21 @@ public class GTrees {
 
         return true;
     }
+
+    public static Node linearize(Node node) {
+        if(node.childs.size() == 0)     return node;    //return the leaf nodes
+        
+        int n = node.childs.size();
+        Node lastTail = linearize(node.childs.get(n - 1));
+        for(int i = n - 2; i >= 0; i--) {
+            Node secondLastTail = linearize(node.childs.get(i));
+            secondLastTail.childs.add(node.childs.get(i+1));    //connecting two linearize structures
+            node.childs.remove(node.childs.size() - 1); //remove last node  
+        }
+
+        return lastTail;
+    }
+
     public static void main(String[] args) {
         int[] arr = {10, 20, 50, -1, 60, -1, -1, 30, 70, -1, 80, 100, -1, 110, -1, -1, 90, -1, -1, 40, 120, 140, -1, 150, -1, -1, -1, -1};
         Node root = createGTree(arr);
@@ -114,10 +129,13 @@ public class GTrees {
         // preorder(root);
         // System.out.println("Level Order: ");
         // levelOrder(root);
-        ArrayList<Node> path = new ArrayList<>();
-        System.out.println(rootToNodePath(root, 12 0, path));
-        for(Node node : path)
-            System.out.print(node.data + " ");
+        // ArrayList<Node> path = new ArrayList<>();
+        // System.out.println(rootToNodePath(root, 120, path));
+        // for(Node node : path)
+        //     System.out.print(node.data + " ");
+        System.out.println("Linearize: ");
+        linearize(root);
+        display(root);
         
     }
 }
