@@ -1,3 +1,5 @@
+//https://www.spoj.com/problems/RACETIME/
+
 #include <iostream>
 #include <vector>
 #include <cmath>
