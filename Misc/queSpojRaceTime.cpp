@@ -16,8 +16,21 @@ vector<vector<pair<int, int>>> blocks;  //pair(int num, int index )
 // ArrayList<int[]>[] blocks = new ArrayList<>[bs]; blocks[b].get(i)[0] == first; blocks[b].get(i)[1] == second
 vector<int> arr;
 
-int query(int li, int ri) {
+int query(int li, int ri, int x) {  //x == value from the query
+    int count = 0;
+    while(li % bs != 0 && li <= ri)
+        if(arr[li++] <= x)  count++;
 
+    while(li + bs <= ri) {  //if duplicates are found, then iterator gives the last duplicate element
+        int b = li /bs;
+        count += lower_bound(blocks[b].begin(), blocks[b].end(), make_pair(x, (int)1e7)) - blocks[b].begin();
+        li += bs;   //increase the index to other block
+    }
+
+    while(li <= ri) 
+        if(arr[li++] <= x)  count++;
+    
+    return count;
 }
 
 void update(int idx, int val) { //O(logn).
@@ -58,10 +71,10 @@ void solve()
     while(q--) {
         int c;  cin >> c;   //query type
         if(c == 'C') { // query
-            int l, r;
-            cin >> l >> r;
+            int l, r, x;
+            cin >> l >> r >> x;
             l--;    r--;    //As humara algo index 0 se shuru hota hai, and in que it starts from 1
-            cout << query(l , r) << endl;
+            cout << query(l , r, x) << endl;
         } else {    //update
             int idx, val;
             cin >> idx >> val;
