@@ -6,15 +6,30 @@
 using namespace std;
 
 int bs = 0;
-vector<vector<pair<int, int>>> blocks;  //pair(int num, int index )
+vector<vector<pair<int, int>>> blocks;  //pair(int num, int index ) 
+
+//[COMMON PRACTICE BY SOME]
+// const int bs = 350; // as given N = 100,000. Therefore, sqrt(N) ~ 316 
+// vector<pair<int, int>> blocks[bs];  //pair(int num, int index ) 
+
+//[COMMON PRACTICE BY SOME IN JAVA] 
+// ArrayList<int[]>[] blocks = new ArrayList<>[bs]; blocks[b].get(i)[0] == first; blocks[b].get(i)[1] == second
 vector<int> arr;
 
 int query(int li, int ri) {
 
 }
 
-void update(int idx, int val) { //O(1).
-
+void update(int idx, int val) { //O(logn).
+    arr[idx] = val;
+    int b = idx / bs; 
+    for(int i = 0; i < blocks[b].size(); i++) {
+        if(blocks[b][i].second == idx){
+            blocks[b][i].first = val;   //first == pair ka first element i.e pair<first, second>
+            sort(blocks[b].begin(), blocks[b].end());   //as values are changed so sort again 
+            break;
+        }
+    }
 }
 
 void solve()
@@ -50,7 +65,7 @@ void solve()
         } else {    //update
             int idx, val;
             cin >> idx >> val;
-            idx--;      //As humara algo index 0 se shuru hota hai, and in que it starts from 1
+            idx--;      //As humara algo index 0 se shuru hota hai, and in que it starts from 1 
             update(idx, val);
         }
     }
