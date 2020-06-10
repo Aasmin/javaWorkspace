@@ -94,7 +94,7 @@ public class l001 {
             }
         }
         
-        void removeLast() {
+        void removeLast() { //O(n)
             if(size == 0) System.out.println("List is empty!");
             else if(size == 1) {head = tail = null; size = 0;}
             else {
@@ -141,7 +141,7 @@ public class l001 {
         }
 
         void removeAt(int idx) {
-            if(idx < 0 || idx > size)  System.out.println("Invalid arguments");
+            if(idx < 0 || idx >= size)  System.out.println("Invalid arguments");
             else if(idx == 0)    removeFirst();
             else if(idx == size - 1)    removeLast();
             else {
@@ -150,8 +150,26 @@ public class l001 {
                 size--;
             }
         }
+
+        int kthFromLast(int k) {
+            Node fast = head;
+            Node slow = head;
+
+            for(int i = 0; i <= k; i++)      //move fast k steps ahead
+                fast = fast.next;
+
+            while(fast != tail) {   //move both ptrs parallely
+                fast = fast.next;
+                slow = slow.next;
+            }
+            return slow.data;
+        }
     }
     public static void main(String[] args) {
-        
+        linkedlist l1 = new linkedlist();
+        for(int i = 1; i <= 5; i++)
+            l1.addLast(i * 10);
+        l1.display();
+        System.out.println("Data: " +  l1.kthFromLast(1));
     }
 }
