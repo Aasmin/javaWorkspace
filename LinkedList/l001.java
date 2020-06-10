@@ -139,6 +139,17 @@ public class l001 {
             tail = head;
             head = prev;
         }
+
+        void removeAt(int idx) {
+            if(idx < 0 || idx > size)  System.out.println("Invalid arguments");
+            else if(idx == 0)    removeFirst();
+            else if(idx == size - 1)    removeLast();
+            else {
+                Node curr = getNodeAt(idx - 1);
+                curr.next = curr.next.next;
+                size--;
+            }
+        }
     }
     public static void main(String[] args) {
         
