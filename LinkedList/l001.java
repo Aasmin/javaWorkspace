@@ -68,6 +68,17 @@ public class l001 {
                 return curr.data;
             }
         }
+
+        public void addFirst(int data) {
+            Node nn = new Node(data, head);
+            if(this.size == 0) {
+                head = tail = nn;
+            } else {
+                head = nn;
+            } 
+            size++;
+        }
+
     }
     public static void main(String[] args) {
         
