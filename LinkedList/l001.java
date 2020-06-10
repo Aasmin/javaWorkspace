@@ -49,15 +49,24 @@ public class l001 {
         }
 
         public int getFirst() {
+            if(this.size == 0) {System.out.println("List is empty!");   return -1;}
+            else return head.data;
+        }
+        
+        public int getLast() {
+            if(this.size == 0) {System.out.println("List is empty!");   return -1;}
+            else return tail.data;
             
         }
-
-        public int getLast() {
-
-        }
-
+        
         public int getAt(int idx) {
-
+            if(this.size == 0) {System.out.println("List is empty!");   return -1;}
+            else if(idx < 0 || idx >= this.size){System.out.println("Invalid arguments");   return -1;}
+            else {
+                Node curr = head;
+                while(idx-- != 0) curr = curr.next;
+                return curr.data;
+            }
         }
     }
     public static void main(String[] args) {
