@@ -68,7 +68,7 @@ public class l001 {
                 return curr.data;
             }
         }
-
+        
         public void addFirst(int data) {
             Node nn = new Node(data, head);
             if(this.size == 0) {
@@ -78,7 +78,7 @@ public class l001 {
             } 
             size++;
         }
-
+        
         public void addAt(int idx, int val) {
             Node nn = new Node(val, null);
             if(idx < 0 || idx > size)  System.out.println("Invalid arguments");
@@ -86,12 +86,43 @@ public class l001 {
             else if(idx == size)    addLast(val);
             else {
                 Node curr = head;
-                for(int i = 0; i < idx - 1; i++)
-                    curr = curr.next;
+                for(int i = 0; i < idx -  1; i++)
+                curr = curr.next;
                 nn.next = curr.next;
                 curr.next = nn;
+                size++;
             }
-            size++;
+        }
+        
+        void removeLast() {
+            if(size == 0) System.out.println("List is empty!");
+            else if(size == 1) {head = tail = null; size = 0;}
+            else {
+                Node curr = head;
+                for(int i = 0; i < size - 2; i++)   curr = curr.next;
+                curr.next = null;
+                tail = curr; 
+                size--;
+            }
+        }
+        
+        private Node getNodeAt(int idx) {
+            if(this.size == 0) {System.out.println("List is empty!");   return null;}
+            else if(idx < 0 || idx >= this.size){System.out.println("Invalid arguments");   return null;}
+            else {
+                Node curr = head;
+                while(idx-- != 0) curr = curr.next;
+                return curr;
+            }
+        }
+        void reverseDataItr() {
+            int i = 0, j = this.size - 1;
+            while(i < j) {
+                int temp = getNodeAt(i).data;
+                getNodeAt(i).data = getNodeAt(j).data;
+                getNodeAt(j).data = temp;
+                i++;    j--;
+            }
         }
     }
     public static void main(String[] args) {
