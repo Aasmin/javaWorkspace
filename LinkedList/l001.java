@@ -79,6 +79,20 @@ public class l001 {
             size++;
         }
 
+        public void addAt(int idx, int val) {
+            Node nn = new Node(val, null);
+            if(idx < 0 || idx > size)  System.out.println("Invalid arguments");
+            else if(idx == 0)    addFirst(val);
+            else if(idx == size)    addLast(val);
+            else {
+                Node curr = head;
+                for(int i = 0; i < idx - 1; i++)
+                    curr = curr.next;
+                nn.next = curr.next;
+                curr.next = nn;
+            }
+            size++;
+        }
     }
     public static void main(String[] args) {
         
