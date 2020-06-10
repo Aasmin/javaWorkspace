@@ -124,6 +124,21 @@ public class l001 {
                 i++;    j--;
             }
         }
+
+        void reversePtrItr() {
+            if(this.size <= 1)  return;
+           
+            Node prev = null;
+            Node curr = head;
+            while(curr != null) {
+                Node next = curr.next;
+                curr.next = prev;
+                prev = curr;
+                curr = next;
+            }
+            tail = head;
+            head = prev;
+        }
     }
     public static void main(String[] args) {
         
