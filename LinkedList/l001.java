@@ -328,6 +328,17 @@ public class l001 {
             this.tail = prev.tail;
             this.size = prev.size;
         }
+
+        private void displayReverseHelper(Node node) {
+            if(node == null)    return;
+            displayReverseHelper(node.next);
+            System.out.print(node.data + " ");
+        }
+
+        public void displayReverse() {
+            displayReverseHelper(head);
+            System.out.println();
+        }
     }
 
     public static void main(String[] args) {
@@ -362,7 +373,8 @@ public class l001 {
         // linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
         // l1.removeDuplicates();
         // l1.oddEven();
-        l1.kReverse(3);
-        l1.display();
+        // l1.kReverse(3);
+        // l1.display();
+        l1.displayReverse();
     }
 }
