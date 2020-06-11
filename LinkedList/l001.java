@@ -205,6 +205,7 @@ public class l001 {
             }
             return slow;
         }
+
         Node midLL2(Node H, Node T) {
             Node fast = H;
             Node slow = H;
@@ -250,6 +251,20 @@ public class l001 {
             linkedlist l3 = mergeTwoSortedLL(l1, l2);
             return l3;
         }
+
+        void removeDuplicates() {
+            linkedlist res = new linkedlist();
+            
+            while(this.size > 0) {
+                int val = this.getFirst();
+                this.removeFirst();
+                if(res.size() == 0 || res.tail.data != val)     res.addLast(val);
+            }
+
+            this.head = res.head;
+            this.tail = res.tail;
+            this.size = res.size;
+        }
     }
 
     public static void main(String[] args) {
@@ -268,14 +283,17 @@ public class l001 {
         // linkedlist l3 = l1.mergeTwoSortedLL(l1, l2);
         // l3.display();
         l1.addLast(10);
-        l1.addLast(-10);
+        l1.addLast(10);
         l1.addLast(15);
         l1.addLast(30);
         l1.addLast(20);
-        l1.addLast(-20);
-        l1.addLast(-30);
+        l1.addLast(20);
+        l1.addLast(30);
+        l1.addLast(30);
+        l1.addLast(30);
         l1.display();
-        linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
-        l2.display();
+        // linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
+        l1.removeDuplicates();
+        l1.display();
     }
 }
