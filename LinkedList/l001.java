@@ -295,6 +295,39 @@ public class l001 {
                 this.size = odd.size();
             }
         }
+
+        void kReverse(int k) {    //Space: O(constant)    Time: O(linear)
+            linkedlist prev = null;
+
+            while(this.size() > 0) {
+                linkedlist curr = new linkedlist();
+                if(this.size() >= k) {
+                    for(int i = 0; i < k; i++) {
+                        int val = this.getFirst();
+                        this.removeFirst();
+                        curr.addFirst(val);
+                    }
+                } else {
+                    int os = this.size();
+                    while(os-- != 0) {
+                        int val = this.getFirst();
+                        this.removeFirst();
+                        curr.addLast(val);
+                    }
+                }
+                
+                if(prev == null)
+                    prev = curr;
+                else {
+                    prev.tail.next = curr.head;
+                    prev.tail = curr.tail;
+                    prev.size += curr.size;
+                }
+            }
+            this.head = prev.head;
+            this.tail = prev.tail;
+            this.size = prev.size;
+        }
     }
 
     public static void main(String[] args) {
@@ -321,10 +354,15 @@ public class l001 {
         l1.addLast(34);
         l1.addLast(33);
         l1.addLast(30); 
+        l1.addLast(21);
+        l1.addLast(34);
+        l1.addLast(4);
+        l1.addLast(4);
         l1.display();
         // linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
         // l1.removeDuplicates();
-        l1.oddEven();
+        // l1.oddEven();
+        l1.kReverse(3);
         l1.display();
     }
 }
