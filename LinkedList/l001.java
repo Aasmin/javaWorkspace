@@ -252,7 +252,7 @@ public class l001 {
             return l3;
         }
 
-        void removeDuplicates() {
+        void removeDuplicates() {    //Space: O(constant)    Time: O(n)
             linkedlist res = new linkedlist();
             
             while(this.size > 0) {
@@ -264,6 +264,36 @@ public class l001 {
             this.head = res.head;
             this.tail = res.tail;
             this.size = res.size;
+        }
+
+        void oddEven() {    //Space: O(constant)    Time: O(n)
+            linkedlist even = new linkedlist();
+            linkedlist odd = new linkedlist();
+
+            while(this.size() > 0) {
+                int val = this.getFirst();
+                this.removeFirst();
+                if(val % 2 == 0) {  //even
+                    even.addLast(val);
+                } else {
+                    odd.addLast(val);
+                }
+            }
+            
+            if(even.size() > 0 && odd.size() > 0) {
+                odd.tail.next = even.head;
+                this.head = odd.head;
+                this.tail = even.tail;
+                this.size = odd.size() + even.size();
+            } else if(even.size() > 0) {    //no odd ele in the list
+                this.head = even.head;
+                this.tail = even.tail;
+                this.size = even.size();
+            } else if(odd.size() > 0) {
+                this.head = odd.head;
+                this.tail = odd.tail;
+                this.size = odd.size();
+            }
         }
     }
 
@@ -282,18 +312,19 @@ public class l001 {
         // l3.display();
         // linkedlist l3 = l1.mergeTwoSortedLL(l1, l2);
         // l3.display();
-        l1.addLast(10);
-        l1.addLast(10);
+        // l1.addLast(5);
+        l1.addLast(2);
         l1.addLast(15);
-        l1.addLast(30);
+        l1.addLast(4);
         l1.addLast(20);
-        l1.addLast(20);
-        l1.addLast(30);
-        l1.addLast(30);
-        l1.addLast(30);
+        l1.addLast(21);
+        l1.addLast(34);
+        l1.addLast(33);
+        l1.addLast(30); 
         l1.display();
         // linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
-        l1.removeDuplicates();
+        // l1.removeDuplicates();
+        l1.oddEven();
         l1.display();
     }
 }
