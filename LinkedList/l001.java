@@ -174,13 +174,38 @@ public class l001 {
             }
             return slow.data;
         }
+
+        static linkedlist mergeTwoSortedLL(linkedlist l1, linkedlist l2) {
+            Node i = l1.head;
+            Node j = l2.head;
+            linkedlist l3 = new linkedlist();
+            while(i != null && j != null) 
+                if(i.data < j.data) {
+                    l3.addLast(i.data);
+                    i = i.next;
+                }
+                else {
+                    l3.addLast(j.data);
+                    j = j.next;
+                }
+            while(i != null)   {l3.addLast(i.data);  i = i.next;}
+            while(j != null)   {l3.addLast(j.data); j = j.next;}
+    
+            return l3;
+        }
     }
     public static void main(String[] args) {
         linkedlist l1 = new linkedlist();
+        linkedlist l2 = new linkedlist();
         for(int i = 1; i <= 6; i++)
             l1.addLast(i * 10);
+        for(int i = 1; i <= 3; i++)
+            l2.addLast(i * 7);
         l1.display();
+        l2.display();
         // System.out.println("Data: " +  l1.kthFromLast(1));
-        System.out.println("Mid: " +  l1.midLL());
+        // System.out.println("Mid: " +  l1.midLL());
+        linkedlist l3 = linkedlist.mergeTwoSortedLL(l1, l2);
+        l3.display();
     }
 }
