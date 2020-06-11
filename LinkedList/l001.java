@@ -332,12 +332,31 @@ public class l001 {
         private void displayReverseHelper(Node node) {
             if(node == null)    return;
             displayReverseHelper(node.next);
-            System.out.print(node.data + " ");
+            System.out.print (node.data + " ");
         }
 
         public void displayReverse() {
             displayReverseHelper(head);
             System.out.println();
+        }
+        
+        private void reversePtrHelper(Node node) {
+            if(node == null)    return;
+
+            reversePtrHelper(node.next);
+            if(node == tail) {
+                //do nothing  
+            } else {
+                node.next.next = node;
+            }
+        }
+
+        public void reversePtr() {
+            reversePtrHelper(head);
+            this.head.next = null;
+            Node temp = head;
+            this.head = tail;
+            tail = temp;
         }
     }
 
@@ -375,6 +394,8 @@ public class l001 {
         // l1.oddEven();
         // l1.kReverse(3);
         // l1.display();
-        l1.displayReverse();
+        // l1.displayReverse();
+        l1.reversePtr();
+        l1.display();
     }
 }
