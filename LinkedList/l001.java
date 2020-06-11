@@ -164,12 +164,23 @@ public class l001 {
             }
             return slow.data;
         }
+
+        int midLL() {
+            Node fast = head;
+            Node slow = head;
+            while(fast.next != null && fast.next.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+            return slow.data;
+        }
     }
     public static void main(String[] args) {
         linkedlist l1 = new linkedlist();
-        for(int i = 1; i <= 5; i++)
+        for(int i = 1; i <= 6; i++)
             l1.addLast(i * 10);
         l1.display();
-        System.out.println("Data: " +  l1.kthFromLast(1));
+        // System.out.println("Data: " +  l1.kthFromLast(1));
+        System.out.println("Mid: " +  l1.midLL());
     }
 }
