@@ -443,6 +443,28 @@ public class l001 {
                 res.addFirst(oc);
             return res;
         }
+
+        public int intersectionPoint(linkedlist one, linkedlist two) {
+            Node t1 = one.head;
+            Node t2 = two.head;
+
+            int delta = Math.abs(one.size - two.size);
+
+            if(one.size > two.size) {
+                for(int i = 0; i < delta; i++)
+                    t1 = t1.next;
+            } else {
+                for(int i = 0; i < delta; i++)
+                    t2 = t2.next;
+            }
+             
+            while(t1 != t2) {
+                t1 = t1.next;
+                t2 = t2.next;
+            } 
+
+            return t1.data;
+        }
     }
 
     public static void main(String[] args) {
@@ -478,15 +500,24 @@ public class l001 {
         // l1.reverseDataRec(l1.head);
         // System.out.println(l1.isPallindrome());
         // l1.foldLL(l1.head);
-        l1.addLast(9);
+        // [4,1,8,4,5]
+        // [5,0,1,8,4,5]
+        l1.addLast(4);
+        l1.addLast(1);
+        l1.addLast(8);
+        l1.addLast(4);
         l1.addLast(5);
-        l1.addLast(6);
-        l2.addLast(1);
-        l2.addLast(2);
+        // l2.addLast(5);
         l2.addLast(0);
+        l2.addLast(1);
+        l2.addLast(8);
+        l2.addLast(4);
+        l2.addLast(5);
         l1.display();
         l2.display();
-        linkedlist l3 = l1.addTwoLinkedList(l1, l2);
-        l3.display();
+        // linkedlist l3 = l1.addTwoLinkedList(l1, l2);
+        // l3.display();
+
+        System.out.println(l1.intersectionPoint(l1, l2));
     }
 }
