@@ -223,7 +223,7 @@ public class l001 {
             while (i != null && j != null)
                 if (i.data < j.data) {
                     l3.addLast(i.data);
-                    i = i.next;
+                     i = i.next;
                 } else {
                     l3.addLast(j.data);
                     j = j.next;
@@ -358,6 +358,25 @@ public class l001 {
             this.head = tail;
             tail = temp;
         }
+
+        public void reverseDataRecHelper(Node rNode, int floor) {
+            if(rNode == null)   return;
+            reverseDataRecHelper(rNode.next, floor + 1);
+            
+            if(floor >= size / 2) {
+                int temp = rNode.data;
+                rNode.data = lNode.data;
+                lNode.data = temp;
+                lNode = lNode.next;
+            }
+
+        }
+
+        Node lNode;
+        public void reverseDataRec(Node rNode) {
+            lNode = head;
+            reverseDataRecHelper(rNode, 0);
+        }
     }
 
     public static void main(String[] args) {
@@ -395,7 +414,8 @@ public class l001 {
         // l1.kReverse(3);
         // l1.display();
         // l1.displayReverse();
-        l1.reversePtr();
+        // l1.reversePtr();
+        l1.reverseDataRec(l1.head);
         l1.display();
     }
 }
