@@ -417,13 +417,39 @@ public class l001 {
             lNode = head;
             foldLLHelper(rnode, 0);
         }
+
+        //addition of two LL
+        private int addTwoLinkedListHelper(Node one, int pv1, Node two, int pv2, linkedlist ans) {
+            if(one == null && two == null)  return 0;
+            int data = 0;
+            if(pv1 > pv2) {
+                int oc = addTwoLinkedListHelper(one.next, pv1 - 1, two, pv2, ans);
+                data = one.data + oc;
+            } else if(pv2 > pv1) {
+                int oc = addTwoLinkedListHelper(one, pv1, two.next, pv2 - 1, ans);
+                data = two.data + oc;
+            } else {
+                int oc = addTwoLinkedListHelper(one.next, pv1 - 1, two.next, pv2 - 1, ans);
+                data = one.data + two.data + oc;
+            }
+            ans.addFirst(data % 10);
+            return data / 10;   //carry
+        }
+
+        public linkedlist addTwoLinkedList(linkedlist one, linkedlist two) {
+            linkedlist res = new linkedlist();
+            int oc = addTwoLinkedListHelper(one.head, one.size, two.head, two.size, res);
+            if(oc > 0) 
+                res.addFirst(oc);
+            return res;
+        }
     }
 
     public static void main(String[] args) {
         linkedlist l1 = new linkedlist();
-        // linkedlist l2 = new linkedlist();
-        for (int i = 1; i <= 4; i++)
-            l1.addLast(i * 10);
+        linkedlist l2 = new linkedlist();
+        // for (int i = 1; i <= 4; i++)
+        //     l1.addLast(i * 10);
         // for (int i = 1; i <= 3; i++)
         //     l2.addLast(i * 7);
         // l1.display();
@@ -441,7 +467,7 @@ public class l001 {
         // l1.addLast(41);
         // l1.addLast(150);
         // l1.addLast(22);
-        l1.display();
+        // l1.display();
         // linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
         // l1.removeDuplicates();
         // l1.oddEven();
@@ -451,7 +477,16 @@ public class l001 {
         // l1.reversePtr();
         // l1.reverseDataRec(l1.head);
         // System.out.println(l1.isPallindrome());
-        l1.foldLL(l1.head);
+        // l1.foldLL(l1.head);
+        l1.addLast(9);
+        l1.addLast(5);
+        l1.addLast(6);
+        l2.addLast(1);
+        l2.addLast(2);
+        l2.addLast(0);
         l1.display();
+        l2.display();
+        linkedlist l3 = l1.addTwoLinkedList(l1, l2);
+        l3.display();
     }
 }
