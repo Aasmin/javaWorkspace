@@ -377,6 +377,25 @@ public class l001 {
             lNode = head;
             reverseDataRecHelper(rNode, 0);
         }
+
+        //Leetcode: 234.
+        boolean isPallindromeHelper(Node rnode, int floor) {
+            if(rnode == null)   return true;
+
+            boolean res = isPallindromeHelper(rnode.next, floor + 1);
+            if(!res)    return false;
+
+            if(rnode.data != lNode.data)
+                return false;
+            lNode = lNode.next;
+
+            return true;
+        }
+
+        public boolean isPallindrome() {
+            lNode = head;
+            return isPallindromeHelper(head, 0);
+        }
     }
 
     public static void main(String[] args) {
@@ -398,15 +417,9 @@ public class l001 {
         l1.addLast(2);
         l1.addLast(15);
         l1.addLast(4);
-        l1.addLast(20);
-        l1.addLast(21);
-        l1.addLast(34);
-        l1.addLast(33);
-        l1.addLast(30); 
-        l1.addLast(21);
-        l1.addLast(34);
         l1.addLast(4);
-        l1.addLast(4);
+        l1.addLast(15);
+        l1.addLast(2);
         l1.display();
         // linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
         // l1.removeDuplicates();
@@ -415,7 +428,7 @@ public class l001 {
         // l1.display();
         // l1.displayReverse();
         // l1.reversePtr();
-        l1.reverseDataRec(l1.head);
-        l1.display();
+        // l1.reverseDataRec(l1.head);
+        System.out.println(l1.isPallindrome());
     }
 }
