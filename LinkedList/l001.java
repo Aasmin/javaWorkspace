@@ -379,10 +379,10 @@ public class l001 {
         }
 
         //Leetcode: 234.
-        boolean isPallindromeHelper(Node rnode, int floor) {
+        boolean isPallindromeHelper(Node rnode) {
             if(rnode == null)   return true;
 
-            boolean res = isPallindromeHelper(rnode.next, floor + 1);
+            boolean res = isPallindromeHelper(rnode.next);
             if(!res)    return false;
 
             if(rnode.data != lNode.data)
@@ -394,15 +394,36 @@ public class l001 {
 
         public boolean isPallindrome() {
             lNode = head;
-            return isPallindromeHelper(head, 0);
+            return isPallindromeHelper(head);
+        }
+
+        private void foldLLHelper(Node rnode, int floor) {
+            if(rnode == null)  return;
+
+            foldLLHelper(rnode.next, floor + 1);
+
+            if(floor > size / 2) {
+                Node temp = lNode.next;
+                lNode.next = rnode;
+                rnode.next = temp;
+                lNode = temp;
+            } else if(floor == size / 2) {
+                tail = rnode;
+                tail.next = null;
+            }
+        }
+
+        public void foldLL(Node rnode) {
+            lNode = head;
+            foldLLHelper(rnode, 0);
         }
     }
 
     public static void main(String[] args) {
         linkedlist l1 = new linkedlist();
         // linkedlist l2 = new linkedlist();
-        // for (int i = 1; i <= 6; i++)
-        //     l1.addLast(i * 10);
+        for (int i = 1; i <= 4; i++)
+            l1.addLast(i * 10);
         // for (int i = 1; i <= 3; i++)
         //     l2.addLast(i * 7);
         // l1.display();
@@ -414,12 +435,12 @@ public class l001 {
         // linkedlist l3 = l1.mergeTwoSortedLL(l1, l2);
         // l3.display();
         // l1.addLast(5);
-        l1.addLast(2);
-        l1.addLast(15);
-        l1.addLast(4);
-        l1.addLast(4);
-        l1.addLast(15);
-        l1.addLast(2);
+        // l1.addLast(2);
+        // l1.addLast(15);
+        // l1.addLast(4);
+        // l1.addLast(41);
+        // l1.addLast(150);
+        // l1.addLast(22);
         l1.display();
         // linkedlist l2 = l1.mergeSort(l1.head, l1.tail);
         // l1.removeDuplicates();
@@ -429,6 +450,8 @@ public class l001 {
         // l1.displayReverse();
         // l1.reversePtr();
         // l1.reverseDataRec(l1.head);
-        System.out.println(l1.isPallindrome());
+        // System.out.println(l1.isPallindrome());
+        l1.foldLL(l1.head);
+        l1.display();
     }
 }
