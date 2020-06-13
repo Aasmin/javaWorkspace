@@ -1,5 +1,5 @@
 public class questions {
-    public class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
         ListNode() {}
@@ -129,5 +129,44 @@ public class questions {
             head = head.next;
         }
         return nhead.next;
+    }
+    
+    //Leetcode 83. Remove Duplicates from Sorted List
+    public static ListNode deleteDuplicates(ListNode head) {
+        if(head == null || head.next == null)   return head;
+
+        ListNode dummy = new ListNode(head.val);  //make a dummy list
+        ListNode curr = head;
+        ListNode currD = dummy;
+
+        while(curr != null) {
+            if(currD.val != curr.val) {
+                currD.next = new ListNode(curr.val);
+                currD = currD.next;
+            }
+            curr = curr.next;
+        }
+        return dummy;
+    }
+    public static void display(ListNode node) {
+        if(node == null) return;
+        System.out.print(node.val + " ");
+        display(node.next);
+    }
+    public static void main(String[] args) {
+        ListNode l1 = new ListNode(1);
+        ListNode head = l1;
+        l1.next = new ListNode(1);
+        l1 = l1.next;
+        l1.next = new ListNode(2);
+        l1 = l1.next;
+        l1.next = new ListNode(3);
+        l1 = l1.next;
+        l1.next = new ListNode(3);
+        l1 = l1.next;
+        display(head);
+        ListNode nhead = deleteDuplicates(head);
+        System.out.println();
+        display(nhead);
     }
 }
