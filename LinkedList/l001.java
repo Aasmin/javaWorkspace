@@ -216,10 +216,10 @@ public class l001 {
             return slow;
         }
 
-        linkedlist mergeTwoSortedLL(linkedlist l1, linkedlist l2) {
+        linkedlist mergeTwoSortedLL(linkedlist l1, linkedlist l2) { 
             Node i = l1.head;
             Node j = l2.head;
-            linkedlist l3 = new linkedlist();
+            linkedlist l3 = new linkedlist();//its not inplace as we created a new address
             while (i != null && j != null)
                 if (i.data < j.data) {
                     l3.addLast(i.data);
@@ -459,10 +459,14 @@ public class l001 {
             }
              
             while(t1 != t2) {
+                System.out.print(t1.data + " ");
+                System.out.print(t2.data);
+                System.out.println();
                 t1 = t1.next;
                 t2 = t2.next;
             } 
 
+            if(t1 == null && t2 == null)   return -1;
             return t1.data;
         }
     }
@@ -507,17 +511,18 @@ public class l001 {
         l1.addLast(8);
         l1.addLast(4);
         l1.addLast(5);
-        // l2.addLast(5);
+        l2.addLast(5);
         l2.addLast(0);
         l2.addLast(1);
         l2.addLast(8);
         l2.addLast(4);
-        l2.addLast(5);
+        l2.addLast(3);
         l1.display();
         l2.display();
         // linkedlist l3 = l1.addTwoLinkedList(l1, l2);
         // l3.display();
 
-        System.out.println(l1.intersectionPoint(l1, l2));
+        int x = l1.intersectionPoint(l1, l2);
+        System.out.println(x);
     }
 }
