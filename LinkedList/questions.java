@@ -89,4 +89,45 @@ public class questions {
 
         return true;
     }
+
+    //Leetcode 203. Remove Linked List Elements 
+    //test case: [1,2,6,3,4,5,6] for 6
+    //test case : [6, 5, 4] for 6
+    //test case : [6, 6, 4] for 6
+    public ListNode removeElements(ListNode head, int val) {
+        ListNode curr = head;
+        ListNode prev = null;
+
+        while(curr != null) {
+            ListNode frwd = curr.next;
+            if(curr.val == val) {
+                if(curr == head) {  //val found at head
+                    head = frwd;
+                } else {
+                    prev.next = frwd;
+                    curr.next = null;
+                }
+            } else 
+                prev = curr;
+            curr = frwd;
+        }
+        return head;
+    }
+    
+    public ListNode removeElements2(ListNode head, int val) { //[EASY AND BETTER]
+        if(head == null)    
+            return head;
+        
+        ListNode nhead = new ListNode(-1);  //make a dummy list
+        ListNode curr = nhead;
+        
+        while(head != null) {
+            if(head.val != val) {  
+                curr.next = new ListNode(head.val);
+                curr = curr.next;
+            }
+            head = head.next;
+        }
+        return nhead.next;
+    }
 }
