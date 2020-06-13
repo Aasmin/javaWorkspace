@@ -148,6 +148,32 @@ public class questions {
         }
         return dummy;
     }
+    
+    //Leetcode 19. Remove Nth Node From End of List
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        if(head == null || head.next == null)    return null;
+        ListNode right = head;
+        ListNode left = head;
+
+        while(n-- > 0)
+            right = right.next;
+        
+        if(right == null) { //Testcase: [1, 2] n = 2
+            head = head.next;
+            return head;
+        }
+            
+        while(right.next != null) {
+            right = right.next;
+            left = left.next;
+        }
+
+        left.next = left.next.next;
+        return head;
+    }
+
+
+
     public static void display(ListNode node) {
         if(node == null) return;
         System.out.print(node.val + " ");
