@@ -197,13 +197,6 @@ public class questions {
             curr1 = forw2;
         }
     }
-    
-
-    public static void display(ListNode node) {
-        if(node == null) return;
-        System.out.print(node.val + " ");
-        display(node.next);
-    }
      
     //Leetcode 21. Merge Two Sorted Lists
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
@@ -235,6 +228,35 @@ public class questions {
         return dummyH.next; //DO NOT RETURN THE DUMMY
     }
 
+    //Leetcode 328. Odd Even Linked List
+    //TestCase: [1, 2, 3, 4, 5, 6, 7, 8] 
+    public ListNode oddEvenList(ListNode head) {
+        if(head == null || head.next == null)   return head;
+
+        ListNode head2 = head.next;
+
+        ListNode curr1 = head;    
+        ListNode curr2 = head2;    
+
+        while(curr1.next != null && curr2.next != null) {
+            curr1.next = curr2.next;
+            curr1 = curr2.next;
+
+            curr2.next = curr1.next;
+            curr2 = curr1.next;
+
+        }
+
+        curr1.next = head2;
+        return head;
+    }
+
+
+    public static void display(ListNode node) {
+        if(node == null) return;
+        System.out.print(node.val + " ");
+        display(node.next);
+    }
 
     public static void main(String[] args) {
         ListNode l1 = new ListNode(1);
