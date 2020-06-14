@@ -19,7 +19,7 @@ public class questions {
     }
 
     //(return the first middle node) - lowerbound
-    public ListNode middleNode02(ListNode head) {
+    public static ListNode middleNode02(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
         while(fast.next != null && fast.next.next != null){
@@ -30,7 +30,7 @@ public class questions {
     }
 
     //Leetcode: 206. Reverse Linked List
-    public ListNode reverseList(ListNode head) {
+    public static ListNode reverseList(ListNode head) {
         if(head == null || head.next == null)   return head;
         ListNode prev = null;
         ListNode curr = head;
@@ -155,8 +155,10 @@ public class questions {
         ListNode right = head;
         ListNode left = head;
 
-        while(n-- > 0)
+        while(n-- > 0){
             right = right.next;
+            // if(right == null && n > 0)  return false; // this means n is inappropriate
+        }
         
         if(right == null) { //Testcase: [1, 2] n = 2
             head = head.next;
@@ -172,7 +174,30 @@ public class questions {
         return head;
     }
 
+    //Leetcode 143. Reorder List    [SAME AS REVERSE DATA]
+    public static void reorderList(ListNode head) {
+        if(head == null || head.next == null)   return;
+        
+        ListNode curr = head;
+        ListNode midNode = middleNode02(head);
+        ListNode nhead = midNode.next;
+        
+        midNode.next = null;    //break the list 
+        nhead = reverseList(nhead); //reverse the new list
 
+        ListNode curr1 = nhead;
+        while(curr != null && curr1 != null) {   
+            ListNode forw1 = curr.next;
+            ListNode forw2 = curr1.next;
+
+            curr.next = curr1;
+            curr1.next = forw1;
+
+            curr = forw1;
+            curr1 = forw2;
+        }
+    }
+    
 
     public static void display(ListNode node) {
         if(node == null) return;
@@ -182,17 +207,19 @@ public class questions {
     public static void main(String[] args) {
         ListNode l1 = new ListNode(1);
         ListNode head = l1;
-        l1.next = new ListNode(1);
-        l1 = l1.next;
         l1.next = new ListNode(2);
         l1 = l1.next;
         l1.next = new ListNode(3);
         l1 = l1.next;
-        l1.next = new ListNode(3);
+        l1.next = new ListNode(4);
+        l1 = l1.next;
+        l1.next = new ListNode(5);
         l1 = l1.next;
         display(head);
-        ListNode nhead = deleteDuplicates(head);
+        // ListNode nhead = deleteDuplicates(head);
+        reorderList(head);
+
         System.out.println();
-        display(nhead);
+        display(head);
     }
 }
