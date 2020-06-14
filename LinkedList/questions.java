@@ -197,6 +197,29 @@ public class questions {
             curr1 = forw2;
         }
     }
+
+    public static void reReOrderList(ListNode head) {
+        if(head == null || head.next == null) return;
+
+        //From oddEvenList Que
+        ListNode head1 = head;
+        ListNode head2 = head.next;
+
+        ListNode curr1 = head1;    
+        ListNode curr2 = head2;    
+
+        while(curr1.next != null && curr2.next != null) {
+            curr1.next = curr2.next;
+            curr1 = curr2.next;
+
+            curr2.next = curr1.next;
+            curr2 = curr1.next;
+        }
+
+        head2 = reverseList(head2);
+
+        curr1.next = head2;
+    }
      
     //Leetcode 21. Merge Two Sorted Lists
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
@@ -233,9 +256,10 @@ public class questions {
     public ListNode oddEvenList(ListNode head) {
         if(head == null || head.next == null)   return head;
 
+        ListNode head1 = head;
         ListNode head2 = head.next;
 
-        ListNode curr1 = head;    
+        ListNode curr1 = head1;    
         ListNode curr2 = head2;    
 
         while(curr1.next != null && curr2.next != null) {
@@ -248,7 +272,7 @@ public class questions {
         }
 
         curr1.next = head2;
-        return head;
+        return head1;
     }
 
 
@@ -269,10 +293,20 @@ public class questions {
         l1 = l1.next;
         l1.next = new ListNode(5);
         l1 = l1.next;
+        l1.next = new ListNode(6);
+        l1 = l1.next;
+        l1.next = new ListNode(7);
+        l1 = l1.next;
+        // l1.next = new ListNode(8);
+        // l1 = l1.next;
         display(head);
         // ListNode nhead = deleteDuplicates(head);
+        
         reorderList(head);
-
+        System.out.println();
+        display(head);
+        
+        reReOrderList(head);
         System.out.println();
         display(head);
     }
