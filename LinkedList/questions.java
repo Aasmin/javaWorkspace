@@ -204,6 +204,38 @@ public class questions {
         System.out.print(node.val + " ");
         display(node.next);
     }
+     
+    //Leetcode 21. Merge Two Sorted Lists
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        if(l1 == null || l2 == null)    return l1 == null ? l2 : l1; //if any of the list is null
+
+        ListNode dummyH = new ListNode(-1);
+        ListNode prev = dummyH;
+
+        while(l1 != null && l2 != null) {
+            if(l1.val < l2.val) {
+                prev.next = l1;
+                prev = prev.next;
+                l1 = l1.next;
+            } else {
+                prev.next = l2;
+                prev = prev.next;
+                l2 = l2.next;
+            }
+        }
+
+        if(l1 != null) {
+            prev.next = l1;
+        }
+
+        if(l2 != null) {
+            prev.next = l2;
+        }
+
+        return dummyH.next; //DO NOT RETURN THE DUMMY
+    }
+
+
     public static void main(String[] args) {
         ListNode l1 = new ListNode(1);
         ListNode head = l1;
