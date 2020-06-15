@@ -389,6 +389,24 @@ public class questions {
         return null;
     }
 
+    //Leetcode 160. Intersection of Two Linked Lists    [METHOD 2]
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null)  return null;
+        if(headA.next == null && headB.next == null)   //if there is only one node in both list
+            if(headA != headB)                          
+                return null;
+            else return headA;
+        
+        ListNode curr = headA;
+        while(curr.next != null)
+            curr = curr.next;
+        curr.next = headB;
+        ListNode ans = detectCycle(headA);  
+        curr.next = null;   //The linked lists must retain their original structure
+        return ans;
+    }
+
+
     public static void display(ListNode node) {
         if(node == null) return;
         System.out.print(node.val + " ");
