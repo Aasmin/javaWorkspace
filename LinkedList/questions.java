@@ -406,6 +406,17 @@ public class questions {
         return ans;
     }
 
+    //Leetcode 148. Sort List
+    public ListNode sortList(ListNode head) {
+        if(head == null || head.next == null)   return head;
+        
+        ListNode midNode = middleNode02(head);
+        ListNode newHead = midNode.next;
+        midNode.next = null;
+
+        return mergeTwoLists(sortList(head), sortList(newHead));
+    }
+
 
     public static void display(ListNode node) {
         if(node == null) return;
