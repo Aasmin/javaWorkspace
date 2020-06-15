@@ -297,6 +297,54 @@ public class questions {
         return FakeHead.next;
     }
 
+    //Leetcode 2. Add Two Numbers
+    public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode curr1 = l1;
+        ListNode curr2 = l2;
+        
+        ListNode dummyHead = new ListNode(-1);
+        ListNode currD = dummyHead;
+
+        int carry = 0;
+        int sum = 0;
+        while(curr1 != null && curr2 != null) {
+            sum = curr1.val + curr2.val + carry;
+            carry = sum / 10;
+            
+            currD.next = new ListNode(sum % 10);
+            currD = currD.next;
+            
+            curr1 = curr1.next;
+            curr2 = curr2.next;
+        }
+
+        while(curr1 != null) {
+            sum = curr1.val + carry;
+            carry = sum / 10;
+            
+            currD.next = new ListNode(sum % 10);
+            currD = currD.next;
+            
+            curr1 = curr1.next;
+        }
+
+        while(curr2 != null) {
+            sum = curr2.val + carry;
+            carry = sum / 10;
+            
+            currD.next = new ListNode(sum % 10);
+            currD = currD.next;
+            
+            curr2 = curr2.next;
+        }
+        
+        if(carry != 0) 
+            currD.next = new ListNode(carry);
+
+        return dummyHead.next;
+    }
+
+
 
     public static void display(ListNode node) {
         if(node == null) return;
@@ -305,31 +353,28 @@ public class questions {
     }
 
     public static void main(String[] args) {
-        ListNode l1 = new ListNode(1);
+        ListNode l1 = new ListNode(5);
         ListNode head = l1;
-        l1.next = new ListNode(2);
-        l1 = l1.next;
-        l1.next = new ListNode(3);
-        l1 = l1.next;
-        l1.next = new ListNode(4);
-        l1 = l1.next;
-        l1.next = new ListNode(5);
-        l1 = l1.next;
-        l1.next = new ListNode(6);
-        l1 = l1.next;
-        l1.next = new ListNode(7);
-        l1 = l1.next;
+        // l1.next = new ListNode(2);
+        ListNode l2 = new ListNode(5);
+        ListNode head2 = l2;
+        // l1.next = new ListNode(2);
+
         // l1.next = new ListNode(8);
         // l1 = l1.next;
         display(head);
+        display(head2);
         // ListNode nhead = deleteDuplicates(head);
         
-        reorderList(head);
-        System.out.println();
-        display(head);
+        // reorderList(head);
+        // System.out.println();
+        // display(head);
         
-        reReOrderList(head);
-        System.out.println();
-        display(head);
+        // reReOrderList(head);
+        // System.out.println();
+        // display(head);
+
+        ListNode add = addTwoNumbers(l1, l2);
+        display(add);
     }
 }
