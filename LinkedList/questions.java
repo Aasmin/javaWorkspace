@@ -1,3 +1,5 @@
+import java.util.Stack;
+
 public class questions {
     public static class ListNode {
         int val;
@@ -344,7 +346,27 @@ public class questions {
         return dummyHead.next;
     }
 
+    // //Leetcode 445. Add Two Numbers II
+    // public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    //     return buildLinkedList(Integer.parseInt(l1) + Integer.parseInt(l2).toString);
+    // }
 
+
+    //Leetcode 141. Linked List Cycle
+    public boolean hasCycle(ListNode head) {
+        if(head == null || head.next == null)   return false;
+        ListNode fast = head;
+        ListNode slow = head;
+
+        while(fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if(slow == fast)    return true;
+        }
+
+        return false;
+    }
+    
 
     public static void display(ListNode node) {
         if(node == null) return;
