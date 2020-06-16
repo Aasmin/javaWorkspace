@@ -224,7 +224,7 @@ public class questions {
     }
      
     //Leetcode 21. Merge Two Sorted Lists
-    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+    public ListNode  mergeTwoLists(ListNode l1, ListNode l2) {
         if(l1 == null || l2 == null)    return l1 == null ? l2 : l1; //if any of the list is null
 
         ListNode dummyH = new ListNode(-1);
@@ -409,7 +409,7 @@ public class questions {
     //Leetcode 148. Sort List
     public ListNode sortList(ListNode head) {
         if(head == null || head.next == null)   return head;
-        
+
         ListNode midNode = middleNode02(head);
         ListNode newHead = midNode.next;
         midNode.next = null;
@@ -417,6 +417,18 @@ public class questions {
         return mergeTwoLists(sortList(head), sortList(newHead));
     }
 
+    //Leetcode 23. Merge k Sorted Lists
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length == 0)   return null;    //TESTCASE: {}
+        return mergeKLists(lists, 0, lists.length - 1);
+    }
+    
+    private ListNode mergeKLists(ListNode[] lists, int si, int ei) {
+        if(si == ei)    return lists[si];   //if there's only one list
+        if(si + 1 == ei)    return mergeTwoLists(lists[si], lists[si + 1]); //if there are only two lists
+        int mid = (si + ei) / 2; 
+        return mergeTwoLists(mergeKLists(lists, si, mid), mergeKLists(lists, mid + 1, ei));
+    }
 
     public static void display(ListNode node) {
         if(node == null) return;
