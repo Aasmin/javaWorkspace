@@ -196,6 +196,19 @@ public class questions {
         return count;
     }
 
+    public int minAddToMakeValid02(String S) {
+        int openingBracketReq = 0;
+        int closingBracketReq = 0;
+        for(int i = 0; i < S.length(); i++) {
+            char ch = S.charAt(i);
+            if(ch == '(') closingBracketReq++;
+            else if(closingBracketReq > 0)  closingBracketReq--;    // as opening bracket already found 
+            else openingBracketReq++;   //No opening bracket
+
+        }
+        return openingBracketReq + closingBracketReq;
+    }
+
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
         // String str = scn.nextLine();
