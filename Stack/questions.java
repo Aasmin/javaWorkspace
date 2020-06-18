@@ -43,9 +43,9 @@ public class questions {
         return true;
     }
 
-    public static int[] nextGreaterElementToTheRight(int[] arr){    //O(n)
+    public static int[] nextGreaterElementToTheRight(int[] arr){    //O(2n) ~ O(n)  [RIGHT TO LEFT]
         int[] ans = new int[arr.length];
-        Stack<Integer> st = new Stack<>();
+        Stack<Integer> st = new Stack<>();  //STACK WILL STORE THE ACTUAL VALUES.
         st.push(arr[arr.length - 1]);
         ans[arr.length - 1] = -1;
         for(int i = arr.length - 2; i >= 0; i--) {  
@@ -58,6 +58,25 @@ public class questions {
 
             st.push(arr[i]);
         }
+        return ans;
+    } 
+
+    public static int[] nextGreaterElementToTheRight02(int[] arr){    //O(2n) ~ O(n) [LEFT TO RIGHT]
+        int[] ans = new int[arr.length];
+        Stack<Integer> st = new Stack<>();  //STACK WILL STORE THE INDEXES.
+        for(int i = 0; i < arr.length; i++) {
+            while(!st.isEmpty() && arr[i] > arr[st.peek()]) { 
+                int pos = st.peek();
+                ans[pos] = arr[i];
+                st.pop();
+            }
+            st.push(i); //Store the INDEX.
+        }
+        while(!st.isEmpty()){
+            ans[st.peek()] = -1;
+            st.pop();
+        }
+        
         return ans;
     } 
 
