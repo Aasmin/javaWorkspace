@@ -154,6 +154,25 @@ public class questions {
         return nge;
     }
 
+    //APPROACH SAME AS nextGreaterElementToTheLeft
+    public static int[] stockSpan(int[] arr){
+        Stack<Integer> st = new Stack<>();  //STACK STORES INDEX HERE (CHANGE)
+        st.push(0);
+        int[] nge = new int[arr.length];
+        nge[0] = 1;
+        for(int i = 1; i < arr.length; i++) {
+            while(!st.empty() && arr[i] > arr[st.peek()]) {
+                st.pop();
+            }
+            if(st.empty()) nge[i] = i + 1;
+            else    nge[i] = i - st.peek();
+
+            st.push(i);
+        }
+        return nge;
+    }
+
+
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
         // String str = scn.nextLine();
@@ -168,6 +187,7 @@ public class questions {
         // System.out.println(Arrays.toString(nextSmallerElementToTheRight02(arr)));
         // System.out.println(Arrays.toString(nextGreaterElementToTheLeft(arr)));
         // System.out.println(Arrays.toString(nextSmallerElementToTheLeft(arr)));
+        System.out.println(Arrays.toString(stockSpan(arr)));
         
     }
 }
