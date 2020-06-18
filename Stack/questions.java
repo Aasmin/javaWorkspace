@@ -119,6 +119,41 @@ public class questions {
     } 
     
 
+    //SAME AS nextGreaterElementToTheRight() JUST CHANGED THE FOR LOOP DIRECTION
+    public static int[] nextGreaterElementToTheLeft(int[] arr){ 
+        Stack<Integer> st = new Stack<>();
+        st.push(arr[0]);
+        int[] nge = new int[arr.length];
+        nge[0] = -1;
+        for(int i = 1; i < arr.length; i++) {
+            while(!st.empty() && arr[i] > st.peek()) {
+                st.pop();
+            }
+            if(st.empty()) nge[i] = -1;
+            else    nge[i] = st.peek();
+
+            st.push(arr[i]);
+        }
+        return nge;
+    }
+    
+    public static int[] nextSmallerElementToTheLeft(int[] arr){ 
+        Stack<Integer> st = new Stack<>();
+        st.push(arr[0]);
+        int[] nge = new int[arr.length];
+        nge[0] = -1;
+        for(int i = 1; i < arr.length; i++) {
+            while(!st.empty() && arr[i] < st.peek()) {
+                st.pop();
+            }
+            if(st.empty()) nge[i] = -1;
+            else    nge[i] = st.peek();
+
+            st.push(arr[i]);
+        }
+        return nge;
+    }
+
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
         // String str = scn.nextLine();
@@ -129,8 +164,10 @@ public class questions {
         System.out.println(Arrays.toString(arr));
         // System.out.println(Arrays.toString(nextGreaterElementToTheRight(arr)));
         // System.out.println(Arrays.toString(nextGreaterElementToTheRight02(arr)));
-        System.out.println(Arrays.toString(nextSmallerElementToTheRight(arr)));
-        System.out.println(Arrays.toString(nextSmallerElementToTheRight02(arr)));
+        // System.out.println(Arrays.toString(nextSmallerElementToTheRight(arr)));
+        // System.out.println(Arrays.toString(nextSmallerElementToTheRight02(arr)));
+        // System.out.println(Arrays.toString(nextGreaterElementToTheLeft(arr)));
+        // System.out.println(Arrays.toString(nextSmallerElementToTheLeft(arr)));
         
     }
 }
