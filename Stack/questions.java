@@ -172,6 +172,29 @@ public class questions {
         return nge;
     }
 
+    //APPROACH SAME AS nextSmallerElementToTheLeft
+    public static int largestAreaHistogram(int[] arr){
+        
+        return 0;
+    }
+
+    //Leetcode 921. Minimum Add to Make Parentheses Valid
+    public int minAddToMakeValid(String S) {
+        Stack<Character> st = new Stack<>();
+        int count = 0;
+        for(int i = 0; i < S.length(); i++) {
+            char ch = S.charAt(i);
+            if(ch == ')') {
+                if(st.empty())  count ++;
+                else if (st.peek() == '(') 
+                    st.pop();
+            } else {
+                st.push(ch);
+            }
+        }
+        count += st.size();
+        return count;
+    }
 
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
