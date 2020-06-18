@@ -209,6 +209,31 @@ public class questions {
         return openingBracketReq + closingBracketReq;
     }
 
+    //Leetcode 1249. Minimum Remove to Make Valid Parentheses
+    public String minRemoveToMakeValid(String s) {
+        int length = s.length();
+        boolean[] marked = new boolean[length];
+        Stack<Integer> st = new Stack<>();  //Store the indexes
+
+        for(int i = 0; i < length; i++) {
+            char ch = s.charAt(i);
+            if(ch == ')')
+                if(st.empty())  marked[i] = false;
+                else    
+                    marked[i] = marked[st.pop()] = true;
+            else if(ch == '(')
+                st.push(i);
+            else
+                marked[i] = true;   //alphabets
+        }
+
+        String ans = "";
+        for(int i = 0; i < length; i++) {
+            if(marked[i])   ans += s.charAt(i);
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
         // String str = scn.nextLine();
