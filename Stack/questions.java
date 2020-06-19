@@ -346,6 +346,36 @@ public class questions {
         System.out.println(pre.pop());
     }
 
+    public static void postfixEvaluationAndConversion(String str)  {
+        Stack<Integer> valueSt = new Stack<>();
+        Stack<String> prefixSt = new Stack<>();
+        Stack<String> infixSt = new Stack<>();
+        for(int i  = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if(Character.isDigit(ch)) {
+                valueSt.push(ch - '0');     // remember to convert the character to digit
+                prefixSt.push(ch + "");
+                infixSt.push(ch + "");
+            } else {    // for operators
+                //Evalutation
+                int val2 = valueSt.pop();
+                int val1 = valueSt.pop();
+                valueSt.push(operation(val1, val2, ch));   
+
+                //Conversion
+                String preVal2 = prefixSt.pop();
+                String preVal1 = prefixSt.pop();
+                prefixSt.push(ch + preVal1 + preVal2);
+
+                String inVal2 = infixSt.pop();
+                String inVal1 = infixSt.pop();
+                infixSt.push("(" + inVal1 + ch + inVal2 + ")");
+            }
+        }
+        System.out.println(valueSt.pop());
+        System.out.println(infixSt.pop());
+        System.out.println(prefixSt.pop());
+    }
 
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
