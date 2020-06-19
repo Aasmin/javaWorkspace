@@ -244,21 +244,76 @@ public class questions {
         }
     }   
 
+    public static int infixEvaluation(String str) {
+        Stack<Integer> operands = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+
+        for(int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if(ch == '(')   operators.push(ch);
+            else if(Character.isDigit(ch))  operands.push(ch - '0');
+            else if(ch == ')') {
+                while(operators.peek() != '(') {
+                    char op = operators.pop();      
+                    int val2 = operands.pop(); //b    as some optors are not commutative
+                    int val1 = operands.pop(); // a    
+
+                    operands.push(operation(val1, val2, op));   // a - b
+                }
+                operators.pop(); //pop out the '('
+            } else if(ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                while(!operators.isEmpty() && operators.peek() != '(' && precedence(ch) <= precedence(operators.peek())) {
+                    char op = operators.pop();      
+                    int val2 = operands.pop(); //b    as some optors are not commutative
+                    int val1 = operands.pop(); // a    
+
+                    operands.push(operation(val1, val2, op));   // a - b
+                }
+                operators.push(ch);
+            }
+        }
+
+        while(!operators.isEmpty()) {
+            char op = operators.pop();      
+            int val2 = operands.pop(); //b    as some optors are not commutative
+            int val1 = operands.pop(); // a    
+
+            operands.push(operation(val1, val2, op)); 
+        }
+        return operands.pop();
+    }
+
+    public static int precedence(char ch) {
+        if(ch == '+' || ch == '-')  return 1;
+        else    return 2;
+    }
+
+    public static int operation(int val1, int val2, char ch) {
+        if(ch == '+')   return val1 + val2;
+        if(ch == '-')   return val1 - val2;
+        if(ch == '*')   return val1 * val2;
+        if(ch == '/')   return val1 / val2;
+        return (int)-1e8;   //invalid character
+    }
+
+
+
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
         // String str = scn.nextLine();
 
         // System.out.println(balancedBrackets(str));
 
-        int arr[] = {2, 5, 9, 3, 1, 12, 6, 8, 7};
-        System.out.println(Arrays.toString(arr));
-        // System.out.println(Arrays.toString(nextGreaterElementToTheRight(arr)));
-        // System.out.println(Arrays.toString(nextGreaterElementToTheRight02(arr)));
-        // System.out.println(Arrays.toString(nextSmallerElementToTheRight(arr)));
-        // System.out.println(Arrays.toString(nextSmallerElementToTheRight02(arr)));
-        // System.out.println(Arrays.toString(nextGreaterElementToTheLeft(arr)));
-        // System.out.println(Arrays.toString(nextSmallerElementToTheLeft(arr)));
-        System.out.println(Arrays.toString(stockSpan(arr)));
-        
+        // int arr[] = {2, 5, 9, 3, 1, 12, 6, 8, 7};
+        // System.out.println(Arrays.toString(arr));
+        // // System.out.println(Arrays.toString(nextGreaterElementToTheRight(arr)));
+        // // System.out.println(Arrays.toString(nextGreaterElementToTheRight02(arr)));
+        // // System.out.println(Arrays.toString(nextSmallerElementToTheRight(arr)));
+        // // System.out.println(Arrays.toString(nextSmallerElementToTheRight02(arr)));
+        // // System.out.println(Arrays.toString(nextGreaterElementToTheLeft(arr)));
+        // // System.out.println(Arrays.toString(nextSmallerElementToTheLeft(arr)));
+        // System.out.println(Arrays.toString(stockSpan(arr)));
+        String exp = "2    vnks       + 6 * 4 / 8 - 3";
+        System.out.println(infixEvaluation(exp));
     }
 }
