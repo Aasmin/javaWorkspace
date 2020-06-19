@@ -485,24 +485,24 @@ public class questions {
             System.out.println(p.st + " " + p.et);
         }
     }
-    
+
     public static void smallestNumberFollowingPattern(String str) {
-        int num = 0; 
+        int num = 1; 
         Stack<Integer> st = new Stack<>();
         for(int i = 0; i < str.length(); i++) {
             char ch = str.charAt(i);
             if(ch == 'd') {
-                num++;
                 st.push(num);
+                num++;
             } else {
-                num++;
                 st.push(num);
+                num++;
                 while(!st.isEmpty()) {
                     System.out.print(st.pop());
                 }
             }
         }
-        st.push(++num);
+        st.push(num);
         while(!st.isEmpty()) {
             System.out.print(st.pop());
         }
