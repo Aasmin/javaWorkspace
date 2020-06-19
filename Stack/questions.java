@@ -443,6 +443,49 @@ public class questions {
         System.out.println(pot);   
     }
 
+    public static class Pair implements Comparable<Pair>{
+        int st;
+        int et;
+        Pair() {}
+        Pair(int st, int et) {
+            this.st = st;   this.et = et;
+        }
+        
+        // @Override
+        public int compareTo(Pair other) {
+            if(this.st != other.st)     //if start time of both are not same, then sort by start time
+                return this.st - other.st;  
+            else    return this.et - other.et;  //else sort by end time
+        }
+    }
+
+    public static void mergeOverlappingIntervals(int[][] arr) {
+        // merge overlapping intervals and print in increasing order of start time
+        Pair[] pairs = new Pair[arr.length];
+        for(int i = 0; i < arr.length; i++)
+            pairs[i] = new Pair(arr[i][0], arr[i][1]);
+        
+        Arrays.sort(pairs);
+        
+        Stack<Pair> stk = new Stack<>();
+        stk.push(pairs[0]);
+        for(int i = 1; i < pairs.length; i++) {
+            if(pairs[i].st > stk.peek().et)        //No Merge
+                stk.push(pairs[i]);
+            else 
+                if(pairs[i].et > stk.peek().et) 
+                    stk.peek().et = pairs[i].et;
+        }
+        
+        Stack<Pair> rs = new Stack<>();
+        while(!stk.isEmpty())    rs.push(stk.pop());
+        
+        while(!rs.isEmpty())    {
+            Pair p = rs.pop();
+            System.out.println(p.st + " " + p.et);
+        }
+    }
+
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
         // String str = scn.nextLine();
