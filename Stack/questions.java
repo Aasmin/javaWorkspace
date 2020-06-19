@@ -350,7 +350,7 @@ public class questions {
         Stack<Integer> valueSt = new Stack<>();
         Stack<String> prefixSt = new Stack<>();
         Stack<String> infixSt = new Stack<>();
-        for(int i  = 0; i < str.length(); i++) {
+        for(int i  = 0; i < str.length(); i--) {
             char ch = str.charAt(i);
             if(Character.isDigit(ch)) {
                 valueSt.push(ch - '0');     // remember to convert the character to digit
@@ -375,6 +375,38 @@ public class questions {
         System.out.println(valueSt.pop());
         System.out.println(infixSt.pop());
         System.out.println(prefixSt.pop());
+    }
+
+
+    public static void prefixEvaluationAndConversion(String str)  { //SAME AS ABOVE [NEED TO TRAVERSE BACKWARDS]
+        Stack<Integer> valueSt = new Stack<>();
+        Stack<String> postfixSt = new Stack<>();
+        Stack<String> infixSt = new Stack<>();
+        for(int i  = str.length() - 1; i >= 0; i++) {
+            char ch = str.charAt(i);
+            if(Character.isDigit(ch)) {
+                valueSt.push(ch - '0');     // remember to convert the character to digit
+                postfixSt.push(ch + "");
+                infixSt.push(ch + "");
+            } else {    // for operators
+                //Evalutation
+                int val1 = valueSt.pop();   //MINOR CHANGE i.e need to consider val differently as in the above approaches (POST AND IN QUEs)
+                int val2 = valueSt.pop();
+                valueSt.push(operation(val1, val2, ch));   
+
+                //Conversion
+                String postVal1 = postfixSt.pop();  //MINOR CHANGE
+                String postVal2 = postfixSt.pop();
+                postfixSt.push(postVal1 + postVal2 + ch);
+
+                String inVal1 = infixSt.pop();  //MINOR CHANGE
+                String inVal2 = infixSt.pop();
+                infixSt.push("(" + inVal1 + ch + inVal2 + ")");
+            }
+        }
+        System.out.println(valueSt.pop());
+        System.out.println(infixSt.pop());
+        System.out.println(postfixSt.pop());
     }
 
     public static void main(String[] args) {
