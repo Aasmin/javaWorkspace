@@ -296,6 +296,55 @@ public class questions {
         return (int)-1e8;   //invalid character
     }
 
+    public static void prePostConversion(String str) {
+        Stack<String> pre = new Stack<>();
+        Stack<String> post = new Stack<>();
+        Stack<Character> operators = new Stack<>();
+
+        for(int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if(ch == '(')   {
+                operators.push(ch);
+            } else if(Character.isDigit(ch) || Character.isLowerCase(ch) || Character.isUpperCase(ch)) {
+                pre.push(ch + "");
+                post.push(ch + "");
+            }  else if(ch == ')') {
+                while(!operators.isEmpty() && operators.peek() != '(') {
+                    char tempOp = operators.pop();  //as popping operators two times is wrong
+                    String preVal2 = pre.pop();
+                    String preVal1 = pre.pop();
+                    pre.push(tempOp + preVal1 + preVal2);
+                    String postVal2 = post.pop();
+                    String postVal1 = post.pop();
+                    post.push(postVal1 + postVal2 + tempOp);
+                }
+                operators.pop();    // pop '('
+            } else if(ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                while(!operators.isEmpty() && operators.peek() != '(' && precedence(ch) <= precedence(operators.peek())) {
+                    char tempOp = operators.pop();  //as popping operators two times is wrong
+                    String preVal2 = pre.pop();
+                    String preVal1 = pre.pop();
+                    pre.push(tempOp + preVal1 + preVal2);
+                    String postVal2 = post.pop();
+                    String postVal1 = post.pop();
+                    post.push(postVal1 + postVal2 + tempOp);
+                }
+                operators.push(ch);
+            }
+        }
+
+        while(!operators.isEmpty()) {
+            char tempOp = operators.pop();  //as popping operators two times is wrong
+            String preVal2 = pre.pop();
+            String preVal1 = pre.pop();
+            pre.push(tempOp + preVal1 + preVal2);
+            String postVal2 = post.pop();
+            String postVal1 = post.pop();
+            post.push(postVal1 + postVal2 + tempOp);
+        }
+        System.out.println(post.pop());
+        System.out.println(pre.pop());
+    }
 
 
     public static void main(String[] args) {
@@ -313,7 +362,9 @@ public class questions {
         // // System.out.println(Arrays.toString(nextGreaterElementToTheLeft(arr)));
         // // System.out.println(Arrays.toString(nextSmallerElementToTheLeft(arr)));
         // System.out.println(Arrays.toString(stockSpan(arr)));
-        String exp = "2    vnks       + 6 * 4 / 8 - 3";
-        System.out.println(infixEvaluation(exp));
+        String exp = "2 + 6 * 4 / 8 - 3";
+        // String exp = "a * ( b - c ) / d + e";
+        // System.out.println(infixEvaluation(exp));
+        prePostConversion(exp);
     }
 }
