@@ -502,7 +502,7 @@ public class questions {
                 }
             }
         }
-        st.push(num);
+        st.push(num);   // TRY for str: "d", you'll get to know the reason behin this
         while(!st.isEmpty()) {
             System.out.print(st.pop());
         }
