@@ -175,7 +175,7 @@ public class questions {
     //APPROACH SAME AS nextSmallerElementToTheLeft
     public static int largestAreaHistogram(int[] arr){
         
-        int[] lb = new int[arr.length]; 
+        int[] lb = new int[arr.length];     //next smaller element to the left
         Stack<Integer> st1 = new Stack<>();
         st1.push(0);
         lb[0] = -1;
@@ -192,7 +192,7 @@ public class questions {
             st1.push(i);
         }
 
-        int[] rb = new int[arr.length];
+        int[] rb = new int[arr.length];     //next smaller element to the right
         Stack<Integer> st = new Stack<>();
         st.push(arr.length - 1);
         rb[arr.length - 1] = arr.length;
@@ -218,6 +218,31 @@ public class questions {
         return maxArea;
     }
 
+    public static void slidingWindowMaximum(int[] arr, int k) {   //Next Greater Right approach O(n)
+        Stack<Integer> st = new Stack<>();  //Storing indexes
+        int[] nge = new int[arr.length];
+        st.push(arr.length - 1);
+        nge[arr.length - 1] = arr.length;
+        for(int i = arr.length - 2; i >= 0; i--) {
+            while(!st.empty() && arr[i] >= arr[st.peek()])
+                st.pop();
+            
+            if(st.empty())  nge[i] = arr.length;
+            else nge[i] = st.peek();
+
+            st.push(i);
+        }
+
+        int j = 0;
+        for(int i = 0; i <= arr.length - k; i++) {  //loop till arr.length - k as window poori nahi parh rhi uske baad
+            if(j < i)   j = i;  //j kabhi pichhe nahi jayega as if start j from 0 then while loop di extra iterations lgdi in some cases
+
+            while(nge[j] < i + k)       //agar to nge of j window ke andar hai then jump
+                j = nge[j];
+            
+            System.out.println(arr[j]);
+        }
+    }   
 
     public static void main(String[] args) {
         // Scanner scn = new Scanner(System.in);
