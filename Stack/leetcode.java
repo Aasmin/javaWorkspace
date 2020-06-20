@@ -35,6 +35,17 @@ public class leetcode {
         return ans;
     }
 
+    public static String removeOuterParentheses02(String S) {   //without using stack
+        String ans = "";
+        int count = 0;
+        for(int i = 0; i < S.length(); i++) {
+            char ch = S.charAt(i);
+            if(ch == '(' && count++ > 0)  ans += ch;
+            if(ch == ')' && count-- > 1)  ans += ch;
+        }
+        return ans;
+    }
+
     //Leetcode 921. Minimum Add to Make Parentheses Valid
     public int minAddToMakeValid(String S) {
         Stack<Character> st = new Stack<>();
