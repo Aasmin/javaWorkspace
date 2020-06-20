@@ -147,6 +147,49 @@ public class leetcode {
         return ans;
     }
 
+    //Leetcode 84. Largest Rectangle in Histogram
+    public int largestRectangleArea(int[] heights) {
+        if(heights.length == 0) return 0;
+        if(heights.length == 1) return heights[0];
+        int[] lb = new int[heights.length];
+        Stack<Integer> st1 = new Stack<>();
+        st1.push(0);
+        lb[0] = -1;
+        for(int i = 0; i < heights.length; i++) {
+            while(!st1.isEmpty() && heights[i] <= heights[st1.peek()])
+                st1.pop();
+            
+            if(!st1.isEmpty())   lb[i] = st1.peek();
+            else lb[i] = -1;
+
+            st1.push(i);
+        }
+        
+        
+        int[] rb = new int[heights.length];     // next smaller right
+        Stack<Integer> st = new Stack<>();
+        st.push(heights.length - 1);
+        rb[heights.length - 1] = heights.length;
+        for(int i = heights.length - 2; i >= 0; i--) {
+            while(!st.isEmpty() && heights[i] <= heights[st.peek()])
+                st.pop();
+            
+            if(!st.isEmpty())   rb[i] = st.peek();
+            else rb[i] = heights.length;
+
+            st.push(i);
+        }
+        
+
+        int maxArea = (int)-1e8;
+        for(int i = 0; i < heights.length; i++) {
+            int width = rb[i] - lb[i] - 1;
+            maxArea = Math.max(maxArea, width * heights[i]);
+        } 
+        return maxArea;
+    }
+
+
     public static void main(String[] args) {
         System.out.println(removeOuterParentheses("(()())(())"));
     }
