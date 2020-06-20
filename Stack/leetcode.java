@@ -3,6 +3,20 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class leetcode {
+    //Leetcode 20. Valid Parentheses
+    public boolean isValid(String s) {
+        Stack<Character> st = new Stack<>();
+        for(int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if(ch == ']' && !st.isEmpty() && st.peek() == '[')   st.pop();
+            else if(ch == '}' && !st.isEmpty() && st.peek() == '{')   st.pop();
+            else if(ch == ')' && !st.isEmpty() && st.peek() == '(')   st.pop();
+            else if(ch == '(' || ch == '{' || ch == '[')    st.push(ch); 
+            else return false;
+        }
+        if(!st.isEmpty())   return false;
+        return true;
+    }
 
     //Leetcode 921. Minimum Add to Make Parentheses Valid
     public int minAddToMakeValid(String S) {
