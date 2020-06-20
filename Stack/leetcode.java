@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class leetcode {
     //Leetcode 20. Valid Parentheses
-    public boolean isValid(String s) {
+    public static boolean isValid(String s) {
         Stack<Character> st = new Stack<>();
         for(int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
@@ -16,6 +16,23 @@ public class leetcode {
         }
         if(!st.isEmpty())   return false;
         return true;
+    }
+
+    //Leetcode 1021. Remove Outermost Parentheses
+    public static String removeOuterParentheses(String S) {
+        Stack<Character> st = new Stack<>();
+        String ans = "";
+        for(int i = 0; i < S.length(); i++) {
+            char ch = S.charAt(i);
+            if(st.size() == 1 && ch == ')')    st.pop();
+            else if(st.size() >= 1){  
+                ans += ch;
+                if(ch == '(')   st.push(ch);
+                else st.pop();
+            }
+            else st.push(ch);
+        }
+        return ans;
     }
 
     //Leetcode 921. Minimum Add to Make Parentheses Valid
@@ -131,20 +148,6 @@ public class leetcode {
     }
 
     public static void main(String[] args) {
-        // Scanner scn = new Scanner(System.in);
-        // String str = scn.nextLine();
-
-        // System.out.println(balancedBrackets(str));
-
-        int arr[] = {2, 5, 9, 3, 1, 12, 6, 8, 7};
-        System.out.println(Arrays.toString(arr));
-        // System.out.println(Arrays.toString(nextGreaterElementToTheRight(arr)));
-        // System.out.println(Arrays.toString(nextGreaterElementToTheRight02(arr)));
-        // System.out.println(Arrays.toString(nextSmallerElementToTheRight(arr)));
-        // System.out.println(Arrays.toString(nextSmallerElementToTheRight02(arr)));
-        // System.out.println(Arrays.toString(nextGreaterElementToTheLeft(arr)));
-        // System.out.println(Arrays.toString(nextSmallerElementToTheLeft(arr)));
-        System.out.println(Arrays.toString(stockSpan(arr)));
-        
+        System.out.println(removeOuterParentheses("(()())(())"));
     }
 }
