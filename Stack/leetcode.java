@@ -35,6 +35,41 @@ public class leetcode {
         return ans;
     }
 
+    //next Greater To The Right
+    public static int[] ngtor(int[] nums) {
+        Stack<Integer> st = new Stack<>();
+        st.push(0);
+        int[] ngr = new int[nums.length];
+        Arrays.fill(ngr, -1);  
+
+        for(int i = 0; i < nums.length; i++) {
+            while(!st.isEmpty() && nums[i] >= nums[st.peek()])  //next smaller replace '>' to '<'
+                ngr[st.pop()] = nums[i];
+            st.push(i);
+        }
+        return ngr;
+    }
+    
+    //next Greater To The Left [SAME AS ABOVE MINOR CHANGES ]
+    public static int[] ngtol(int[] nums) {
+        Stack<Integer> st = new Stack<>();
+        st.push(nums.length - 1);   //CHANGED THE DIRECTION SO NEED TO INSERT FROM RIGHT
+        int[] ngr = new int[nums.length];   
+        Arrays.fill(ngr, -1);  
+
+        for(int i = nums.length - 1; i >= 0; i--) {     //CHANGED THE LOOP DIRECTION
+            while(!st.isEmpty() && nums[i] >= nums[st.peek()])  
+                ngr[st.pop()] = nums[i];
+            st.push(i);
+        }
+        return ngr;
+    }
+
+    //Leetcode 503. Next Greater Element II
+    // public int[] nextGreaterElements(int[] nums) {
+        
+    // }
+
     public static String removeOuterParentheses02(String S) {   //without using stack
         String ans = "";
         int count = 0;
@@ -202,6 +237,12 @@ public class leetcode {
 
 
     public static void main(String[] args) {
-        System.out.println(removeOuterParentheses("(()())(())"));
+        // System.out.println(removeOuterParentheses("(()())(())"));
+        int[] arr = {2, -1, 8, 6, 9, 4, 3, 5};
+        int[] arr1 = ngtor(arr);
+        // for(int i : arr1)    System.out.print(i + " ");
+        
+        arr1 = ngtol(arr);
+        for(int i : arr1)    System.out.print(i + " ");
     }
 }
