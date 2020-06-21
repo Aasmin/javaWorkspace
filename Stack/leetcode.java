@@ -18,23 +18,6 @@ public class leetcode {
         return true;
     }
 
-    //Leetcode 1021. Remove Outermost Parentheses
-    public static String removeOuterParentheses(String S) {
-        Stack<Character> st = new Stack<>();
-        String ans = "";
-        for(int i = 0; i < S.length(); i++) {
-            char ch = S.charAt(i);
-            if(st.size() == 1 && ch == ')')    st.pop();
-            else if(st.size() >= 1){  
-                ans += ch;
-                if(ch == '(')   st.push(ch);
-                else st.pop();
-            }
-            else st.push(ch);
-        }
-        return ans;
-    }
-
     //next Greater To The Right
     public static int[] ngtor(int[] nums) {
         Stack<Integer> st = new Stack<>();
@@ -127,6 +110,23 @@ public class leetcode {
     }
 
 
+    //Leetcode 1021. Remove Outermost Parentheses
+    public static String removeOuterParentheses(String S) {
+        Stack<Character> st = new Stack<>();
+        String ans = "";
+        for(int i = 0; i < S.length(); i++) {
+            char ch = S.charAt(i);
+            if(st.size() == 1 && ch == ')')    st.pop();
+            else if(st.size() >= 1){  
+                ans += ch;
+                if(ch == '(')   st.push(ch);
+                else st.pop();
+            }
+            else st.push(ch);
+        }
+        return ans;
+    }
+
     public static String removeOuterParentheses02(String   S) {   //without using stack
         String ans = "";
         int count = 0;
@@ -139,6 +139,17 @@ public class leetcode {
     }
 
     //Leetcode 921. Minimum Add to Make Parentheses Valid
+    public int minAddToMakeValid_(String S) {
+        Stack<Integer> st = new Stack<>();  //indexes
+        st.push(-1);
+        for(int i = 0; i < S.length(); i++) {
+            char ch = S.charAt(i);
+            if(st.peek() != -1 && ch == ')' && S.charAt(st.peek()) == '(')    st.pop();
+            else st.push(i);
+        }
+        return st.size() - 1;
+    }
+
     public int minAddToMakeValid(String S) {
         Stack<Character> st = new Stack<>();
         int count = 0;
@@ -156,7 +167,7 @@ public class leetcode {
         return count;
     }
 
-    public int minAddToMakeValid02(String S) {
+    public int minAddToMakeValid02(String S) {  //BEST
         int openingBracketReq = 0;
         int closingBracketReq = 0;
         for(int i = 0; i < S.length(); i++) {
