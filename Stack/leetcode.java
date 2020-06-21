@@ -79,6 +79,27 @@ public class leetcode {
         return ngr;
     }
 
+    //Leetcode 901. Online Stock Span
+    class StockSpanner {
+        Stack<int[]> stk = new Stack<>();
+        int i;  //index
+    
+        public StockSpanner() {
+            stk.push(new int[]{-1, -1});    //{index, price}
+            i = 0;
+        }
+        
+        public int next(int price) {    
+            int width = 1;
+            while(stk.peek()[0] != -1 && price >= stk.peek()[1])
+                stk.pop();
+            width = i - stk.peek()[0];
+            stk.push(new int[]{i, price});
+            i++;    //increase the index
+            return width;
+        }
+    }
+
     public static String removeOuterParentheses02(String   S) {   //without using stack
         String ans = "";
         int count = 0;
