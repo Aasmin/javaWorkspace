@@ -57,7 +57,7 @@ public class leetcode {
         int[] ngr = new int[nums.length];   
         Arrays.fill(ngr, -1);  
 
-        for(int i = nums.length - 1; i >= 0; i--) {     //CHANGED THE LOOP DIRECTION
+        for(int i = nums.length - 1; i > 0; i--) {     //CHANGED THE LOOP DIRECTION
             while(!st.isEmpty() && nums[i] >= nums[st.peek()])  
                 ngr[st.pop()] = nums[i];
             st.push(i);
@@ -65,12 +65,21 @@ public class leetcode {
         return ngr;
     }
 
-    //Leetcode 503. Next Greater Element II
-    // public int[] nextGreaterElements(int[] nums) {
-        
-    // }
+    //Leetcode 503. Next Greater Element II //[SAME AS ngor MINOR CHANGES ]
+    public int[] nextGreaterElements(int[] nums) {
+        Stack<Integer> st = new Stack<>();
+        int[] ngr = new int[nums.length];
+        Arrays.fill(ngr, -1);  
+        int n = nums.length;
+        for(int i = 0; i < n * 2; i++) {    //runs two times
+            while(!st.isEmpty() && nums[i % n] > nums[st.peek()])  
+                ngr[st.pop()] = nums[i % n];
+            if(i < n) st.push(i % n);
+        }
+        return ngr;
+    }
 
-    public static String removeOuterParentheses02(String S) {   //without using stack
+    public static String removeOuterParentheses02(String   S) {   //without using stack
         String ans = "";
         int count = 0;
         for(int i = 0; i < S.length(); i++) {
