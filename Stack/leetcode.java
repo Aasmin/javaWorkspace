@@ -100,6 +100,33 @@ public class leetcode {
         }
     }
 
+    public class ListNode {
+        int val;
+        ListNode next;
+        ListNode() {}
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+        
+    }
+
+    //Leetcode 1171. Remove Zero Sum Consecutive Nodes from Linked List
+    public ListNode removeZeroSumSublists(ListNode head) {
+        ListNode dummyH = new ListNode(0, head);
+        ListNode curr = dummyH;
+        while(curr != null) {
+            int sum = 0;
+            while(head != null) {
+                sum += head.val;
+                if(sum == 0)    curr.next = head.next;
+                head = head.next;
+            }
+            curr = curr.next;
+            if(curr != null)    head = curr.next;
+        }
+        return dummyH.next;
+    }
+
+
     public static String removeOuterParentheses02(String   S) {   //without using stack
         String ans = "";
         int count = 0;
