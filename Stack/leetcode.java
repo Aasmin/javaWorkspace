@@ -246,18 +246,14 @@ public class leetcode {
         st.push(-1);
         for(int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
-            if(st.peek() == -1 && ch == ')' && s.charAt(st.peek()) == ')') {
-                st.pop();
+            if(st.peek() != -1 && ch == ')' && s.charAt(st.peek()) == '(') {
+                 st.pop();
                 ans = Math.max(ans, i - st.peek());
             } else
                 st.push(i);
         }
-
-        for(int ele : st) {
-             
-        }
         return ans;
-    }
+    }  
 
     //Leetcode 735. Asteroid Collision  
     //TestCase: [5,10,-5]
@@ -337,7 +333,6 @@ public class leetcode {
         return maxArea;
     }
 
-
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
         // int[] arr = {2, -1, 8, 6, 9, 4, 3, 5};
@@ -347,6 +342,7 @@ public class leetcode {
         // arr1 = ngtol(arr);
         // for(int i : arr1)    System.out.print(i + " ");
         // minRemoveToMakeValid();
-        System.out.println(reverseParentheses("(ed(et(oc))el)"));
+        // System.out.println(reverseParentheses("(ed(et(oc))el)"));
+        System.out.println(longestValidParentheses("()"));
     }
 }
