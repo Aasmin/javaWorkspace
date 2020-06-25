@@ -184,7 +184,7 @@ public class leetcode {
     public String minRemoveToMakeValid(String s) {
         int length = s.length();
         boolean[] marked = new boolean[length];
-        Stack<Integer> st = new Stack<>();  //Store the indexes
+        Stack<Integer> st = new Stack<>();  //Store the indexes (only use stack for storing opening braces)
 
         for(int i = 0; i < length; i++) {
             char ch = s.charAt(i);
@@ -204,6 +204,40 @@ public class leetcode {
         }
         return ans;
     }
+
+    //Leetcode 1190. Reverse Substrings Between Each Pair of Parentheses
+    public static String reverseParentheses(String s) {
+        Stack<Character> st = new Stack<>();
+        for(int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if(!st.isEmpty() && ch == ')') {
+                String temp = "";
+                while(st.peek() != '(') {
+                    temp += st.pop();
+                }
+                st.pop();   //removing '('
+                for(int iC = 0; iC < temp.length(); iC++) 
+                    st.push(temp.charAt(iC));
+            } else 
+                st.push(ch);
+        }
+        String temp = "";
+        for(char sTemp : st)
+            temp += sTemp;
+        return temp;
+    }
+
+    // public static String minRemoveToMakeValid(String s) {
+    //     Stack<Integer> st = new Stack<>();  //indexes
+    //     String str = "";
+    //     st.push(-1);
+    //     for(int i = 0; i < st.size(); i++) {
+    //         char ch = s.charAt(i);
+    //         if(st.size() != 1 && ch == ')')
+                
+                
+    //     }
+    // }
 
     //Leetcode 32. Longest Valid Parentheses
     public int longestValidParentheses(String s) {
@@ -306,11 +340,13 @@ public class leetcode {
 
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
-        int[] arr = {2, -1, 8, 6, 9, 4, 3, 5};
-        int[] arr1 = ngtor(arr);
-        // for(int i : arr1)    System.out.print(i + " ");
+        // int[] arr = {2, -1, 8, 6, 9, 4, 3, 5};
+        // int[] arr1 = ngtor(arr);
+        // // for(int i : arr1)    System.out.print(i + " ");
         
-        arr1 = ngtol(arr);
-        for(int i : arr1)    System.out.print(i + " ");
+        // arr1 = ngtol(arr);
+        // for(int i : arr1)    System.out.print(i + " ");
+        // minRemoveToMakeValid();
+        System.out.println(reverseParentheses("(ed(et(oc))el)"));
     }
 }
