@@ -351,7 +351,7 @@ public class leetcode {
 
     //Leetcode 42. Trapping Rain Water
     public int trap(int[] height) {
-        //Find greatest on left
+        //Find greatest on left so far
           int[] greatestOnLeft = new int[height.length];
           int prev = -1;
           for(int i = 0; i < height.length; i++) {
@@ -359,7 +359,7 @@ public class leetcode {
               prev = greatestOnLeft[i];
           }
           
-          //Find greatest on right
+          //Find greatest on right so far
           int[] greatestOnRight = new int[height.length];
           prev = -1;
           for(int i = height.length - 1; i >= 0; i--) {
@@ -374,6 +374,23 @@ public class leetcode {
           
           return totalWater;
       }
+
+      public int trap_btr(int[] height) {
+        int water = 0;  //total water stored
+        Stack<Integer> st = new Stack<>();   //storing the indexes
+        for(int i = 0; i < height.length; i++) {
+            while(!st.isEmpty() && height[st.peek()] <= height[i]) {
+                int htIdx = st.pop();
+                if(st.isEmpty())    break;
+                
+                int potentialHeight = Math.min(height[i], height[st.peek()]) - height[htIdx];
+                int potentialWidth = i - st.peek() - 1;
+                water += potentialHeight * potentialWidth;
+            }
+            st.push(i);
+        }
+        return water;
+    }
      
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
