@@ -310,7 +310,7 @@ public class leetcode {
         int N = heights.length;
         int max = 0;
         for(int i = 0; i < N; i++) {
-            while(st.peek() != -1 && heights[st.peek()] >= heights[i]) {
+            while(st.peek() != -1 && heights[st.peek()] >= heights[i]) {    //wadda ele on the stack then pop and calculate
                 int idx = st.pop();
                 int width = i - st.peek() - 1;
                 int area = width * heights[idx];
@@ -318,6 +318,7 @@ public class leetcode {
             }
             st.push(i);
         }
+        //Stack is not empty yet. THINK OF ALL INCREASING HEIGHTS i.e, {1, 2, 3, 4, 5}
         while(st.peek() != -1) {    //same as above while loop
                 int idx = st.pop();
                 int width = N - st.peek() - 1;  //change i to N
@@ -327,7 +328,26 @@ public class leetcode {
         return max;
     }
 
-
+    //Leetcode 85. Maximal Rectangle
+    public int maximalRectangle(char[][] matrix) {
+        if(matrix.length == 0 || matrix[0].length == 0)   return 0;
+        int[] tempHeights = new int[matrix[0].length];
+        int maxArea_ = 0;
+        for(int r = 0; r < matrix.length; r++) {
+            for(int c = 0; c < matrix[0].length; c++) {
+                int x = matrix[r][c] - '0';
+                if(x == 1) {
+                    tempHeights[c] += 1;
+                } else {
+                    tempHeights[c] = 0;
+                }
+            }
+            int area = largestRectangleArea_better(tempHeights);
+            maxArea_ = Math.max(maxArea_, area);
+        }
+        return maxArea_;
+    }
+     
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
         // int[] arr = {2, -1, 8, 6, 9, 4, 3, 5};
