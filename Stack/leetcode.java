@@ -27,7 +27,7 @@ public class leetcode {
 
         for(int i = 0; i < nums.length; i++) {
             while(!st.isEmpty() && nums[i] >= nums[st.peek()])  //next smaller replace '>' to '<'
-                ngr[st.pop()] = nums[i];
+                ngr[st.pop()] = i;
             st.push(i);
         }
         return ngr;
@@ -42,7 +42,7 @@ public class leetcode {
 
         for(int i = nums.length - 1; i > 0; i--) {     //CHANGED THE LOOP DIRECTION
             while(!st.isEmpty() && nums[i] >= nums[st.peek()])  
-                ngr[st.pop()] = nums[i];
+                ngr[st.pop()] = i;
             st.push(i);
         }
         return ngr;
@@ -304,6 +304,30 @@ public class leetcode {
         return maxArea;
     }
 
+    public int largestRectangleArea_better(int[] heights) {
+        Stack<Integer> st = new Stack<>();
+        st.push(-1);
+        int N = heights.length;
+        int max = 0;
+        for(int i = 0; i < N; i++) {
+            while(st.peek() != -1 && heights[st.peek()] >= heights[i]) {
+                int idx = st.pop();
+                int width = i - st.peek() - 1;
+                int area = width * heights[idx];
+                max = Math.max(max, area);
+            }
+            st.push(i);
+        }
+        while(st.peek() != -1) {    //same as above while loop
+                int idx = st.pop();
+                int width = N - st.peek() - 1;  //change i to N
+                int area = width * heights[idx];
+                max = Math.max(max, area);
+        }
+        return max;
+    }
+
+
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
         // int[] arr = {2, -1, 8, 6, 9, 4, 3, 5};
@@ -314,6 +338,13 @@ public class leetcode {
         // for(int i : arr1)    System.out.print(i + " ");
         // minRemoveToMakeValid();
         // System.out.println(reverseParentheses("(ed(et(oc))el)"));
-        System.out.println(longestValidParentheses("()"));
+        // System.out.println(longestValidParentheses("()"));
+        int[] arr = {1};
+        int[] res = nslor(arr);
+        int[] res2 = nslol(arr);
+        System.out.println(Arrays.toString(res));
+        System.out.println(Arrays.toString(res2));
+
+        System.out.println((largestRectangleArea(arr)));
     }
 }
