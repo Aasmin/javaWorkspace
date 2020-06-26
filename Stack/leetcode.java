@@ -227,19 +227,7 @@ public class leetcode {
         return temp;
     }
 
-    // public static String minRemoveToMakeValid(String s) {
-    //     Stack<Integer> st = new Stack<>();  //indexes
-    //     String str = "";
-    //     st.push(-1);
-    //     for(int i = 0; i < st.size(); i++) {
-    //         char ch = s.charAt(i);
-    //         if(st.size() != 1 && ch == ')')
-                
-                
-    //     }
-    // }
-
-    //Leetcode 32. Longest Valid Parentheses
+    //Leetcode 32. Longest Valid Parentheses    //[IMPORTANT] this approach can solve above two questions 1249 and 921
     public int longestValidParentheses(String s) {
         Stack<Integer> st = new Stack<>();
         int ans = 0;
@@ -256,39 +244,22 @@ public class leetcode {
     }  
 
     //Leetcode 735. Asteroid Collision  
-    //TestCase: [5,10,-5]
     public int[] asteroidCollision(int[] asteroids) {
-        int length = asteroids.length;
-        boolean[] marked = new boolean[length];
-        Arrays.fill(marked, true);
-        int countFalse = 0;
-        Stack<Integer> st = new Stack<>();  //Store the indexes
-        for(int i = 0; i < length; i++) {
-            int ele = asteroids[i];     //in-hand
-            
-            while(!st.empty() && ele < 0)  {
-                countFalse++;
-                if(-(ele) >= asteroids[st.peek()]) 
-                    marked[st.pop()] = false;
-
-                else {
-                    marked[i] = false; 
-                    break;  
-                }
-            } 
-
-            if(ele > 0)   st.push(i);   //Store the indexes
-        }
-
-        int[] ans = new int[length - countFalse];
-        int idx = 0;
-        for(int i = 0; i < length; i++) {
-            if(marked[i])   {
-                ans[idx] = asteroids[i];
-                idx++;
+        Stack<Integer> st = new Stack<>();
+        for(int a: asteroids) {
+            if(a > 0)   st.push(a);
+            else {
+                while(!st.isEmpty() && st.peek() > 0 && st.peek() < -a)       
+                    st.pop();
+                if((!st.isEmpty() && st.peek() < 0) || st.isEmpty())  st.push(a);
+                else if(!st.isEmpty() && st.peek() == -a)   st.pop();
             }
         }
-        return ans;
+
+        int[] arr = new int[st.size()];
+        for(int i = 0; i < arr.length; i++)
+            arr[i] = st.elementAt(i);
+        return arr;
     }
 
     //Leetcode 84. Largest Rectangle in Histogram
