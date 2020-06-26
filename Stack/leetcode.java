@@ -330,8 +330,9 @@ public class leetcode {
 
     //Leetcode 85. Maximal Rectangle
     public int maximalRectangle(char[][] matrix) {
-        if(matrix.length == 0 || matrix[0].length == 0)   return 0;
-        int[] tempHeights = new int[matrix[0].length];
+        if(matrix.length == 0 || matrix[0].length == 0)   return 0; //handling case [] and [[]]
+        int[] tempHeights = new int[matrix[0].length];  //we are updating this array. NOT MAKING IT NEW EACH TIME. 
+                                //i.e, if 0 comes the value at that idx becomes 0 and if 1 then the calue gets added.
         int maxArea_ = 0;
         for(int r = 0; r < matrix.length; r++) {
             for(int c = 0; c < matrix[0].length; c++) {
@@ -347,6 +348,32 @@ public class leetcode {
         }
         return maxArea_;
     }
+
+    //Leetcode 42. Trapping Rain Water
+    public int trap(int[] height) {
+        //Find greatest on left
+          int[] greatestOnLeft = new int[height.length];
+          int prev = -1;
+          for(int i = 0; i < height.length; i++) {
+              greatestOnLeft[i] = Math.max(prev, height[i]);
+              prev = greatestOnLeft[i];
+          }
+          
+          //Find greatest on right
+          int[] greatestOnRight = new int[height.length];
+          prev = -1;
+          for(int i = height.length - 1; i >= 0; i--) {
+              greatestOnRight[i] = Math.max(prev, height[i]);
+              prev = greatestOnRight[i];
+          }
+          
+          //Calculate the water  
+          int totalWater = 0;
+          for(int i = 0; i < height.length; i++)
+              totalWater += (Math.min(greatestOnRight[i], greatestOnLeft[i]) - height[i]);
+          
+          return totalWater;
+      }
      
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
@@ -360,11 +387,11 @@ public class leetcode {
         // System.out.println(reverseParentheses("(ed(et(oc))el)"));
         // System.out.println(longestValidParentheses("()"));
         int[] arr = {1};
-        int[] res = nslor(arr);
-        int[] res2 = nslol(arr);
-        System.out.println(Arrays.toString(res));
-        System.out.println(Arrays.toString(res2));
+        // int[] res = nslor(arr);
+        // int[] res2 = nslol(arr);
+        // System.out.println(Arrays.toString(res));
+        // System.out.println(Arrays.toString(res2));
 
-        System.out.println((largestRectangleArea(arr)));
+        // System.out.println((largestRectangleArea(arr)));
     }
 }
