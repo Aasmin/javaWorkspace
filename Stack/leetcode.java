@@ -407,6 +407,48 @@ public class leetcode {
         }   
         return water;
     }
+
+    //Leetcode 155. Min Stack 
+    class MinStack {
+        Stack<Long> st = new Stack<>(); //making this long as i * 2 can give overflow error
+        //Therefore, use Long class
+        long minSF = 0; //primitive datatype
+    /** initialize your data structure here. */
+    public MinStack() {
+        minSF = 0;
+    }
+    
+    public void push(int val) {
+        long x = (long) val;
+        if(st.isEmpty()) {
+            st.push(x);
+            minSF = x; return;}
+         if(x <  minSF) {
+            long encVal = 2 * x - minSF;
+            st.push(encVal);
+            minSF = x;
+        } else st.push(x);
+    }
+    
+    public void pop() {
+        if(st.peek() <  minSF){ //encoded value present
+            long oldMin = 2 * minSF - st.peek();
+            minSF = oldMin;
+        }
+        st.pop();
+    }
+    
+    public int top() {
+        if(st.peek() <  minSF)  //encoded value present
+            return (int) minSF;
+        else
+            return (int) ((long) st.peek());    //As Long can't be converted to int BUT long can.
+    }
+    
+    public int getMin() {
+        return (int) minSF;
+    }
+    }
      
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
