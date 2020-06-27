@@ -350,7 +350,7 @@ public class leetcode {
     }
 
     //Leetcode 42. Trapping Rain Water
-    public int trap(int[] height) {
+    public int trap(int[] height) { //O(n)
         //Find greatest on left so far
           int[] greatestOnLeft = new int[height.length];
           int prev = -1;
@@ -389,6 +389,22 @@ public class leetcode {
             }
             st.push(i);
         }
+        return water;
+    }
+
+    public int trap_03(int[] height) {  //Two pointer approach
+        int li = 0;
+        int ri = height.length - 1;
+        int lmaxBH = 0;   int rmaxBH = 0;   //BH: building height
+        int water = 0;
+        while(li <= ri) {
+            lmaxBH = Math.max(lmaxBH, height[li]);
+            rmaxBH = Math.max(rmaxBH, height[ri]);
+            if(lmaxBH <= rmaxBH)
+                water += (lmaxBH - height[li++]);
+            else
+                water += (rmaxBH - height[ri--]);
+        }   
         return water;
     }
      
