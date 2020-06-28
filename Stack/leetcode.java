@@ -463,6 +463,41 @@ public class leetcode {
         }
         return st.isEmpty();
     }
+
+    //Leetcode 402. Remove K Digits
+    public String removeKdigits(String num, int k) {
+        Stack<Character> st = new Stack<>();
+        for(int i = 0; i < num.length(); i++) {
+            char ch = num.charAt(i);
+            while(!st.isEmpty() && k > 0 && ch < st.peek()) {
+                st.pop();   
+                k--;
+            }
+            st.push(ch);
+        }
+        
+        while(k-- > 0) //TestCase : num = 123456789, k = 3
+            st.pop();
+
+        String revans = ""; //reverse ans
+
+        while (!st.isEmpty())
+            revans += st.pop();
+
+        while (revans.length() != 0) {  
+            if (revans.charAt(revans.length() - 1) != '0')  //removing leading zeros: num = 1000200, revans = 000200
+                break;
+            revans = revans.substring(0, revans.length() - 1);
+        }
+
+        String ans = "";
+
+        for (int i = revans.length() - 1; i >= 0; i--) {    //reversing answer
+            ans += revans.charAt(i);
+        }
+
+        return ans.length() != 0 ? ans : "0";   //Testcase: num = 10, k = 2
+    }
      
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
