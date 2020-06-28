@@ -504,28 +504,30 @@ public class leetcode {
         if (s.length() == 0)
             return s;
         int n = s.length();
+
         int[]freq = new int[26];
         boolean[] seen = new boolean[26];
     
-        for(int i = 0; i < s.length(); i++){
+        for(int i = 0; i < s.length(); i++){    //counting the chars
             char ch = s.charAt(i);
             freq[ch - 'a']++;
         }
     
         String ans = "0"; // treat as a stack.
-        for(int i = 0; i < s.length(); i++){
+        for(int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
-            freq[ch - 'a']--;
-            if (seen[ch - 'a'])
+            freq[ch - 'a']--;   //as we visit decrease the count
+            if (seen[ch - 'a']) 
                 continue;
-            while (ans.charAt(ans.length() - 1) > ch && freq[ans.charAt(ans.length() - 1) - 'a'] > 0)
-            {
-                seen[ans.charAt(ans.length() - 1) - 'a'] = false;
-                ans = ans.substring(0, ans.length() - 1);
+
+            int top = ans.length() - 1;
+            while (ans.charAt(top) > ch && freq[ans.charAt(top) - 'a'] > 0) {   //freq[ans.charAt(top) - 'a'] > 0) means baad che vi char aa skda
+                seen[ans.charAt(top) - 'a'] = false;   //remember to unseen if 
+                ans = ans.substring(0, top);
             }
     
             seen[ch - 'a'] = true;
-            ans += ch;
+            ans += ch;  //push
         }
     
         return ans.substring(1);
