@@ -503,7 +503,6 @@ public class leetcode {
     public String removeDuplicateLetters(String s) {
         if (s.length() == 0)
             return s;
-        int n = s.length();
 
         int[]freq = new int[26];
         boolean[] seen = new boolean[26];
@@ -520,10 +519,9 @@ public class leetcode {
             if (seen[ch - 'a']) 
                 continue;
 
-            int top = ans.length() - 1;
-            while (ans.charAt(top) > ch && freq[ans.charAt(top) - 'a'] > 0) {   //freq[ans.charAt(top) - 'a'] > 0) means baad che vi char aa skda
-                seen[ans.charAt(top) - 'a'] = false;   //remember to unseen if 
-                ans = ans.substring(0, top);
+            while (ans.charAt(ans.length() - 1) > ch && freq[ans.charAt(ans.length() - 1) - 'a'] > 0) {   //freq[ans.charAt(top) - 'a'] > 0) means baad che vi char aa skda
+                seen[ans.charAt(ans.length() - 1) - 'a'] = false;   //remember to unseen if 
+                ans = ans.substring(0, ans.length() - 1);
             }
     
             seen[ch - 'a'] = true;
