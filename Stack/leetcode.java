@@ -499,7 +499,8 @@ public class leetcode {
         return ans.length() != 0 ? ans : "0";   //Testcase: num = 10, k = 2
     }
      
-    //Leetcode 316. Remove Duplicate Letters
+    //Leetcode 316. Remove Duplicate Letters 
+    //Leetcode 1081. Smallest Subsequence of Distinct Characters 
     public String removeDuplicateLetters(String s) {
         if (s.length() == 0)
             return s;
