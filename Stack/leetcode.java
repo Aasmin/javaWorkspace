@@ -499,6 +499,39 @@ public class leetcode {
         return ans.length() != 0 ? ans : "0";   //Testcase: num = 10, k = 2
     }
      
+    //Leetcode 316. Remove Duplicate Letters
+    public String removeDuplicateLetters(String s) {
+        if (s.length() == 0)
+            return s;
+        int n = s.length();
+        int[]freq = new int[26];
+        boolean[] seen = new boolean[26];
+    
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            freq[ch - 'a']++;
+        }
+    
+        String ans = "0"; // treat as a stack.
+        for(int i = 0; i < s.length(); i++){
+            char ch = s.charAt(i);
+            freq[ch - 'a']--;
+            if (seen[ch - 'a'])
+                continue;
+            while (ans.charAt(ans.length() - 1) > ch && freq[ans.charAt(ans.length() - 1) - 'a'] > 0)
+            {
+                seen[ans.charAt(ans.length() - 1) - 'a'] = false;
+                ans = ans.substring(0, ans.length() - 1);
+            }
+    
+            seen[ch - 'a'] = true;
+            ans += ch;
+        }
+    
+        return ans.substring(1);
+    }
+
+
     public static void main(String[] args) {
         // System.out.println(removeOuterParentheses("(()())(())"));
         // int[] arr = {2, -1, 8, 6, 9, 4, 3, 5};
