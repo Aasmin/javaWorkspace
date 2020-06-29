@@ -130,16 +130,38 @@ public class l001 {
         }
         return dp[0];
     }
+    // Dynamic Dice
+    public static int boardPathTabDynamic(int sp, int ep, int[] dp, int[] diceArray) {
+        for(sp = ep; sp >= 0; sp--) {
+            if(sp == ep){
+                dp[sp] = 1; continue;
+            }
+
+            //if(dp[sp] != 0)     return dp[sp];    we don't need this anymore
+        
+            int count = 0;
+            for(int d = 0; d < diceArray.length && sp + diceArray[d] <= ep; d++) {
+                count += dp[sp + diceArray[d]]; //boardPathMemo(sp + d, ep, dp);
+            }
+            dp[sp] = count;
+        }
+        return dp[0];
+    }
 
 
     public static void diceSolve() {
         int sp = 0, ep = 10;
-        System.out.println(boardPath(sp, ep));
-        int[] dpM = new int[ep + 1];
-        System.out.println(boardPathMemo(sp, ep,dpM));
-        display1d(dpM);
+        // System.out.println(boardPath(sp, ep));
+        // int[] dpM = new int[ep + 1];
+        // System.out.println(boardPathMemo(sp, ep,dpM));
+        // display1d(dpM);
+        // int[] dpT = new int[ep + 1];
+        // System.out.println(boardPathTab(sp, ep, dpT));
+        // display1d(dpT);
+        
         int[] dpT = new int[ep + 1];
-        System.out.println(boardPathTab(sp, ep, dpT));
+        int[] newDice = {2, 3, 5, 7};
+        System.out.println(boardPathTabDynamic(sp, ep, dpT, newDice));
         display1d(dpT);
     }
 
