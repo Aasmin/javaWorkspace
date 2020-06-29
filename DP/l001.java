@@ -1,6 +1,26 @@
 public class l001 {
     public static int fib(int n) {
-        return 0;
+        if(n <= 1)  return n;
+        int ans = fib(n - 1) + fib(n - 2);
+        return ans;
+    }
+
+    public static int fibM(int n, int[] fibM) {
+        if(n <= 1)  return fibM[n] = n;
+        if(fibM[n] != 0)    return fibM[n];
+
+        int ans = fibM(n - 1, fibM) + fibM(n - 2, fibM);
+        return fibM[n] = ans;
+    }
+
+    public static int fibT(int N, int[] fibT) {
+        for(int n = 0; n <= N; n++) {
+            if(n <= 1)  {fibT[n] = n;   continue;}
+    
+            int ans = fibT[n - 1] + fibT[n - 2];    //fib(n - 1) + fib(n - 2);
+            fibT[n] = ans;
+        }
+        return fibT[N];
     }
 
     public static void display2d(int[][] dp) {
@@ -160,17 +180,26 @@ public class l001 {
         // display1d(dpT);
         
         int[] dpT = new int[ep + 1];
-        int[] newDice = {2, 3, 5, 7};
+        int[] newDice = {1, 2, 3, 4, 5, 6};
         System.out.println(boardPathTabDynamic(sp, ep, dpT, newDice));
         display1d(dpT);
     }
 
     public static void solve() {
+        int n = 5;
+        System.out.println(fib(n));
 
+        int[] fibM1 = new int[n + 1];
+        System.out.println(fibM(n, fibM1));
+        display1d(fibM1);
+
+        int[] fibT1 = new int[n + 1];
+        System.out.println(fibT(n, fibT1));
+        display1d(fibT1);
     }
     public static void main(String[] args) {
-        // solve(); 
+        solve(); 
         // mazeSolve();
-        diceSolve();
+        // diceSolve();
     }
 }
