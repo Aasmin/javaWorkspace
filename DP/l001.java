@@ -23,6 +23,16 @@ public class l001 {
         return fibT[N];
     }
 
+    public static int fibBtr(int N) {   //as fib(n) only depends on last two elements; so we used only two int vars
+        int a = 0, b = 1, sum = 0;  
+        for(int n = 2; n <= N; n++) {
+            sum = a + b;
+            a = b;
+            b = sum;
+        }
+        return sum;
+    }
+
     public static void display2d(int[][] dp) {
         for(int[] ar : dp) {
             for(int ele : ar)
@@ -186,7 +196,7 @@ public class l001 {
     }
 
     public static void solve() {
-        int n = 5;
+        int n = 45;
         System.out.println(fib(n));
 
         int[] fibM1 = new int[n + 1];
@@ -196,6 +206,8 @@ public class l001 {
         int[] fibT1 = new int[n + 1];
         System.out.println(fibT(n, fibT1));
         display1d(fibT1);
+
+        System.out.println(fibBtr(n));
     }
     public static void main(String[] args) {
         solve(); 
