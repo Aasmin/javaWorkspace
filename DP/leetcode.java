@@ -55,6 +55,34 @@ public class leetcode {
         }
         return sum;
     }
+
+    //Leetcode 746. Min Cost Climbing Stairs    [Same Approach as Fib]
+    private int minCostClimbingStairs(int n, int[] dp, int[] cost) {
+        if(n <= 1)  return dp[n] = cost[n];
+        if(dp[n] != 0)  return dp[n];
+
+        int ans = Math.min(minCostClimbingStairs(n - 1, dp, cost), minCostClimbingStairs(n - 2, dp, cost));
+        return dp[n] = ans + (n != cost.length ? cost[n] : 0);  //Managing cost[n] as 0
+    }
+
+    private int minCostClimbingStairsDP(int n, int[] dp, int[] cost) {
+        int N = n;
+        for(n = 0; n <= N; n++) {
+            if(n <= 1) {dp[n] = cost[n]; continue;}
+    
+            int ans = Math.min(dp[n - 1], dp[n - 2]);
+            dp[n] = ans + (n != cost.length ? cost[n] : 0);  //Managing cost[n] as 0
+        }
+        return dp[N];
+    }
+
+    public int minCostClimbingStairs(int[] cost) {
+        int n = cost.length;
+
+        int[] dp = new int[n + 1];
+        return minCostClimbingStairs(n, dp, cost);
+    }
+
     public static void main(String[] args) {
         
     }
