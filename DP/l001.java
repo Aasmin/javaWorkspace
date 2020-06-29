@@ -1,3 +1,5 @@
+import java.util.LinkedList;
+
 public class l001 {
     public static int fib(int n) {
         if(n <= 1)  return n;
@@ -178,6 +180,21 @@ public class l001 {
         return dp[0];
     }
 
+    public static int boardPathBest(int sp, int ep) {   // Best as we are only using O(6) space [answer is dependent on the last 6 nums]
+        LinkedList<Integer> l1 = new LinkedList<>();    // I came up with this solution as observing the dpT[] array in the output
+        for(sp = ep; sp >= 0; sp--) {
+            if(sp > ep - 2){
+                l1.addFirst(1);
+                continue;
+            }
+        
+            if(l1.size() <= 6) 
+                l1.addFirst(2 * l1.getFirst());
+            else 
+                l1.addFirst(2 * l1.getFirst() - l1.removeLast());
+        }
+        return l1.getFirst();
+    }
 
     public static void diceSolve() {
         int sp = 0, ep = 10;
@@ -185,14 +202,16 @@ public class l001 {
         // int[] dpM = new int[ep + 1];
         // System.out.println(boardPathMemo(sp, ep,dpM));
         // display1d(dpM);
-        // int[] dpT = new int[ep + 1];
-        // System.out.println(boardPathTab(sp, ep, dpT));
-        // display1d(dpT);
-        
         int[] dpT = new int[ep + 1];
-        int[] newDice = {1, 2, 3, 4, 5, 6};
-        System.out.println(boardPathTabDynamic(sp, ep, dpT, newDice));
+        System.out.println(boardPathTab(sp, ep, dpT));
         display1d(dpT);
+        System.out.println(boardPathBest(sp, ep));
+        
+        // int[] dpT = new int[ep + 1];
+        // int[] newDice = {1, 2, 3, 4, 5, 6};
+        // System.out.println(boardPathTabDynamic(sp, ep, dpT, newDice));
+        // display1d(dpT);
+
     }
 
     public static void solve() {
@@ -210,8 +229,8 @@ public class l001 {
         System.out.println(fibBtr(n));
     }
     public static void main(String[] args) {
-        solve(); 
+        // solve(); 
         // mazeSolve();
-        // diceSolve();
+        diceSolve();
     }
 }
