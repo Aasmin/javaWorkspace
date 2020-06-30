@@ -68,7 +68,7 @@ public class leetcode {
     }
 
     private int minCostClimbingStairsDP(int n, int[] dp, int[] cost) {
-        int N = Int;
+        int N = n;
         for(n = 0; n <= N; n++) {
             if(n <= 1) {dp[n] = cost[n]; continue;}
     
@@ -180,7 +180,74 @@ public class leetcode {
         return dp[0][0];
     }
 
+    //GFG: https://www.geeksforgeeks.org/gold-mine-problem/
+    public static void goldMine() {
+        int[][] grid = { {1, 3, 1, 5},
+                        {2, 2, 4, 1},
+                        {5, 0, 2, 3},
+                        {0, 6, 1, 2}};
+        int[][] dp = new int[grid.length][grid[0].length];
+        int maxVal = 0;
+        for(int i = 0; i < grid.length; i++) {
+            maxVal = Math.max(maxVal, goldMine(i, 0, grid, dp));
+        }
+        System.out.println(maxVal);
+        for(int[] ar: dp)
+            System.out.println(Arrays.toString(ar));
+        
+        //DP
+        int[][] dpT = new int[grid.length][grid[0].length];
+        System.out.println(goldMine_DP(grid, dpT));
+        for(int[] ar: dpT)
+            System.out.println(Arrays.toString(ar));
+    }
+
+    private static int goldMine(int sr, int sc, int[][] grid, int[][] dp) {
+        if(sc == grid[0].length - 1) 
+            return dp[sr][sc] = grid[sr][sc];
+        if(dp[sr][sc] != 0)   return dp[sr][sc];
+
+        int maxCost = 0;
+        int[][] dir = {{-1, 1}, {0, 1}, {1, 1}};
+        for(int d = 0; d < 3; d++) {
+            int x = sr + dir[d][0];
+            int y = sc + dir[d][1];
+
+            if(x >= 0 && y >= 0 && x <= grid.length - 1 && y <= grid[0].length - 1)
+                maxCost = Math.max(maxCost, goldMine(x, y, grid, dp));
+        }
+        return dp[sr][sc] = maxCost + grid[sr][sc];
+    }
+
+    private static int goldMine_DP(int[][] grid, int[][] dp) {
+        for(int sc = grid[0].length - 1; sc >= 0; sc--) {
+            for(int sr = grid.length - 1; sr >= 0; sr--) {
+                if(sc == grid[0].length - 1) {
+                    dp[sr][sc] = grid[sr][sc];
+                    continue;
+                }
+        
+                int maxCost = 0;
+                int[][] dir = {{-1, 1}, {0, 1}, {1, 1}};
+                for(int d = 0; d < 3; d++) {
+                    int x = sr + dir[d][0];
+                    int y = sc + dir[d][1];
+        
+                    if(x >= 0 && y >= 0 && x <= grid.length - 1 && y <= grid[0].length - 1)
+                        maxCost = Math.max(maxCost, dp[x][y]);
+                }
+                dp[sr][sc] = maxCost + grid[sr][sc];
+            }
+        }
+        int maxValDP = 0;
+        for(int i = 0; i < grid.length; i++) {
+            maxValDP = Math.max(maxValDP, dp[i][0]);
+        }
+        return maxValDP;
+    }
+
     public static void main(String[] args) {
-        friends_pairing_problem(10);
+        // friends_pairing_problem(10);
+        goldMine();
     }
 }
