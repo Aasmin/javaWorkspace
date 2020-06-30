@@ -246,8 +246,55 @@ public class leetcode {
         return maxValDP;
     }
 
+    //GFG: https://www.geeksforgeeks.org/count-number-of-ways-to-partition-a-set-into-k-subsets/
+    public static void count_of_waysMAIN() {
+        int n = 7, k = 3;
+        int[][] dpM = new int[k + 1][n + 1];    //TABLE: k -> rows, n -> cols
+        System.out.println(count_of_ways(n, k));
+        System.out.println(count_of_waysMEM(n, k, dpM));
+        display2D(dpM);
+
+        int[][] dpT = new int[k + 1][n + 1];    //TABLE: k -> rows, n -> cols
+        System.out.println(count_of_waysTAB(n, k, dpT));
+        display2D(dpT);
+    }
+    public static int count_of_ways(int n, int k) {
+        if(n < k)   return 0;
+        if(n == k || k == 1)    return 1;
+        int newGroup = count_of_ways(n - 1, k - 1); //as n is coming alone so k - 1 groups can be made
+        int existingGroup = count_of_ways(n - 1, k) * k; //based on tree observation
+        return newGroup + existingGroup;
+    }
+    public static int count_of_waysMEM(int n, int k, int[][] dp) {
+        if(n < k)   return 0;
+        if(n == k || k == 1)    return dp[k][n] = 1;
+        if(dp[k][n] != 0)   return dp[k][n];
+        int newGroup = count_of_waysMEM(n - 1, k - 1, dp); //as n is coming alone so k - 1 groups can be made
+        int existingGroup = count_of_waysMEM(n - 1, k, dp) * k; //based on tree observation
+        return dp[k][n] = newGroup + existingGroup;
+    }
+    public static int count_of_waysTAB(int n, int k, int[][] dp) {
+        int K = k, N = n;
+        for(k = 1; k <= K; k++) {   // loop starts from k = 1 as dp[k-1] row can't be access if loop starts from 0
+            for(n = 0; n <= N; n++) {
+                if(n < k)   {continue;}
+                if(n == k || k == 1)    {dp[k][n] = 1;  continue;}
+                int newGroup = dp[k - 1][n - 1];    //count_of_waysTAB(n - 1, k - 1, dp); //as n is coming alone so k - 1 groups can be made
+                int existingGroup = dp[k][n - 1] * k;   //count_of_waysTAB(n - 1, k, dp) * k; //based on tree observation
+                dp[k][n] = newGroup + existingGroup;
+            }
+        }
+        return dp[K][N];
+    }
+
+
+    static void display2D(int[][] array) {
+        for(int[] ar : array)
+            System.out.println(Arrays.toString(ar));
+    }
     public static void main(String[] args) {
         // friends_pairing_problem(10);
-        goldMine();
+        // goldMine();
+        count_of_waysMAIN();
     }
 }
