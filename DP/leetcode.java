@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class leetcode {
     //Leetcode 70. Climbing Stairs
     public int climbStairs(int n) {
@@ -82,8 +84,55 @@ public class leetcode {
         int[] dp = new int[n + 1];
         return minCostClimbingStairs(n, dp, cost);
     }
+    
+    //25 June
+    //https://practice.geeksforgeeks.org/problems/friends-pairing-problem/0
+    public static void friends_pairing_problem(int n) {
+        int[] dp = new int[n + 1];
+        System.out.println(friends_pairing_problemMEM(n, dp));
+        System.out.println(Arrays.toString(dp));
+        int[] dpT = new int[n + 1];
+        System.out.println(friends_pairing_problemTab(n, dpT));
+        System.out.println(Arrays.toString(dpT));
+        System.out.println(friends_pairing_problemTwoPointer(10));
+    }
+
+    private static int friends_pairing_problemMEM(int n, int[] dp) {
+        if(n <= 1)  
+            return dp[n] = 1;
+        int single = friends_pairing_problemMEM(n - 1, dp);
+        int pairUp = (n - 1) * friends_pairing_problemMEM(n - 2, dp);   // ways in which remaining (n - 1) friends comes if 1 remains single
+        return dp[n] = (single + pairUp);
+    }
+
+    private static int friends_pairing_problemTab(int n, int[] dp) {
+        int N = n;
+        for(n = 0; n <= N; n++) {
+            if(n <= 1)  {
+                dp[n] = 1;
+                continue;
+            }
+            int single = dp[n-1];   //friends_pairing_problemMEM(n - 1, dp);
+            int pairUp = (n - 1) * dp[n - 2]; //(n - 1) * friends_pairing_problemMEM(n - 2, dp);   // ways in which remaining (n - 1) friends comes if 1 remains single
+            dp[n] = (single + pairUp);
+        }
+        return dp[N];
+    }
+    
+    private static int friends_pairing_problemTwoPointer(int n) {
+        if(n <= 1)  return n;
+        int a = 1, b = 1, ans = 0;
+        
+        for(int i = 2; i <= n; i++) {
+            ans = b + (a * (i - 1));
+            a = b;
+            b = ans;
+        }
+        return ans;
+    }
+
 
     public static void main(String[] args) {
-        
+        friends_pairing_problem(10);
     }
 }
