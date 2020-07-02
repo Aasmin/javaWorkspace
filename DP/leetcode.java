@@ -287,6 +287,12 @@ public class leetcode {
         return dp[K][N];
     }
 
+    // Practice Link: https://practice.geeksforgeeks.org/problems/mobile-numeric-keypad/0
+
+    //28 June
+    //Substring and Subsequence Series.==================================================
+  
+    
 
     static void display2D(int[][] array) {
         for(int[] ar : array)
