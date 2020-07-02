@@ -291,9 +291,73 @@ public class leetcode {
 
     //28 June
     //Substring and Subsequence Series.==================================================
-  
+    public static boolean[][] isPlaindromeSubstring(String str) {
+        int n = str.length();
+        boolean[][] dp = new boolean[n][n];
+        for(int gap = 0; gap < n; gap++) {
+            for(int i = 0, j = gap; j < n; i++, j++) {
+                if(gap == 0)    
+                    dp[i][j] = true;    // (0, 0), (1, 1), ... (10, 10) - Single Letters case
+                else if (gap == 1 && str.charAt(i) == str.charAt(j))
+                    dp[i][j] = true;    // "AA", "BB" - Two letters
+                else 
+                    dp[i][j] = (str.charAt(i) == str.charAt(j) && dp[i + 1][j - 1]);
+            }
+        }
+        return dp;
+    }
+    
+    //Leetcode 5. Longest Palindromic Substring [SAME AS isPlaindromeSubstring()]
+    public String longestPalindrome(String str) {
+        int n = str.length();
+        if(n == 0)  return "";  // Testcase: ""
+        int[][] dp = new int[n][n];
+
+        int maxLen = 0; int si = 0, ei = 0; 
+        for(int gap = 0; gap < n; gap++) {
+            for(int i = 0, j = gap; j < n; i++, j++) {
+                if(gap == 0)    
+                    dp[i][j] = 1;    // (0, 0), (1, 1), ... (10, 10) Single Letters case
+                else if (gap == 1 && str.charAt(i) == str.charAt(j))
+                    dp[i][j] = 2;
+                else if (str.charAt(i) == str.charAt(j) && dp[i + 1][j - 1] != 0)
+                    dp[i][j] = gap + 1;
+                if(dp[i][j] > maxLen) {
+                    maxLen = dp[i][j];
+                    si = i; ei = j;
+                }
+            }
+        }
+        return str.substring(si, ei + 1);   //(ei + 1) as ei is included
+    }
     
 
+
+    public static void stringSubstringSet()
+    {
+        String str = "abccbefgpgf";
+        int n = str.length();
+        boolean[][] dp = isPlaindromeSubstring(str);
+        for(boolean[] bArr : dp) 
+            System.out.println(Arrays.toString(bArr));
+        
+        System.out.println(longestPalindrome(str));
+        
+        // int si = 0, ei = n - 1;
+
+
+        // boolean[][] isPlalindrome = isPlaindromeSubstring(str);
+        // cout << longestPlaindromeSubstring("abcaacbefgpgf") << endl;
+
+        // cout << longestPlaindromeSubseq_Rec(str, si, ei, dp, isPlalindrome) << endl;
+        // cout << longestPlaindromeSubseq_DP(str, si, ei, dp, isPlalindrome) << endl;
+
+        // display2D(dp);
+
+        // numDistinct("geeksforgeeks", "gks");
+
+        // cout << longestCommonSubsequence("abc", "aa") << endl;
+    }
     static void display2D(int[][] array) {
         for(int[] ar : array)
             System.out.println(Arrays.toString(ar));
@@ -301,6 +365,7 @@ public class leetcode {
     public static void main(String[] args) {
         // friends_pairing_problem(10);
         // goldMine();
-        count_of_waysMAIN();
+        // count_of_waysMAIN();
+        stringSubstringSet();
     }
 }
