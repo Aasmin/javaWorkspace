@@ -330,18 +330,48 @@ public class leetcode {
         }
         return str.substring(si, ei + 1);   //(ei + 1) as ei is included
     }
-    
 
+    //Leetcode 647. Palindromic Substrings  [SAME AS isPlaindromeSubstring()]
+    public int countSubstrings(String str) {
+        int n = str.length();
+        if(n == 0)  return 0;  // Testcase: ""
+        int[][] dp = new int[n][n];
+
+        int count = 0;
+        for(int gap = 0; gap < n; gap++) {
+            for(int i = 0, j = gap; j < n; i++, j++) {
+                if(gap == 0)    
+                    dp[i][j] = 1;    // (0, 0), (1, 1), ... (10, 10) Single Letters case
+                else if (gap == 1 && str.charAt(i) == str.charAt(j))
+                    dp[i][j] = 2;
+                else if (str.charAt(i) == str.charAt(j) && dp[i + 1][j - 1] != 0)
+                    dp[i][j] = gap + 1;
+                
+                count += dp[i][j] != 0 ? 1 : 0;
+            }
+        }
+        return count;   //(ei + 1) as ei is included
+    }
+
+
+    
 
     public static void stringSubstringSet()
     {
-        String str = "abccbefgpgf";
+        // String str = "abccbefgpgf";
+        String str = "geeksforgeeks";
         int n = str.length();
-        boolean[][] dp = isPlaindromeSubstring(str);
-        for(boolean[] bArr : dp) 
-            System.out.println(Arrays.toString(bArr));
-        
-        System.out.println(longestPalindrome(str));
+        int si = 0, ei = n - 1;
+        boolean[][] isPlalindrome = isPlaindromeSubstring(str);
+        // for(boolean[] bArr : dp) 
+        //     System.out.println(Arrays.toString(bArr));
+        int[][] dp = new int[n][n];
+        System.out.println(longestPalindromeSubseq_Rec(str, si, ei, dp, isPlalindrome));
+        display2D(dp);
+
+        int[][] dpT = new int[n][n];
+        System.out.println(longestPalindromeSubseq_DP(str, si, ei, dpT, isPlalindrome));
+        display2D(dpT);
         
         // int si = 0, ei = n - 1;
 
