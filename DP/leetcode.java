@@ -354,7 +354,39 @@ public class leetcode {
     }
 
 
-    
+    //Leetcode 516. Longest Palindromic Subsequence
+    public static int longestPalindromeSubseq_Rec(String str, int si, int ei, int[][] dp, boolean[][] isPallin) {
+        if(isPallin[si][ei])
+            return dp[si][ei] = ei - si + 1;
+        if(dp[si][ei] != 0)
+            return dp[si][ei];
+        
+        int len = 0;
+        if(str.charAt(si) == str.charAt(ei))
+            len = longestPalindromeSubseq_Rec(str, si + 1, ei - 1, dp, isPallin) + 2;
+        else 
+            len = Math.max(longestPalindromeSubseq_Rec(str, si + 1, ei, dp, isPallin), longestPalindromeSubseq_Rec(str, si, ei - 1, dp, isPallin));
+        
+        return dp[si][ei] = len;
+    }
+
+    public static int longestPalindromeSubseq_DP(String str, int si, int ei, int[][] dp, boolean[][] isPallin) {
+        for(int gap = 0; gap < str.length(); gap++) {
+            for(si = 0, ei = gap; ei < str.length(); si++, ei++) {
+                if(isPallin[si][ei])
+                    {dp[si][ei] = ei - si + 1;  continue;}
+                
+                int len = 0;
+                if(str.charAt(si) == str.charAt(ei))
+                    len = dp[si + 1][ei - 1] + 2;   //longestPalindromeSubseq_Rec(str, si + 1, ei - 1, dp, isPallin) + 2;
+                else 
+                    len = Math.max(dp[si + 1][ei], dp[si][ei - 1]);   //Math.max(longestPalindromeSubseq_Rec(str, si + 1, ei, dp, isPallin), longestPalindromeSubseq_Rec(str, si, ei - 1, dp, isPallin));
+                
+                dp[si][ei] = len;
+            }
+        }
+        return dp[0][str.length() - 1];
+    }
 
     public static void stringSubstringSet()
     {
