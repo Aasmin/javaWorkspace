@@ -388,37 +388,80 @@ public class leetcode {
         return dp[0][str.length() - 1];
     }
 
+    //Leetcode 115. Distinct Subsequences   [code via length, dryrun thru index]
+    public static int numDistinct(String s, String t, int n, int m) {  //n -> len of Main str i.e s 
+        if(m == 0)  return 1;
+        if(m > n)   return 0;
+        int count = 0;
+        if(s.charAt(n - 1) == t.charAt(m - 1)) 
+            count += numDistinct(s, t, n - 1, m - 1) + numDistinct(s, t, n - 1, m);
+        else 
+            count += numDistinct(s, t, n - 1, m); 
+        return count;
+    }
+    //in output of numDistinct_Mem() -1 tells that wahan pe kabhi geya hai ni
+    public static int numDistinct_Mem(String s, String t, int n, int m, int[][] dp) {  //n -> len of Main str i.e s 
+        if(m == 0)  return dp[n][m] = 1;
+        if(m > n)   return dp[n][m] = 0;
+        if(dp[n][m] != -1)   return dp[n][m];
+        int count = 0;
+        if(s.charAt(n - 1) == t.charAt(m - 1)) 
+            count += numDistinct_Mem(s, t, n - 1, m - 1, dp) + numDistinct_Mem(s, t, n - 1, m, dp);
+        else 
+            count += numDistinct_Mem(s, t, n - 1, m, dp); 
+        return dp[n][m] = count;
+    }  
+    public static int numDistinct_DP(String s, String t, int n, int m, int[][] dp) {  //n -> len of Main str i.e s 
+        int N = n, M = m;
+        for(n = 0; n <= N; n++) {
+            for(m = 0; m <= M; m++) {
+                if(m == 0)  {dp[n][m] = 1; continue;}
+                if(m > n)   {dp[n][m] = 0; continue;}
+
+                int count = 0;
+                if(s.charAt(n - 1) == t.charAt(m - 1)) 
+                    count += dp[n - 1][m - 1] + dp[n - 1][m];   //numDistinct_Mem(s, t, n - 1, m - 1, dp) + numDistinct_Mem(s, t, n - 1, m, dp);
+                else 
+                    count += dp[n - 1][m];  //numDistinct_Mem(s, t, n - 1, m, dp); 
+                dp[n][m] = count;
+
+            }
+        }
+        return dp[N][M];
+    }
+
+
     public static void stringSubstringSet()
     {
         // String str = "abccbefgpgf";
         String str = "geeksforgeeks";
         int n = str.length();
-        int si = 0, ei = n - 1;
-        boolean[][] isPlalindrome = isPlaindromeSubstring(str);
-        // for(boolean[] bArr : dp) 
-        //     System.out.println(Arrays.toString(bArr));
-        int[][] dp = new int[n][n];
-        System.out.println(longestPalindromeSubseq_Rec(str, si, ei, dp, isPlalindrome));
-        display2D(dp);
-
-        int[][] dpT = new int[n][n];
-        System.out.println(longestPalindromeSubseq_DP(str, si, ei, dpT, isPlalindrome));
-        display2D(dpT);
-        
         // int si = 0, ei = n - 1;
-
-
         // boolean[][] isPlalindrome = isPlaindromeSubstring(str);
-        // cout << longestPlaindromeSubstring("abcaacbefgpgf") << endl;
-
-        // cout << longestPlaindromeSubseq_Rec(str, si, ei, dp, isPlalindrome) << endl;
-        // cout << longestPlaindromeSubseq_DP(str, si, ei, dp, isPlalindrome) << endl;
-
+        // // for(boolean[] bArr : dp) 
+        // //     System.out.println(Arrays.toString(bArr));
+        // int[][] dp = new int[n][n];
+        // System.out.println(longestPalindromeSubseq_Rec(str, si, ei, dp, isPlalindrome));
         // display2D(dp);
 
-        // numDistinct("geeksforgeeks", "gks");
-
-        // cout << longestCommonSubsequence("abc", "aa") << endl;
+        // int[][] dpT = new int[n][n];
+        // System.out.println(longestPalindromeSubseq_DP(str, si, ei, dpT, isPlalindrome));
+        // display2D(dpT);
+        
+        String t = "gks";
+        int m = t.length();
+        System.out.println(numDistinct(str, t, n, m));
+        int[][] dp = new int[n + 1][m + 1];     //new int[n + 1][m + 1];  as if charAt(m - 1) can't be negative
+        for(int[] arr: dp)  //IMPORTANT 
+            Arrays.fill(arr, -1);
+        System.out.println(numDistinct_Mem(str, t, n, m, dp));
+        display2D(dp);
+            
+        int[][] dpT = new int[n + 1][m + 1];
+        for(int[] arr: dpT)  //IMPORTANT 
+            Arrays.fill(arr, -1);
+        System.out.println(numDistinct_DP(str, t, n, m, dpT));
+        display2D(dpT); 
     }
     static void display2D(int[][] array) {
         for(int[] ar : array)
