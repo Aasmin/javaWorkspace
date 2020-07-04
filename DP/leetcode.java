@@ -430,6 +430,35 @@ public class leetcode {
         return dp[N][M];
     }
 
+    //GFG: https://practice.geeksforgeeks.org/problems/count-palindromic-subsequences/1
+    int countPS(String str, int i, int j, int[][] dp)
+    {
+        if(i > j)   return 0;
+        if(i == j)  return dp[i][j] = 1;
+        if(dp[i][j] != 0)   return dp[i][j];
+        int middleString = countPS(str, i + 1, j - 1, dp);
+        int excludingFirst = countPS(str, i + 1, j, dp);
+        int excludingLast = countPS(str, i, j - 1, dp);
+        int ans = excludingFirst + excludingLast;
+        return dp[i][j] = (ans + (str.charAt(i) == str.charAt(j) ? 1 : - middleString));
+    }
+
+    int countPSTab(String str, int i, int j, int[][] dp)
+    {   
+        int n = str.length();
+        for(int gap = 0; gap < n; gap++) {
+            for(i = 0, j = gap; j < n; i++, j++){
+                if(i > j)   return 0;
+                if(i == j)  {dp[i][j] = 1;  continue;}
+                int middleString = dp[i + 1][j - 1];    //countPS(str, i + 1, j - 1, dp);
+                int excludingFirst = dp[i + 1][j];    //countPS(str, i + 1, j, dp);
+                int excludingLast = dp[i][j - 1];    //countPS(str, i, j - 1, dp);
+                int ans = excludingFirst + excludingLast;
+                dp[i][j] = (ans + (str.charAt(i) == str.charAt(j) ? 1 : - middleString));
+            }
+        }
+        return dp[0][n - 1];
+    }
 
     public static void stringSubstringSet()
     {
