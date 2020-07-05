@@ -641,22 +641,37 @@ public class leetcode {
             
         return dp[TAR];
     }
-
+    
+    //GFG: https://www.geeksforgeeks.org/find-number-of-solutions-of-a-linear-equation-of-n-variables/
+    static int linearEquation_DP(int[] coeff, int rhs) { //SAME AS coinChangeCombination_DP()
+        int[] dp = new int[rhs + 1];
+        dp[0] = 1;
+        int TAR = rhs;
+        for(int ele : coeff) 
+            for(rhs = ele; rhs <= TAR; rhs++)      
+                dp[rhs] += dp[rhs - ele];     
+            
+        return dp[TAR];
+    }
+    
     static void coinChange()
     {
-        int[] arr = {2, 3, 5, 7};
-        int tar = 10;
-        int[] dp = new int[tar + 1];
-        System.out.println(coinChangePermutation(arr, tar, dp));
-        System.out.println(Arrays.toString(dp));
-        int[] dpT = new int[tar + 1];
-        System.out.println(coinChangePermutation_DP(arr, tar, dpT));
-        System.out.println(Arrays.toString(dpT));
-        int[] dpTC = new int[tar + 1];
-        System.out.println(coinChangeCombination_DP(arr, tar, dpTC));
-        System.out.println(Arrays.toString(dpTC));
+        // int[] arr = {2, 3, 5, 7};
+        // int tar = 10;
+        // int[] dp = new int[tar + 1];
+        // System.out.println(coinChangePermutation(arr, tar, dp));
+        // System.out.println(Arrays.toString(dp));
+        // int[] dpT = new int[tar + 1];
+        // System.out.println(coinChangePermutation_DP(arr, tar, dpT));
+        // System.out.println(Arrays.toString(dpT));
+        // int[] dpTC = new int[tar + 1];
+        // System.out.println(coinChangeCombination_DP(arr, tar, dpTC));
+        // System.out.println(Arrays.toString(dpTC));
+        int[] coeff = {2, 2, 3};
+        int rhs = 4;
+        System.out.println(linearEquation_DP(coeff, rhs));
     }
-
+    
     static void display2D(int[][] array) {
         for(int[] ar : array)
             System.out.println(Arrays.toString(ar));
