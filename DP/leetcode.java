@@ -489,13 +489,51 @@ public class leetcode {
         return dp[0][0];
     } 
 
+    static int max_ = 0;
+    public static int longestCommonSubstring(String text1, String text2, int i, int j, int[][] dp) {
+        if(i == text1.length() || j == text2.length())  return 0;
+        if(dp[i][j] != 0)   return dp[i][j];
+        longestCommonSubstring(text1, text2, i + 1, j, dp); //these calls are written above if block as in line 501 pgm returns
+        longestCommonSubstring(text1, text2, i, j + 1, dp);
+        if(text1.charAt(i) == text2.charAt(j)) {
+            int a = longestCommonSubstring(text1, text2, i + 1, j + 1, dp) + 1;
+            max_ = Math.max(max_, a);
+            return dp[i][j] = a;
+        }
+        return 0;
+    }
+
+    public static int longestCommonSubstring_DP(String text1, String text2, int i, int j, int[][] dp) {
+        int max_ = 0;
+        for(i = text1.length(); i >=0; i--) {
+            for(j = text2.length(); j >= 0; j--) {
+                if(i == text1.length() || j == text2.length())  continue;
+
+                // lowestCommonSubstring(text1, text2, i + 1, j, dp);   These calls aren't required here
+                // lowestCommonSubstring(text1, text2, i, j + 1, dp);
+                if(text1.charAt(i) == text2.charAt(j)) {
+                    int a = dp[i + 1][j + 1] + 1;   //lowestCommonSubstring(text1, text2, i + 1, j + 1, dp) + 1;
+                    max_ = Math.max(max_, a);
+                    dp[i][j] = a;
+                }   
+            }
+        }
+        return max_;
+    }
+
     public static void longestCommonSubsequence(String text1, String text2) {
         int n = text1.length(), m = text2.length();
         int[][] dp = new int[n + 1][m + 1];
-        System.out.println(longestCommonSubsequence(text1, text2, 0, 0, dp));
+        // System.out.println(longestCommonSubsequence(text1, text2, 0, 0, dp));
+        // display2D(dp);
+        // int[][] dpT = new int[n + 1][m + 1];
+        // System.out.println(longestCommonSubsequence_Tab(text1, text2, 0, 0, dpT));
+        // display2D(dpT);
+        longestCommonSubstring(text1, text2, 0, 0, dp);
+        System.out.println(max_);
         display2D(dp);
         int[][] dpT = new int[n + 1][m + 1];
-        System.out.println(longestCommonSubsequence_Tab(text1, text2, 0, 0, dpT));
+        System.out.println(longestCommonSubstring_DP(text1, text2, 0, 0, dpT));
         display2D(dpT);
     }
 
@@ -541,6 +579,7 @@ public class leetcode {
         // goldMine();
         // count_of_waysMAIN();
         // stringSubstringSet();
-        longestCommonSubsequence("ABCDGH", "AEDFHR");
+        // longestCommonSubsequence("ABCDGH", "AEDFHR");
+        longestCommonSubsequence("aabcd", "abcd");   //input for lowestCommonSubstring()
     }
 }
