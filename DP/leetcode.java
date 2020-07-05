@@ -542,6 +542,23 @@ public class leetcode {
         return dp[0][0];
     }
 
+    //Leetcode 1458. Max Dot Product of Two Subsequences
+    public int maxDotProduct(int[] nums1, int[] nums2) {    //SAME AS LCS [3 calls sol]
+        int n = nums1.length, m = nums2.length;
+        int[][] dp = new int[n + 1][m + 1];
+        for(int i = n; i >= 0; i--) {
+            for(int j = m; j >= 0; j--) {
+                if(i == n || j == m)     {dp[i][j] = (int)-1e8; continue;}
+                int val = nums1[i] * nums2[j];   // if alone the multi of two digits is max
+                int a = dp[i + 1][j + 1] + val;   //i == j
+                int b = dp[i + 1][j];
+                int c = dp[i][j + 1];
+                dp[i][j] = Math.max(Math.max(val, a), Math.max(b, c));
+            }
+        }
+        return dp[0][0];
+    }
+
     public static void longestCommonSubsequence(String text1, String text2) {
         int n = text1.length(), m = text2.length();
         int[][] dp = new int[n + 1][m + 1];
