@@ -608,6 +608,55 @@ public class leetcode {
         display2D(dpT); 
     }
 
+    //Coin_Change/Target_Type.===================================================================================
+    static int coinChangePermutation(int[] arr, int tar, int[] dp) {
+        if(tar == 0)    return dp[tar] = 1;
+        if(dp[tar] != 0)    return dp[tar];
+        int count = 0;
+        for(int ele : arr) 
+            if(tar - ele >= 0)
+                count += coinChangePermutation(arr, tar - ele, dp);
+        return dp[tar] = count;
+    }
+
+    static int coinChangePermutation_DP(int[] arr, int tar, int[] dp) {
+        dp[0] = 1;
+        int TAR = tar;
+        for(tar = 1; tar <= TAR; tar++) {
+            int count = 0;
+            for(int ele : arr) 
+                if(tar - ele >= 0)
+                    count += dp[tar - ele];     //coinChangePermutation(arr, tar - ele, dp);
+            dp[tar] = count;
+        }
+        return dp[TAR];
+    }
+
+    static int coinChangeCombination_DP(int[] arr, int tar, int[] dp) { //SAME AS coinChangePermutation_DP() with swap of for loops
+        dp[0] = 1;
+        int TAR = tar;
+        for(int ele : arr) 
+            for(tar = ele; tar <= TAR; tar++)      //observation tells us tar = ele for efficiency
+                dp[tar] += dp[tar - ele];     //coinChangePermutation(arr, tar - ele, dp);
+            
+        return dp[TAR];
+    }
+
+    static void coinChange()
+    {
+        int[] arr = {2, 3, 5, 7};
+        int tar = 10;
+        int[] dp = new int[tar + 1];
+        System.out.println(coinChangePermutation(arr, tar, dp));
+        System.out.println(Arrays.toString(dp));
+        int[] dpT = new int[tar + 1];
+        System.out.println(coinChangePermutation_DP(arr, tar, dpT));
+        System.out.println(Arrays.toString(dpT));
+        int[] dpTC = new int[tar + 1];
+        System.out.println(coinChangeCombination_DP(arr, tar, dpTC));
+        System.out.println(Arrays.toString(dpTC));
+    }
+
     static void display2D(int[][] array) {
         for(int[] ar : array)
             System.out.println(Arrays.toString(ar));
@@ -618,6 +667,7 @@ public class leetcode {
         // count_of_waysMAIN();
         // stringSubstringSet();
         // longestCommonSubsequence("ABCDGH", "AEDFHR");
-        longestCommonSubsequence("aabcd", "abcd");   //input for lowestCommonSubstring()
+        // longestCommonSubsequence("aabcd", "abcd");   //input for lowestCommonSubstring()
+        coinChange();
     }
 }
