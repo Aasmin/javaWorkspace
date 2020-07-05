@@ -521,6 +521,27 @@ public class leetcode {
         return max_;
     }
 
+    //Leetcode 1035. Uncrossed Lines
+    public int maxUncrossedLines(int[] A, int[] B) {
+        int n = A.length, m = B.length;
+        int[][] dp = new int[n + 1][m + 1];
+        for(int i = n; i >= 0; i--) {
+            for(int j = m; j >= 0; j--) {
+        // for(int i = n - 1; i >= 0; i--) {    //this also works and faster as we are jumping the base case and don't require it anymore
+        //     for(int j = m - 1; j >= 0; j--) {
+                if(i == n || j == m)    continue;   
+                int ans = 0;
+                if(A[i] == B[j]) {
+                    ans = dp[i + 1][j + 1] + 1;
+                } else {
+                    ans = Math.max(dp[i + 1][j], dp[i][j + 1]);
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[0][0];
+    }
+
     public static void longestCommonSubsequence(String text1, String text2) {
         int n = text1.length(), m = text2.length();
         int[][] dp = new int[n + 1][m + 1];
