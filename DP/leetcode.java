@@ -654,6 +654,34 @@ public class leetcode {
         return dp[TAR];
     }
     
+    //2nd July
+    //Leetcode 322. Coin Change
+    public static int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        int ans = coinChange_(coins, amount, dp);
+        System.out.println(Arrays.toString(dp));
+        return ans != (int) 1e8 ? ans : 0;
+    }
+    
+    public static int coinChange_(int[] coins, int tar, int[] dp) {
+        if (tar == 0)
+        return 0;
+
+    if (dp[tar] != 0)
+        return dp[tar];
+    int minHeight =(int) 1e8;
+    for (int ele : coins)
+    {
+        if (tar - ele >= 0)
+        {
+            int rMinHeight = coinChange_(coins, tar - ele, dp);
+            if (rMinHeight != (int)1e8 && rMinHeight + 1 < minHeight)
+                minHeight = rMinHeight + 1;
+        }
+    }
+    return dp[tar] = minHeight;
+    }
+
     static void coinChange()
     {
         // int[] arr = {2, 3, 5, 7};
@@ -667,9 +695,11 @@ public class leetcode {
         // int[] dpTC = new int[tar + 1];
         // System.out.println(coinChangeCombination_DP(arr, tar, dpTC));
         // System.out.println(Arrays.toString(dpTC));
-        int[] coeff = {2, 2, 3};
-        int rhs = 4;
-        System.out.println(linearEquation_DP(coeff, rhs));
+        // int[] coeff = {2, 2, 3};
+        // int rhs = 4;
+        // System.out.println(linearEquation_DP(coeff, rhs));
+        int[] arr = {1,2,5};
+        System.out.println(coinChange(arr, 11));
     }
     
     static void display2D(int[][] array) {
