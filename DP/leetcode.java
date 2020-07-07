@@ -785,6 +785,28 @@ public class leetcode {
         // System.out.println(ans);
         targetSum_02DP(coins, tar);
     }
+
+    //knapsack
+    static int knapsack01(int[] weights, int[] price, int weight, int n, int[][] dp) {
+        if(n == 0 || weight == 0) {
+            return 0;
+        }
+        if(dp[n][weight] != 0)  return dp[n][weight];
+        int maxWeight = (int)-1e8;
+        if(weight - weights[n - 1] >= 0) 
+            maxWeight = Math.max(maxWeight, knapsack01(weights, price, weight - weights[n - 1], n - 1, dp) + price[n - 1]);
+        maxWeight = Math.max(maxWeight, knapsack01(weights, price, weight, n - 1, dp));
+        return dp[n][weight] = maxWeight;
+    }
+    static void knapsack()
+    {
+        int[] p = {100, 280, 120};
+        int[] w = {10, 40, 20};
+        int weight = 60;
+        int n = w.length;
+        int[][] dp = new int[n + 1][weight + 1];
+        System.out.println(knapsack01(w, p, weight, n, dp));
+    }
     
     static void display2D(int[][] array) {
         for(int[] ar : array)
@@ -797,6 +819,7 @@ public class leetcode {
         // stringSubstringSet();
         // longestCommonSubsequence("ABCDGH", "AEDFHR");
         // longestCommonSubsequence("aabcd", "abcd");   //input for lowestCommonSubstring()
-        coinChange();
+        // coinChange();
+        knapsack();
     }
 }
