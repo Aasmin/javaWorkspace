@@ -682,6 +682,81 @@ public class leetcode {
     return dp[tar] = minHeight;
     }
 
+    //one coin at a time 
+    //Using subsequence method 
+    static int targetSum(int[] coins, int idx, int tar, int[][] dp, String ans) {
+        if(tar == 0 || idx == coins.length) {
+            if(tar == 0) System.out.println(ans);
+            if(tar == 0)    return dp[idx][tar] = 1;
+            return 0;
+        }
+        if(dp[idx][tar] != 0)   return dp[idx][tar];
+        int count = 0;
+        if(tar - coins[idx] >= 0)
+            count += targetSum(coins, idx + 1, tar - coins[idx], dp, ans + coins[idx] + " ");
+        count += targetSum(coins, idx + 1, tar, dp, ans);
+        return dp[idx][tar] = count;
+    }
+
+    static int targetSum02(int[] coins, int idx, int tar, int[][] dp) {
+        if(tar == 0 || idx == 0) {
+            if(tar == 0)    return dp[idx][tar] = 1;
+            return 0;
+        }
+        if(dp[idx][tar] != 0)   return dp[idx][tar];
+        int count = 0;
+        if(tar - coins[idx - 1] >= 0)
+            count += targetSum02(coins, idx - 1, tar - coins[idx - 1], dp);
+        count += targetSum02(coins, idx - 1, tar, dp);
+        return dp[idx][tar] = count;
+    }
+
+    static void targetSum_02DP(int[] coins, int tar) {
+        int TAR = tar;
+        boolean[][] dp = new boolean[coins.length + 1][tar + 1];
+        for(int idx = 0; idx <= coins.length; idx++) {
+            for(tar = 0; tar <= TAR; tar++) {
+                if(tar == 0 || idx == 0) {
+                    if(tar == 0)     
+                        dp[idx][tar] = true;
+                    continue;
+                }
+                if(tar - coins[idx - 1] >= 0)
+                    dp[idx][tar] = dp[idx - 1][tar - coins[idx - 1]];   //targetSum02(coins, idx - 1, tar - coins[idx], dp);
+                dp[idx][tar] = dp[idx][tar] || dp[idx - 1][tar];
+            }
+        }
+        for(boolean[] ar : dp){
+            for(boolean a : ar)
+                System.out.print(a + "\t");
+            System.out.println();
+        }
+        System.out.println(printPathOfTargetSum(coins, coins.length, TAR, "", dp));
+    }
+
+    static int printPathOfTargetSum(int[] coins, int idx, int tar, String ans, boolean[][] dp)  //using targetSum_02DP trace the dp with jumping only to trues to fetch the answer
+    {
+        if (tar == 0 || idx == 0)
+        {
+            if (tar == 0)
+            {
+                System.out.println(ans);
+                return 1;
+            }
+            return 0;
+        }
+
+        int count = 0;
+        //including the coin
+        if (tar - coins[idx - 1] >= 0 && dp[idx - 1][tar - coins[idx - 1]]) // call only if dp[idx - 1][tar - coins[idx - 1]] is true
+            count += printPathOfTargetSum(coins, idx - 1, tar - coins[idx - 1], ans + coins[idx - 1] + " ", dp);
+
+        if (dp[idx - 1][tar])   //excluding the coin
+            count += printPathOfTargetSum(coins, idx - 1, tar, ans, dp);
+
+        return count;
+    }
+
     static void coinChange()
     {
         // int[] arr = {2, 3, 5, 7};
@@ -698,8 +773,17 @@ public class leetcode {
         // int[] coeff = {2, 2, 3};
         // int rhs = 4;
         // System.out.println(linearEquation_DP(coeff, rhs));
-        int[] arr = {1,2,5};
-        System.out.println(coinChange(arr, 11));
+        // int[] arr = {1,2,5};
+        // System.out.println(coinChange(arr, 11));
+        int[] coins = {2, 3, 5, 7};
+        int tar = 10;
+        // int[][] dp = new int[coins.length + 1][tar + 1];
+        // String ans = "";
+        // // System.out.println(targetSum(coins, 0, tar, dp, ans));
+        // System.out.println(targetSum02(coins, coins.length, tar, dp));
+        // display2D(dp); 
+        // System.out.println(ans);
+        targetSum_02DP(coins, tar);
     }
     
     static void display2D(int[][] array) {
