@@ -798,14 +798,31 @@ public class leetcode {
         maxWeight = Math.max(maxWeight, knapsack01(weights, price, weight, n - 1, dp));
         return dp[n][weight] = maxWeight;
     }
+
+    static int unbounded(int[] weights, int[] price, int weight) {
+        int[] dp = new int[weight + 1];
+        Arrays.fill(dp, (int)-1e8);
+        dp[0] = 0;  //handling base case
+        for(int i = 0; i < weights.length; i++) 
+        for(int tar = weights[i]; tar <= weight; tar++) {
+            dp[tar] = Math.max(dp[tar], dp[tar - weights[i]] + price[i]);
+        }
+        System.out.println(Arrays.toString(dp));
+        return dp[weight];
+    }
+
     static void knapsack()
     {
+        // int[] p = {100, 280, 120};
+        // int[] w = {10, 40, 20};
+        // int weight = 60;
+        // int n = w.length;
+        // int[][] dp = new int[n + 1][weight + 1];
+        // System.out.println(knapsack01(w, p, weight, n, dp));
         int[] p = {100, 280, 120};
-        int[] w = {10, 40, 20};
-        int weight = 60;
-        int n = w.length;
-        int[][] dp = new int[n + 1][weight + 1];
-        System.out.println(knapsack01(w, p, weight, n, dp));
+        int[] w = {2, 4, 1};
+        int weight = 7;
+        System.out.println(unbounded(w, p, weight));
     }
     
     static void display2D(int[][] array) {
