@@ -811,6 +811,33 @@ public class leetcode {
         return dp[weight];
     }
 
+    //Leetcode 416. Partition Equal Subset Sum  [SAME AS TARGET SUM]
+    public boolean canPartition(int[] nums) {
+        int sum = 0;
+        for(int ele : nums)     sum += ele;
+        if(sum % 2 != 0)    //odd case handled
+            return false;
+        sum /= 2;   // finding the positive subset availability i.e finding one subset whose sum will be half
+        int[][] dp = new int[nums.length + 1][sum + 1];
+        for(int[] arr : dp) Arrays.fill(arr, -1);
+        if(canPartition(nums, nums.length, sum, dp) == 1)
+            return true;
+        return false;
+    }
+
+    public int canPartition(int[] nums, int idx, int tar, int[][] dp) {
+        if(idx == 0 || tar == 0) {
+            if(tar == 0)    return dp[idx][tar] = 1;
+            return dp[idx][tar] = 0;
+        }
+        if(dp[idx][tar] != -1)  return dp[idx][tar];
+        boolean res = false;
+        if(tar - nums[idx - 1] >= 0)
+            res = res || (canPartition(nums, idx - 1, tar - nums[idx - 1], dp) == 1);
+        res = res || (canPartition(nums, idx - 1, tar, dp) == 1); 
+        return dp[idx][tar] = res ? 1 : 0;
+    }
+
     static void knapsack()
     {
         // int[] p = {100, 280, 120};
