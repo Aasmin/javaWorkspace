@@ -891,6 +891,22 @@ public class leetcode {
         return dp[nums.length][Sum];
     }
 
+    //Leetcode 72. Edit Distance
+    public int minDistance(String word1, String word2, int n, int m, int[][] dp) {
+        if(n == 0|| m == 0)
+            return dp[n][m] = (n == 0 ? m : n);
+        if(dp[n][m] != 0)   return dp[n][m];
+        if(word1.charAt(n - 1) == word2.charAt(m - 1))
+            return dp[n][m] = minDistance(word1, word2, n - 1, m - 1, dp);
+        int insert = minDistance(word1, word2, n, m - 1, dp) + 1;
+        int replace = minDistance(word1, word2, n - 1, m -  1, dp) + 1;
+        int delete = minDistance(word1, word2, n - 1, m, dp) + 1;
+        return dp[n][m] = Math.min(Math.min(insert, delete), replace);
+    }
+    public int minDistance(String word1, String word2) {
+        int[][] dp = new int[word1.length() + 1][word2.length() + 1];
+        return minDistance(word1, word2, word1.length(), word2.length(), dp);
+    }
 
     static void knapsack()
     {
