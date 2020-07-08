@@ -838,6 +838,60 @@ public class leetcode {
         return dp[idx][tar] = res ? 1 : 0;
     }
 
+    //Leetcode 494. Target Sum
+    public int findTargetSumWays(int[] nums, int S) {
+        // return findTargetSumWays_rec(nums, nums.length, 0, S);
+        int sum = 0;
+        for (int num : nums) sum += num;
+        Integer[][] cache = new Integer[nums.length + 1][2 * sum + 1];
+        
+        return dfs(nums, sum, S + sum, 0, cache);
+    }
+    public int findTargetSumWays_rec(int[] nums, int n, int Sum, int tar) {
+        if(n == 0)
+            return (tar == Sum) ? 1 : 0;
+        int include = findTargetSumWays_rec(nums, n - 1, Sum + nums[n - 1], tar);
+        int exclude = findTargetSumWays_rec(nums, n - 1, Sum - nums[n - 1], tar);
+        return include + exclude;
+    }
+    
+    private int dfs(int[] nums, int cur, int target, int idx, Integer[][] cache) {  //working
+        if (idx == nums.length) {
+            return cur == target ? 1 : 0;
+        }
+        if (cache[idx][cur] != null) {
+            return cache[idx][cur];
+        }
+        
+        int res = 0;
+        res = dfs(nums, cur + nums[idx], target, idx + 1, cache)
+            + dfs(nums, cur - nums[idx], target, idx + 1, cache);
+        
+        cache[idx][cur] = res;
+        return res;
+    }
+    public int findTargetSumWays_Mem(int[] nums, int n, int Sum, int tar, int[][] dp) { //not complete
+        if(n == 0)
+            return dp[n][Sum] = (tar == Sum) ? 1 : 0;
+        if(dp[n][Sum] != 0) return dp[n][Sum];
+        int include = findTargetSumWays_Mem(nums, n - 1, Sum + nums[n - 1], tar, dp);
+        int exclude = findTargetSumWays_Mem(nums, n - 1, Sum - nums[n - 1], tar, dp);
+        return dp[n][Sum] = include + exclude;
+    }
+    public int findTargetSumWays_DP(int[] nums, int Sum, int[][] dp) {//not complete
+        dp[0][Sum] = 1;
+        for(int i = 1; i <= nums.length; i++) {
+            for(int k = 0; k < 2 * Sum; k++) {
+                if(dp[i - 1][k] != 0) {
+                    dp[i][k + nums[i - 1]] += dp[i - 1][k];
+                    dp[i][k - nums[i - 1]] += dp[i - 1][k];
+                }
+            }
+        }
+        return dp[nums.length][Sum];
+    }
+
+
     static void knapsack()
     {
         // int[] p = {100, 280, 120};
