@@ -922,6 +922,7 @@ public class leetcode {
         System.out.println(unbounded(w, p, weight));
     }
      
+    //Leetcode 300. Longest Increasing Subsequence
     //LIS type - longest increasing subsequence
     //Faith: mere pe khatam hone wala sabse bada LIS kaunsa hai when trvaersing L to R
     static int LIS_leftToRight(int[] arr, int[] dp) {   
@@ -956,7 +957,7 @@ public class leetcode {
         int[] dp = new int[arr.length];
         System.out.println(LIS_leftToRight(arr, dp));
         System.out.println(Arrays.toString(dp));
-        
+
         int[] dp2 = new int[arr.length];
         System.out.println(LIS_rightToLeft(arr, dp2));
         System.out.println(Arrays.toString(dp2));
