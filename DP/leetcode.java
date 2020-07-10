@@ -969,6 +969,22 @@ public class leetcode {
             maxLen = Math.max(maxLen, LIS[i] + LDS[i] - 1); //subtracting 1 coz of same digit to be counted twice
         
         return maxLen;
+    } 
+    
+    //https://practice.geeksforgeeks.org/problems/minimum-number-of-deletions-to-make-a-sorted-sequence/0
+    // minimum no of deletion to make array in sorted order in increasing order.
+    static int minDeletions(int[] arr) {    //[SAME AS LIS]
+        int n = arr.length;
+        int[] dp = new int[n];
+        int overallMax = 0;
+        for(int i = 0; i < n; i++) {
+            dp[i] = 1;
+            for(int j = i - 1; j >= 0; j--) 
+                if(arr[j] <= arr[i])    //INCLUDED THE EQUAL TO CONDITION HERE
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+            overallMax = Math.max(overallMax, dp[i]);
+        }
+        return n - overallMax;
     }
 
 
