@@ -986,7 +986,26 @@ public class leetcode {
         }
         return n - overallMax;
     }
-
+ 
+    //Leetcode 354. Russian Doll Envelopes
+    public int maxEnvelopes(int[][] arr) {
+        Arrays.sort(arr, (int[] a, int[] b)-> {   
+            if(a[0] == b[0])    //if widhts are same then we are choosing the taller envolpe
+                return b[1] - a[1]; // other - this 
+            return a[0] - b[0];     // this - other. default
+        });
+        int n = arr.length;
+        int[] dp = new int[n];
+        int oMax = 0;
+        for(int i = 0; i < n; i++) {
+            dp[i] = 1;
+            for(int j = i - 1; j >= 0; j--) 
+                if(arr[j][1] < arr[i][1])   //working with widths
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+            oMax = Math.max(oMax, dp[i]);
+        }
+        return oMax;
+    }
 
     static void LIS_type() {
         int[] arr = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15, 8};
