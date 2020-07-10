@@ -929,9 +929,9 @@ public class leetcode {
         int n = arr.length;
         int omax = 0;   //overallMax
         for(int i = 0; i < n; i++) {
-            dp[i] = 1;  //each element has atleast 1 length
+            dp[i] = 1;  //each element has atleast 1 length     [REMEMBER THIS LINE]
             for(int j = i - 1; j >= 0; j--) {   //starting from back
-                if(arr[j] < arr[i]) 
+                if(arr[j] < arr[i])         //change this condition to make it LDS from L to R
                     dp[i] = Math.max(dp[j] + 1, dp[i]); 
             }
             omax = Math.max(omax, dp[i]);
@@ -945,7 +945,22 @@ public class leetcode {
         for(int i = n - 1; i >= 0; i--) {
             dp[i] = 1;
             for(int j = i + 1; j < n; j++) 
-                if(arr[j] > arr[i])
+                if(arr[j] > arr[i]) {           
+                    dp[i] = Math.max(dp[i], dp[j] + 1);
+                }
+            omax = Math.max(omax, dp[i]);
+        }
+        return omax;
+    }
+
+    //LDS - longest decreasing subsequence  [SAME AS LIS only 1 change]
+    static int LDS_rightToLeft(int[] arr, int[] dp) {
+        int n = arr.length;
+        int omax = 0;
+        for(int i = n - 1; i >= 0; i--) {
+            dp[i] = 1;
+            for(int j = i + 1; j < n; j++) 
+                if(arr[j] < arr[i])               //CHANGE THE SIGN
                     dp[i] = Math.max(dp[i], dp[j] + 1);
             omax = Math.max(omax, dp[i]);
         }
@@ -953,13 +968,17 @@ public class leetcode {
     }
 
     static void LIS_type() {
-        int[] arr = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15};
-        int[] dp = new int[arr.length];
-        System.out.println(LIS_leftToRight(arr, dp));
-        System.out.println(Arrays.toString(dp));
+        int[] arr = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15, 8};
+        // int[] dp = new int[arr.length];
+        // System.out.println(LIS_leftToRight(arr, dp));
+        // System.out.println(Arrays.toString(dp));
+
+        // int[] dp2 = new int[arr.length];
+        // System.out.println(LIS_rightToLeft(arr, dp2));
+        // System.out.println(Arrays.toString(dp2));
 
         int[] dp2 = new int[arr.length];
-        System.out.println(LIS_rightToLeft(arr, dp2));
+        System.out.println(LDS_rightToLeft(arr, dp2));
         System.out.println(Arrays.toString(dp2));
     }
 
