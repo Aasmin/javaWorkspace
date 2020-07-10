@@ -921,7 +921,30 @@ public class leetcode {
         int weight = 7;
         System.out.println(unbounded(w, p, weight));
     }
-    
+     
+    //LIS type - longest increasing subsequence
+    //Faith: mere pe khatam hone wala sabse bada LIS kaunsa hai when trvaersing L to R
+    static int LIS_leftToRight(int[] arr, int[] dp) {   
+        int n = arr.length;
+        int omax = 0;   //overallMax
+        for(int i = 0; i < n; i++) {
+            dp[i] = 1;  //each element has atleast 1 length
+            for(int j = i - 1; j >= 0; j--) {   //starting from back
+                if(arr[j] < arr[i]) 
+                    dp[i] = Math.max(dp[j] + 1, dp[i]); 
+            }
+            omax = Math.max(omax, dp[i]);
+        }
+        return omax;
+    }
+
+    static void LIS_type() {
+        int[] arr = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15};
+        int[] dp = new int[arr.length];
+        System.out.println(LIS_leftToRight(arr, dp));
+        System.out.println(Arrays.toString(dp));
+    }
+
     static void display2D(int[][] array) {
         for(int[] ar : array)
             System.out.println(Arrays.toString(ar));
@@ -934,6 +957,7 @@ public class leetcode {
         // longestCommonSubsequence("ABCDGH", "AEDFHR");
         // longestCommonSubsequence("aabcd", "abcd");   //input for lowestCommonSubstring()
         // coinChange();
-        knapsack();
+        // knapsack();
+        LIS_type();
     }
 }
