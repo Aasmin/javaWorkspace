@@ -956,7 +956,20 @@ public class leetcode {
 
     //https://www.geeksforgeeks.org/longest-bitonic-subsequence-dp-15/
     //Longest Bitonic Subsequence
+    static int lbs(int[] arr) {
+        int n = arr.length;
+        int[] LIS = new int[n];
+        int[] LDS = new int[n];
 
+        LIS_leftToRight(arr, LIS);
+        LIS_rightToLeft(arr, LDS);
+
+        int maxLen = 0;
+        for(int i = 0; i < n; i++) 
+            maxLen = Math.max(maxLen, LIS[i] + LDS[i] - 1); //subtracting 1 coz of same digit to be counted twice
+        
+        return maxLen;
+    }
 
 
     static void LIS_type() {
