@@ -970,6 +970,21 @@ public class leetcode {
         
         return maxLen;
     } 
+
+    //GFG: https://practice.geeksforgeeks.org/problems/maximum-sum-increasing-subsequence/0
+    static int maximumIncreasingSumSubsequence(int[] arr, int[] dp) {       //[SAME AS LIS]
+        int n = arr.length;
+        int omax = 0;   //overallMax
+        for(int i = 0; i < n; i++) {
+            dp[i] = arr[i];  //each element has atleast 1 length     [REMEMBER THIS LINE]
+            for(int j = i - 1; j >= 0; j--) {   //starting from back
+                if(arr[j] < arr[i])         //change this condition to make it LDS from L to R
+                    dp[i] = Math.max(dp[j] + arr[i], dp[i]); 
+            }
+            omax = Math.max(omax, dp[i]);
+        }
+        return omax;
+    }
     
     //https://practice.geeksforgeeks.org/problems/minimum-number-of-deletions-to-make-a-sorted-sequence/0
     // minimum no of deletion to make array in sorted order in increasing order.
@@ -1032,7 +1047,7 @@ public class leetcode {
 
     //Leetcode 673. Number of Longest Increasing Subsequence
     public int findNumberOfLIS(int[] nums) {
-        int n = nums.length;
+        int n = nums.length;t
         int[] dp = new int[n];
         int[] count = new int[n];
         int maxLength = 0;
