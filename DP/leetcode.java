@@ -1007,6 +1007,30 @@ public class leetcode {
         return oMax;
     }
 
+//---------------> // question undone : //https://practice.geeksforgeeks.org/problems/maximum-sum-bitonic-subsequence/0
+
+//-------------> // for you : 1027, 1235    [HAVENT DONE]
+
+    //Leetcode 1027. Longest Arithmetic Sequence    [TRY AGAIN]
+    public int longestArithSeqLength(int[] A) {
+        if(A == null)   return 0;
+        if(A.length == 1)   return 1;
+        int hash[][] = new int[A.length][20000];
+        int max = 0;
+        for(int i = 1; i < A.length; i++)
+            for(int j = i-1; j >=0; j--){
+                int diff = A[i] - A[j] + 10000;
+                int counttillnow = hash[j][diff];
+                if(hash[i][diff] > counttillnow) continue;
+                else {
+                    hash[i][diff] = counttillnow + 1;
+                    max = Math.max(max, counttillnow + 1);
+                }
+            }
+        return max + 1;
+    }
+
+ 
     static void LIS_type() {
         int[] arr = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15, 8};
         // int[] arr = {1, 11, 2, 10, 4, 5, 2, 1};
