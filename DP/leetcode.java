@@ -1030,6 +1030,35 @@ public class leetcode {
         return max + 1;
     }
 
+    //Leetcode 673. Number of Longest Increasing Subsequence
+    public int findNumberOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        int[] count = new int[n];
+        int maxLength = 0;
+        int maxCount = 0;
+        for(int i = 0; i < n; i++) {
+            dp[i] = 1;
+            count[i] = 1;
+            for(int j = i - 1; j >= 0; j--) {
+                if(nums[j] < nums[i]) {
+                    if(dp[i] < dp[j] + 1) {
+                        dp[i] = dp[j] + 1;
+                        count[i] = count[j];
+                    } else if (dp[i] == dp[j] + 1) {
+                        count[i] += count[j]; 
+                    }
+                }   
+            }
+            if(maxLength < dp[i]) {
+                maxLength = dp[i];
+                maxCount = count[i];
+            } else if(maxLength == dp[i]) {
+                maxCount += count[i];
+            }
+        }
+        return maxCount;
+    }
  
     static void LIS_type() {
         int[] arr = {0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15, 8};
