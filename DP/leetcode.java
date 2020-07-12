@@ -1125,18 +1125,54 @@ public class leetcode {
         return dp[0][n - 1];
     }
 
-    static void cutType() {
-        int[] arr = {2, 3, 4, 5, 6, 7};
+    static void MCM_DP_Ans(int[] arr) { 
         int n = arr.length;
         int[][] dp = new int[n][n];
         for(int[] ele: dp)  Arrays.fill(ele, -1);
-        System.out.println(MCM_rec(arr, 0, n - 1, dp));
-        display2D(dp);
+        String[][] sdp = new String[n][n];
+        for(String[] ele: sdp)  Arrays.fill(ele, "");
+        for(int gap = 1; gap < n; gap++) {
+            for(int si = 0, ei = gap; ei < n; si++, ei++) {
+                if(si + 1 == ei)     {
+                    dp[si][ei] = 0;   
+                    sdp[si][ei] = (char)(si + 'A') + "";
+                    continue;
+                }
 
-        int[][] dp1 = new int[n][n];
-        for(int[] ele: dp1)  Arrays.fill(ele, -1);
-        System.out.println(MCM_DP(arr, 0, n - 1, dp1));
-        display2D(dp1);
+                int ans = (int)1e8;
+                String sans = "";
+                for(int cut = si + 1; cut < ei; cut++) {    //pehla cut jahan se bhi marna hai
+                    int leftTree = dp[si][cut]; //MCM_rec(arr, si, cut, dp);
+                    int rightTree = dp[cut][ei];    //MCM_rec(arr, cut, ei, dp);
+                    int myCost = leftTree + (arr[si] * arr[cut] * arr[ei]) + rightTree;
+                    if(ans > myCost)    {
+                        ans = myCost;
+                        sans = "(" + sdp[si][cut] + sdp[cut][ei] + ")";
+                    }
+                }
+                dp[si][ei] = ans;
+                sdp[si][ei] = sans;
+            }
+        }
+        System.out.println(dp[0][n - 1]);
+        System.out.println(sdp[0][n - 1]);
+        for(String[] ele: sdp)  System.out.println(Arrays.toString(ele));
+    }
+
+    static void cutType() {
+        // int[] arr = {2, 3, 4, 5, 6, 7};
+        // int n = arr.length;
+        // int[][] dp = new int[n][n];
+        // for(int[] ele: dp)  Arrays.fill(ele, -1);
+        // System.out.println(MCM_rec(arr, 0, n - 1, dp));
+        // display2D(dp);
+        
+        // int[][] dp1 = new int[n][n];
+        // for(int[] ele: dp1)  Arrays.fill(ele, -1);
+        // System.out.println(MCM_DP(arr, 0, n - 1, dp1));
+        // display2D(dp1);
+        int[] arr = {3, 7, 2, 6, 5, 4};
+        MCM_DP_Ans(arr);
     }
 
     static void display2D(int[][] array) {
@@ -1154,5 +1190,6 @@ public class leetcode {
         // knapsack();
         // LIS_type();
         cutType();
+        // System.out.println((char)('A' + 2));
     }
 }
