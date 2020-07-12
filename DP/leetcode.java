@@ -1091,6 +1091,7 @@ public class leetcode {
         System.out.println(Arrays.toString(dp3));
     }
 
+    //7 July
     //cut type
     //FINDING THE MINIMUM COST OF MATRIX MULTIPLICATION 
     static int MCM_rec(int[] arr, int si, int ei, int[][] dp) { 
@@ -1159,6 +1160,68 @@ public class leetcode {
         for(String[] ele: sdp)  System.out.println(Arrays.toString(ele));
     }
 
+    //https://www.geeksforgeeks.org/optimal-binary-search-tree-dp-24/
+    //Optimal Binary Search Tree    [CUT TYPE APPROACH]
+    static int costOfSearching(int[] freq, int si, int ei) {
+        int sum = 0;
+        for(int i = si; i <= ei; i++)   sum += freq[i];
+        return sum;
+    }
+
+    static int OBST_REC(int[] freq, int si, int ei, int[][] dp) {       //O(n^n * n)       
+        if (dp[si][ei] != 0)
+            return dp[si][ei];
+        int ans = (int)1e8;
+        for(int cut  = si; cut <= ei; cut++) {
+            int leftTree = (si == cut) ? 0 : OBST_REC(freq, si, cut - 1, dp);
+            int rightTree = (ei == cut) ? 0 : OBST_REC(freq, cut + 1, ei, dp);
+
+            int myCost = leftTree + costOfSearching(freq, si, ei) + rightTree;
+            if(ans > myCost) {
+                ans = myCost;
+            }
+        }
+        return dp[si][ei] = ans;
+    }
+
+    static int OBST_DP(int[] freq) {   //O(n^2)
+        int n = freq.length;
+        int[][] dp = new int[n][n];
+        int[] prefixSum = new int[n + 1];
+        for(int i = 1; i <= n; i++) 
+            prefixSum[i] = prefixSum[i - 1] + freq[i - 1];
+
+        for(int gap = 0; gap < n; gap++) {
+            for(int si = 0, ei = gap; ei < n; si++, ei++) {
+                
+                int ans = (int)1e8;
+                for(int cut  = si; cut <= ei; cut++) {
+                    int leftTree = (si == cut) ? 0 : dp[si][cut - 1];   //OBST_REC(freq, si, cut - 1, dp);
+                    int rightTree = (ei == cut) ? 0 : dp[cut + 1][ei];   //OBST_REC(freq, cut + 1, ei, dp);
+        
+                    // int myCost = leftTree + costOfSearching(freq, si, ei) + rightTree;
+                    int myCost = leftTree + (prefixSum[ei + 1] - prefixSum[si]) + rightTree;
+                    if(ans > myCost) {
+                        ans = myCost;
+                    }
+                }
+                dp[si][ei] = ans;
+            }
+        }
+        return dp[0][n - 1];
+    }
+
+    static void optimalBinarySearchTree() {
+        int[] keys = {10, 12, 20};
+        int[] freq = {34, 8, 50};
+        int n = freq.length;
+        int[][] dp = new int[n][n];
+
+        System.out.println(OBST_REC(freq, 0, n - 1, dp));
+        display2D(dp);
+        System.out.println(OBST_DP(freq));
+    }
+    
     static void cutType() {
         // int[] arr = {2, 3, 4, 5, 6, 7};
         // int n = arr.length;
@@ -1171,8 +1234,10 @@ public class leetcode {
         // for(int[] ele: dp1)  Arrays.fill(ele, -1);
         // System.out.println(MCM_DP(arr, 0, n - 1, dp1));
         // display2D(dp1);
-        int[] arr = {3, 7, 2, 6, 5, 4};
-        MCM_DP_Ans(arr);
+        // int[] arr = {3, 7, 2, 6, 5, 4};
+        // MCM_DP_Ans(arr);
+
+        optimalBinarySearchTree();
     }
 
     static void display2D(int[][] array) {
