@@ -1047,7 +1047,7 @@ public class leetcode {
 
     //Leetcode 673. Number of Longest Increasing Subsequence
     public int findNumberOfLIS(int[] nums) {
-        int n = nums.length;t
+        int n = nums.length;
         int[] dp = new int[n];
         int[] count = new int[n];
         int maxLength = 0;
@@ -1091,6 +1091,30 @@ public class leetcode {
         System.out.println(Arrays.toString(dp3));
     }
 
+    //cut type
+    //FINDING THE MINIMUM COST OF MATRIX MULTIPLICATION 
+    static int MCM_rec(int[] arr, int si, int ei, int[][] dp) { 
+        if(si + 1 == ei)    return dp[si][ei] = 0;
+        if(dp[si][ei] != -1) return dp[si][ei];
+        int ans = (int)1e8;
+        for(int cut = si + 1; cut < ei; cut++) {    //pehla cut jahan se bhi marna hai
+            int leftTree = MCM_rec(arr, si, cut, dp);
+            int rightTree = MCM_rec(arr, cut, ei, dp);
+            int myCost = leftTree + (arr[si] * arr[cut] * arr[ei]) + rightTree;
+            if(ans > myCost)    ans = myCost;
+        }
+        return dp[si][ei] = ans;
+    }
+
+    static void cutType() {
+        int[] arr = {2, 3, 4, 5, 6, 7};
+        int n = arr.length;
+        int[][] dp = new int[n][n];
+        for(int[] ele: dp)  Arrays.fill(ele, -1);
+        System.out.println(MCM_rec(arr, 0, n - 1, dp));
+        display2D(dp);
+    }
+
     static void display2D(int[][] array) {
         for(int[] ar : array)
             System.out.println(Arrays.toString(ar));
@@ -1104,6 +1128,7 @@ public class leetcode {
         // longestCommonSubsequence("aabcd", "abcd");   //input for lowestCommonSubstring()
         // coinChange();
         // knapsack();
-        LIS_type();
+        // LIS_type();
+        cutType();
     }
 }
