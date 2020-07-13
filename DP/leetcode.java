@@ -1211,6 +1211,26 @@ public class leetcode {
         return dp[0][n - 1];
     }
 
+    //Leetcode 312. Burst Balloons
+    public int maxCoins(int[] nums, int si, int ei, int[][] dp) {
+        if(dp[si][ei] != 0) return dp[si][ei];
+        
+        int n = nums.length;
+
+        int lVal = (si == 0) ? 1 : nums[si - 1];
+        int rVal = (ei == n - 1) ? 1 : nums[ei + 1];
+
+        int ans = (int)-1e8;
+        for(int cut = si; cut <= ei; cut++) {
+            int leftTree = (cut == si) ? 0 : maxCoins(nums, si, cut - 1, dp);
+            int rightTree = (cut == ei) ? 0 : maxCoins(nums, cut + 1, ei, dp);
+            int myCost = leftTree + (lVal * nums[cut] * rVal) + rightTree;
+
+            if(myCost > ans)    ans = myCost;
+        }
+        return dp[si][ei] = ans;
+    }
+
     static void optimalBinarySearchTree() {
         int[] keys = {10, 12, 20};
         int[] freq = {34, 8, 50};
