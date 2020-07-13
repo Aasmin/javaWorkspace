@@ -1274,7 +1274,7 @@ public class leetcode {
             if(num <= 26)
                 count += numDecodings(s, vidx + 2, dp);
         }
-        return dp[vidx] = count;
+        return dp[vidx] = count; 
     }
 
     public static int numDecodings_DP(String s) {
@@ -1305,6 +1305,22 @@ public class leetcode {
 
         System.out.println(Arrays.toString(dp));
         return ans;
+    }
+
+    //GFG: Number of subsequences of the form a^i b^j c^k
+    static int AiBjCk(String str) {
+        int acount = 0, bcount = 0, ccount = 0;
+        for(int i = 0; i < str.length(); i++) {
+            char ch = str.charAt(i);
+            if(ch == 'a') {
+                acount = acount + (1 + acount);
+            } else if(ch == 'b') {
+                bcount = bcount + (acount + bcount);
+            } else {
+                ccount = ccount + (bcount + ccount);
+            }
+        }
+        return ccount;
     }
 
     static void questionSet() {
