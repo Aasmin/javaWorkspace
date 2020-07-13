@@ -1262,7 +1262,7 @@ public class leetcode {
 
     //9 july
     //Leetcode 91. Decode Ways
-    public int numDecodings(String s, int vidx, int[] dp) {
+    public static int numDecodings(String s, int vidx, int[] dp) {
         if(vidx == s.length())  return 1;
         if(dp[vidx] != 0)   return dp[vidx];
         char ch = s.charAt(vidx);
@@ -1275,6 +1275,40 @@ public class leetcode {
                 count += numDecodings(s, vidx + 2, dp);
         }
         return dp[vidx] = count;
+    }
+
+    public static int numDecodings_DP(String s) {
+        int a = 0, b = 1;
+        int ans = 0;
+        for(int i = s.length() - 1; i >= 0; i--) {
+            char ch = s.charAt(i);
+            ans = 0;
+            if(ch != '0')   {
+                ans = b;
+                if(i + 1 < s.length()) {
+                    int num = (ch - '0') * 10 + (s.charAt(i + 1) - '0');
+                    if(num <= 26)
+                        ans += a;
+                }
+            }
+            a = b;
+            b = ans;
+        }
+        return ans;
+    }
+
+    static int numDecodings(String s)
+    {
+        int n = s.length();
+        int[] dp = new int[n + 1];
+        int ans = numDecodings(s, 0, dp);
+
+        System.out.println(Arrays.toString(dp));
+        return ans;
+    }
+
+    static void questionSet() {
+        System.out.println(numDecodings("1423101112"));
     }
 
     static void display2D(int[][] array) {
@@ -1291,7 +1325,8 @@ public class leetcode {
         // coinChange();
         // knapsack();
         // LIS_type();
-        cutType();
+        // cutType();
         // System.out.println((char)('A' + 2));
+        questionSet();
     }
 }
