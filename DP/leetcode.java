@@ -1260,6 +1260,23 @@ public class leetcode {
         optimalBinarySearchTree();
     }
 
+    //9 july
+    //Leetcode 91. Decode Ways
+    public int numDecodings(String s, int vidx, int[] dp) {
+        if(vidx == s.length())  return 1;
+        if(dp[vidx] != 0)   return dp[vidx];
+        char ch = s.charAt(vidx);
+        if(ch == '0')   return dp[vidx] = 0;
+        int count = 0;
+        count += numDecodings(s, vidx + 1, dp);
+        if(vidx + 1 < s.length()) {
+            int num = (ch - '0') * 10 + (s.charAt(vidx + 1) - '0');
+            if(num <= 26)
+                count += numDecodings(s, vidx + 2, dp);
+        }
+        return dp[vidx] = count;
+    }
+
     static void display2D(int[][] array) {
         for(int[] ar : array)
             System.out.println(Arrays.toString(ar));
