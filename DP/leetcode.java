@@ -1517,6 +1517,50 @@ public class leetcode {
         return dp[idx] = count;
     }
 
+    public static long decodeWaysII_DP(String s, int idx, long[] dp) {
+        int n = s.length();
+        for (int i = n; i >= 0; i--) {
+            if (idx == s.length()) {
+                dp[idx] = 1;
+                continue;
+            }
+
+            long count = 0;
+            char ch = s.charAt(idx);
+            if (ch == '*') {
+                count = (count + 9 * dp[idx + 1]) % m; // decodeWaysII(s, idx + 1, dp)) % m;// case 0
+                if (idx + 1 < s.length()) {
+                    char ch2 = s.charAt(idx + 1);
+                    if (ch2 >= '0' && ch2 <= '6')
+                        count = (count + 2 * dp[idx + 2]) % m; // decodeWaysII(s, idx + 2, dp)) % m; // case 3
+                    if (ch2 >= '7' && ch2 <= '9')
+                        count = (count + dp[idx + 2]) % m; // decodeWaysII(s, idx + 2, dp)) % m;
+                    if (ch2 == '*')
+                        count = (count + 15 * dp[idx + 2]) % m; // decodeWaysII(s, idx + 2, dp)) % m;// case 4
+                }
+
+            } else if (ch != '0') {
+                count = (count + dp[idx + 1]) % m; // decodeWaysII(s, idx + 1, dp)) % m; // case 0
+
+                if (idx + 1 < s.length()) {
+                    char ch2 = s.charAt(idx + 1);
+                    if (ch2 == '*') {
+                        if (ch == '1')
+                            count = (count + 9 * dp[idx + 2]) % m; // decodeWaysII(s, idx + 2, dp)) % m;// case 2
+                        else if (ch == '2')
+                            count = (count + 6 * dp[idx + 2]) % m; // decodeWaysII(s, idx + 2, dp)) % m;// case 2
+                    } else {
+                        int val = (ch - '0') * 10 + (ch2 - '0'); // case 1
+                        if (val <= 26)
+                            count = (count + dp[idx + 2]) % m; // decodeWaysII(s, idx + 2, dp)) % m;
+                    }
+                }
+            }
+            dp[idx] = count;
+        }
+        return dp[0];
+    }
+
     static void questionSet() {
         System.out.println(numDecodings("1423101112"));
     }
