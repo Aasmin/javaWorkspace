@@ -1323,6 +1323,11 @@ public class leetcode {
         return ccount;
     }
 
+    // Modular arithmetic: https://www.hackerearth.com/practice/math/number-theory/basic-number-theory-1/tutorial/
+
+    // (a+b)%c = (a%c + b%c)%c
+    // (a-b)%c = (a%c - b%c + c)%c
+    // (a*b)%c = (a%c * b%c )%c
     //Leetcode 940. Distinct Subsequences II
     public int distinctSubseqII(String str) {
         int mod = (int)1e9 + 7;
