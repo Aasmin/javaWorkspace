@@ -1355,6 +1355,42 @@ public class leetcode {
         return (int)dp[n - 1] % mod - 1;
     }
 
+    //Leetcode 639. Decode Ways II
+    static int m=(int)1e9+7;
+    public static long decodeWaysII(String s,int idx,long[] dp){
+	if(idx==s.length()) return dp[idx]=1;
+
+	if(dp[idx]!=0) return dp[idx];
+	
+	long count=0;
+	char ch=s.charAt(idx);
+	if(ch=='*'){
+		count=(count + 9*decodeWaysII(s,idx+1,dp))%m;//case 0
+		if(idx+1< s.length()){
+			char ch2=s.charAt(idx+1);
+			if(ch2 >='0' && ch2<='6') count=(count + 2 * decodeWaysII(s,idx+2,dp))%m;   //case 3
+			if(ch2>='7' && ch2<='9') count=(count + decodeWaysII(s,idx+2,dp))%m;
+			if(ch2=='*') count=(count + 15 * decodeWaysII(s,idx+2,dp))%m;//case 4
+        }
+        
+	}else if(ch!='0'){
+		  count=(count + decodeWaysII(s,idx+1,dp))%m;   //case 0
+		 
+		  if(idx+1< s.length()){
+			  char ch2=s.charAt(idx+1);
+			  if(ch2=='*'){
+				  if(ch =='1') count=(count + 9 * decodeWaysII(s,idx+2,dp))%m;//case 2
+				  else if(ch=='2') count=(count + 6 * decodeWaysII(s,idx+2,dp))%m;//case 2
+			  }else{
+				int val=(ch-'0')*10 + (ch2-'0');    //case 1
+				if(val<=26)
+				count=(count + decodeWaysII(s,idx+2,dp))%m;
+			  }
+		  }
+	}
+	return dp[idx]=count;
+}
+
     static void questionSet() {
         System.out.println(numDecodings("1423101112"));
     }
