@@ -1323,6 +1323,33 @@ public class leetcode {
         return ccount;
     }
 
+    //Leetcode 940. Distinct Subsequences II
+    public int distinctSubseqII(String str) {
+        int mod = (int)1e9 + 7;
+        str = '$' + str;
+        int n = str.length();
+        long[] dp = new long[n];
+        int[] lastOccu = new int[26];
+        Arrays.fill(lastOccu, -1);
+
+        for (int i = 0; i < n; i++)
+        {
+            if (i == 0) // empty String.
+            {
+                dp[i] = 1;
+                continue;
+            }
+
+            char ch = str.charAt(i);
+            dp[i] = (dp[i - 1] % mod * 2) % mod;
+            if (lastOccu[ch - 'a'] != -1)//duplicate wale ke last occurance ke ek pehle wale ko minus
+                dp[i] = dp[i] % mod - dp[lastOccu[ch - 'a'] - 1] % mod + mod;
+
+            lastOccu[ch - 'a'] = i;
+        }
+        return (int)dp[n - 1] % mod - 1;
+    }
+
     static void questionSet() {
         System.out.println(numDecodings("1423101112"));
     }
