@@ -1603,6 +1603,126 @@ public class leetcode {
         return count;
     }
 
+    // DP toDo :
+    // 1. 132
+    // 2. 044
+    // 3. https://www.geeksforgeeks.org/boolean-parenthesization-problem-dp-37/
+    // 4. 096
+    // 5. 095
+    //Leetcode 44. Wildcard Matching    [TO-DO]
+    public boolean isMatch(String s, String p) {
+        p=removeStar(p);
+		int[][] dp=new int[s.length()+1][p.length()+1];
+		for(int i=0;i<s.length();i++) for(int j=0;j<p.length();j++) dp[i][j]=-1;
+		return  wildCard_rec(s,p,0,0,dp)==1;
+    }
+    public int wildCard_rec(String s,String p,int i,int j,int[][] dp){
+		if(i==s.length() && j==p.length()) return dp[i][j]=1;
+		if(i==s.length() || j==p.length()){
+			if( i!=s.length() ) return  dp[i][j]=0;
+			
+			return dp[i][j]= (p.charAt(j)=='*' && p.length() - j == 1)?1:0;
+		}
+
+		if(dp[i][j]!=-1) return dp[i][j];
+
+		char ch1=s.charAt(i);
+		char ch2=p.charAt(j);
+		boolean res=false;
+		if(ch1 == ch2 || ch2 == '?') res = wildCard_rec(s,p,i+1,j+1,dp)==1;
+		else if(ch2=='*'){
+			res = res || wildCard_rec(s,p,i,j+1,dp)==1;  // as a empty string mapping ('*' treated as a "").
+			res = res || wildCard_rec(s,p,i+1,j,dp)==1;  // sequence mapping.("*" treated as a substring).
+		}
+
+		return dp[i][j]=res?1:0;
+	}
+
+	public String removeStar(String str){
+	  StringBuilder sb=new StringBuilder();
+	  boolean firstStar=false;
+	  for(int i=0;i<str.length();i++){
+		char ch=str.charAt(i);  
+		if(ch=='*'){
+			if(!firstStar) sb.append(ch);
+			firstStar=true;
+		}else{
+			sb.append(ch);
+			firstStar=false;
+		}
+	  }
+
+	 return sb.toString();
+	}
+
+    //Leetcode 132.===========================================================
+	//Time: O(n3)
+	public static int minCut_(int st,int end,int[][] dp,boolean[][] isPalindrome){
+		if(st==end || isPalindrome[st][end]) return dp[st][end]=0; 
+		
+		if(dp[st][end]!=-1) return dp[st][end];
+
+        int min_=(int) 1e8;
+		for(int cut=st;cut<end;cut++){
+			int leftMinCut=isPalindrome[st][cut]?0:minCut_(st,cut,dp,isPalindrome);
+			int rightMinCut=isPalindrome[cut+1][end]?0:minCut_(cut+1,end,dp,isPalindrome);
+
+			int myCost=leftMinCut +  1   + rightMinCut;
+            min_=Math.min(min_,myCost);
+		}
+
+		return dp[st][end]=min_;
+	}
+
+    //Time: O(n2)
+	public static int minCut_02(int st,int end,int[] dp,boolean[][] isPalindrome){
+		if(st>end) return -1;
+		if(dp[st]!=-1) return dp[st];
+
+        int min_=(int) 1e8;
+		for(int cut = st;cut <=end;cut++){
+			if(isPalindrome[st][cut]){
+				int cuts_ = minCut_02(cut+1,end,dp,isPalindrome)+1;
+				min_=Math.min(min_,cuts_);
+			}
+		}
+
+		return dp[st]=min_;
+	}
+
+	public static int minCut_02_DP(int st,int end,int[] dp,boolean[][] isPalindrome){
+		for( st=end;st>=0;st--){
+			int min_=(int) 1e8;
+			for(int cut = st;cut <=end;cut++){
+				if(isPalindrome[st][cut]){
+					int cuts_ = (( cut + 1==end+1 )? -1 : dp[cut+1]) + 1;
+					min_=Math.min(min_, cuts_);
+				}
+			}
+	
+			dp[st]=min_;
+		}
+		return dp[0];
+	}
+
+
+	public static int minCut(String str) {
+		int n=str.length();
+		int[] dp=new int[n];
+		boolean[][] isPalindrome=new boolean[n][n];
+
+		for(int i=0;i<n;i++) dp[i]=-1;
+
+		for (int gap = 0; gap < n; gap++) {
+			for (int si = 0, ei = gap; ei < n; si++, ei++) {
+				if (gap == 0) isPalindrome[si][ei] = true;
+				else if (str.charAt(si) == str.charAt(ei) && gap == 1) isPalindrome[si][ei] = true;
+				else isPalindrome[si][ei] = str.charAt(si) == str.charAt(ei) && isPalindrome[si + 1][ei - 1];
+			}
+		}
+
+		return minCut_02(0,n-1,dp,isPalindrome);
+	}
     static void questionSet() {
         System.out.println(numDecodings("1423101112"));
     }
