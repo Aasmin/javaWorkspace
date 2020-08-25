@@ -22,3 +22,5 @@ LinkedList/questions.class
 LinkedList/questions$ListNode.class
 Stack/questions.class
 Stack/leetcode.class
+Graph/l001.class
+Graph/l001$Edge.class
