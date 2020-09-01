@@ -76,11 +76,61 @@ public class l001{
         }
     }
 
+    //Questions.====================================================================
+    /**
+     * DFS psseudo code:
+     * 1. Mark
+     * 2. From all unvisited negihbours
+     *  2.1 Call DFS(neighbour)
+     */
+    static boolean[] visited;
+    public static boolean hasPath(boolean[] visited, int src, int dest) {
+        if(src == dest) return true;
+        visited[src] = true;
+        
+        boolean res = false;
+        for(Edge e : graph[src]) {
+            if(!visited[e.v])
+            res = res || hasPath(visited, e.v, dest);
+        }
+        return res;
+    }
+
+    static int allPath(int src, int dest, boolean[] vis, int w, String ans)
+    {
+        if (src == dest)
+        {
+            System.out.println(ans + dest + " @ " + w );
+            return 1;
+        }
+    
+        vis[src] = true;
+    
+        int count = 0;
+        for (Edge e : graph[src])
+        {
+            if (!vis[e.v])
+                count += allPath(e.v, dest, vis, w + e.w, ans + src + " ");
+        }
+    
+        vis[src] = false;
+        return count;
+    }
+
+    static void set1() {
+        visited = new boolean[N];
+        String str = "";    int wei = 0;
+        // System.out.println(hasPath(visited, 3, 4));
+        System.out.println(allPath(0, 6, visited, wei,  str));
+
+    }
+
     public static void solve() {
         constructGraph();
         // System.out.println(removeEdge(3, 4));
-        removeVtx(3);
-        display(graph);
+        // removeVtx(3);
+        // display(graph);
+        set1();
     }
  
     public static void main(String[] args) {
