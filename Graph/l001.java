@@ -7,14 +7,13 @@ public class l001{
     }
     
     public static int N = 7;
-    public static ArrayList<Edge>[] graph;    //graph[r].get(c);
+    public static ArrayList<Edge>[] graph;    //Tp access: graph[r].get(c);
     // public static ArrayList<ArrayList<Edge>> graph;  //graph.get(r).get(c);
 
     public static void constructGraph() {
         graph = new ArrayList[N];
         for(int i = 0; i < N; i++) 
             graph[i] = new ArrayList<Edge>();
-
 		addEdge(graph, 0, 1, 20);
 		addEdge(graph, 0, 3, 10);
 		addEdge(graph, 1, 2, 10);
@@ -130,7 +129,7 @@ public class l001{
         // System.out.println(removeEdge(3, 4));
         // removeVtx(3);
         // display(graph);
-        set1();
+        // set1();
     }
  
     public static void main(String[] args) {
