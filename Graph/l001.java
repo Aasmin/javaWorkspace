@@ -123,18 +123,47 @@ public class l001{
         System.out.println(ans + " @ " + w);
         for (Edge e : graph[src])
             if (!visited[e.v])
-                preOrder(e.v, visited, w + e.w, ans + (e.v) + " ");
+                preOrder(e.v, visited, w + e.w, ans + src + " ");
 
         visited[src] = false;
     }
 
+    public static class allSolutionPair {
+        int lightW = Integer.MAX_VALUE;
+        int heavyW = Integer.MIN_VALUE;
+        int ceil = Integer.MAX_VALUE;
+        int floor = Integer.MIN_VALUE;
+    }
+
+    public static void ceilFloor(int src, int dst, boolean[] visited, int w, int val, allSolutionPair pair, String ans) {
+        if(src == dst) {
+            pair.heavyW = Math.max(pair.heavyW, w);
+            pair.lightW = Math.min(pair.lightW, w);
+
+            if(w > val)     pair.ceil = Math.min(pair.ceil, w);
+            if(w < val)     pair.floor = Math.max(pair.floor, w);
+            System.out.println(ans + " @ " + w);
+            return;
+        }
+
+        visited[src] = true;
+        for(Edge e: graph[src]) {
+            if(!visited[e.v]) {
+                ceilFloor(e.v, dst, visited, w + e.w, val, pair, ans + " " + e.v);
+            }
+        }
+        visited[src] = false;
+    }
 
     static void set1() {
         visited = new boolean[N];
-        String str = "";    int wei = 0;
-        // System.out.println(hasPath(visited, 3, 4));
-        System.out.println(allPath(0, 6, visited, wei,  str));
-
+        // String str = "";    int wei = 0;
+        // // System.out.println(hasPath(visited, 3, 4));
+        // System.out.println(allPath(0, 6, visited, wei,  str));
+        // preOrder(0, visited, 0, "");
+        allSolutionPair pair = new allSolutionPair();
+        ceilFloor(0, 6, visited, 0, 20, pair, "0");
+        System.out.println("\nMax: " + pair.heavyW + "\nMin: " + pair.lightW + "\nCeil: " + pair.ceil + "\nFloor: " + pair.floor);
     }
 
     public static void solve() {
@@ -142,7 +171,7 @@ public class l001{
         // System.out.println(removeEdge(3, 4));
         // removeVtx(3);
         // display(graph);
-        // set1();
+        set1();
     }
  
     public static void main(String[] args) {
