@@ -116,6 +116,19 @@ public class l001{
         return count;
     }
 
+    public static void preOrder(int src, boolean[] visited, int w, String ans)
+    {
+        visited[src] = true;
+
+        System.out.println(ans + " @ " + w);
+        for (Edge e : graph[src])
+            if (!visited[e.v])
+                preOrder(e.v, visited, w + e.w, ans + (e.v) + " ");
+
+        visited[src] = false;
+    }
+
+
     static void set1() {
         visited = new boolean[N];
         String str = "";    int wei = 0;
