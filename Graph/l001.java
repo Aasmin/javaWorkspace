@@ -6,7 +6,7 @@ public class l001{
         Edge(int v, int w) {this.v = v; this.w = w;}
     }
     
-    public static int N = 7;
+    public static int N = 7;    //N = Vertex
     public static ArrayList<Edge>[] graph;    //Tp access: graph[r].get(c);
     // public static ArrayList<ArrayList<Edge>> graph;  //graph.get(r).get(c);
 
@@ -22,6 +22,7 @@ public class l001{
 		addEdge(graph, 4, 5, 2);
 		addEdge(graph, 4, 6, 3);
         addEdge(graph, 5, 6, 8);
+        addEdge(graph, 2, 5, 2);
         
         display(graph);        
     }
@@ -155,15 +156,39 @@ public class l001{
         visited[src] = false;
     }
 
+    // A Hamiltonian path, also called a Hamilton path, is a graph path between two vertices of a graph that 
+    // visits each vertex exactly once.
+    //Finding Hamiltonian Paths and Cycles
+    public static void hamiltonianPath(int src, int oSrc, boolean[] visited, String ans, int count) {
+        if(count == N) {
+            if(findEdge(src, oSrc) != -1) //Check adjacent vtx is the org source to find the cycle
+                System.out.println("Cycle: " + ans + " " + src);
+            else 
+                System.out.println("Path: " + ans + " " + src);
+        }
+
+        visited[src] = true;
+        for(Edge e: graph[src]) {
+            if(!visited[e.v]) 
+                hamiltonianPath(e.v, oSrc, visited, ans + " " + src, count + 1);
+        }
+        visited[src] = false;
+    }
+    
+
+
     static void set1() {
         visited = new boolean[N];
         // String str = "";    int wei = 0;
         // // System.out.println(hasPath(visited, 3, 4));
         // System.out.println(allPath(0, 6, visited, wei,  str));
         // preOrder(0, visited, 0, "");
-        allSolutionPair pair = new allSolutionPair();
-        ceilFloor(0, 6, visited, 0, 20, pair, "0");
-        System.out.println("\nMax: " + pair.heavyW + "\nMin: " + pair.lightW + "\nCeil: " + pair.ceil + "\nFloor: " + pair.floor);
+
+        // allSolutionPair pair = new allSolutionPair();
+        // ceilFloor(0, 6, visited, 0, 20, pair, "0");
+        // System.out.println("\nMax: " + pair.heavyW + "\nMin: " + pair.lightW + "\nCeil: " + pair.ceil + "\nFloor: " + pair.floor);
+
+        hamiltonianPath(2, 2, visited, "", 1);
     }
 
     public static void solve() {
