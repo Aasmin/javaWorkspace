@@ -160,7 +160,7 @@ public class l001{
     // visits each vertex exactly once.
     //Finding Hamiltonian Paths and Cycles
     public static void hamiltonianPath(int src, int oSrc, boolean[] visited, String ans, int count) {
-        if(count == N) {
+        if(count == N) {    //maintain the count to seek if every vtx visited
             if(findEdge(src, oSrc) != -1) //Check adjacent vtx is the org source to find the cycle
                 System.out.println("Cycle: " + ans + " " + src);
             else 
