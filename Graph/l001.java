@@ -18,11 +18,12 @@ public class l001{
 		addEdge(graph, 0, 3, 10);
 		addEdge(graph, 1, 2, 10);
 		addEdge(graph, 2, 3, 40);
-		addEdge(graph, 3, 4, 2);
+		// addEdge(graph, 3, 4, 2);
 		addEdge(graph, 4, 5, 2);
 		addEdge(graph, 4, 6, 3);
         addEdge(graph, 5, 6, 8);
-        addEdge(graph, 2, 5, 2);
+        
+        // addEdge(graph, 2, 5, 2);
         
         display(graph);        
     }
@@ -175,6 +176,30 @@ public class l001{
         visited[src] = false;
     }
     
+    //getConnectedComponent - Finding the number of components (which are not connected) in a given graph.
+    public static int getConnectedComponent() {
+        boolean[] vis = new boolean[N];
+        int count = 0;
+        int maxSize = 0;
+        for(int i = 0; i < N; i++) {
+            if(!vis[i]) {
+                count++;
+                maxSize = Math.max(maxSize, GCC_dfs(i, vis));
+            }
+        }
+        System.out.println("Max size of component: " + maxSize);
+        return count;
+    }
+
+    public static int GCC_dfs(int src, boolean[] vis) {
+        vis[src] = true;
+        int count = 0;
+        for(Edge e : graph[src]) {
+            if(!vis[e.v]) 
+                count += GCC_dfs(e.v, vis);
+        }
+        return count + 1;
+    }
 
 
     static void set1() {
@@ -188,7 +213,9 @@ public class l001{
         // ceilFloor(0, 6, visited, 0, 20, pair, "0");
         // System.out.println("\nMax: " + pair.heavyW + "\nMin: " + pair.lightW + "\nCeil: " + pair.ceil + "\nFloor: " + pair.floor);
 
-        hamiltonianPath(2, 2, visited, "", 1);
+        // hamiltonianPath(2, 2, visited, "", 1);
+
+        System.out.println(getConnectedComponent());
     }
 
     public static void solve() {
