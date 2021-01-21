@@ -97,6 +97,31 @@ public class leetcode {
          return maxArea;
     }
 
+    public int islandPerimeter(int[][] grid) {
+        int ones = 0, nbrs = 0;
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == 1){
+                    ones++;
+                    nbrs += countNbrs(i, j, grid);   
+                }
+            }
+        }
+        return (ones * 4 - nbrs * 2);
+    }
+    
+    // Leetcode 463. Island Perimeter
+    public int countNbrs(int i, int j, int[][]grid) {
+        int num = 0;
+        if(i + 1 < grid.length) {
+            if(grid[i + 1][j] == 1) num += 1;
+        }
+        if(j + 1 < grid[0].length) {
+            if(grid[i][j + 1] == 1) num += 1;
+        }
+        return num;
+    }
+
 
     public static void main(String[] args) {
 
