@@ -73,6 +73,29 @@ public class leetcode {
         return count;
     }
 
+    //Leetcode 695. Max Area of Island
+    public int maxAreaOfIslandbyDFS(int r, int c, int n, int m, int[][] grid) {
+        if(grid[r][c] != 1) return 0;
+
+        int count = 0;
+        grid[r][c] = 0;
+        if(r - 1 >= 0) count += maxAreaOfIslandbyDFS(r - 1, c, n, m, grid);
+        if(r + 1 < n) count += maxAreaOfIslandbyDFS(r + 1, c, n, m, grid);
+        if(c - 1 >= 0) count += maxAreaOfIslandbyDFS(r, c - 1, n, m, grid);
+        if(c + 1 < m) count += maxAreaOfIslandbyDFS(r, c + 1, n, m, grid);
+        return count + 1;
+    }
+    public int maxAreaOfIsland(int[][] grid) {
+        int n = grid.length, m = grid[0].length;
+        int maxArea = 0;
+        for(int r = 0; r < n; r++) {
+            for(int c = 0; c < m; c++) {
+                if(grid[r][c] == 1) 
+                    maxArea = Math.max(maxArea, maxAreaOfIslandbyDFS(r, c, n, m, grid));
+            }
+        }
+         return maxArea;
+    }
 
 
     public static void main(String[] args) {
