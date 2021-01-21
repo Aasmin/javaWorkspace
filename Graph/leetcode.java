@@ -44,6 +44,37 @@ public class leetcode {
             surroundedRegionByDFS(r, c + 1, n, m, board);
     }
 
+    // Leetcode 200. Number of Islands
+    public void numIslandsByDFS(int r, int c, int n, int m, char[][] grid) {
+        if(grid[r][c] != '1') return;
+
+        grid[r][c] = '0';
+        if (r - 1 >= 0)
+            numIslandsByDFS(r - 1, c, n, m, grid);
+        if (r + 1 < n)
+            numIslandsByDFS(r + 1, c, n, m, grid);
+        if (c - 1 >= 0)
+            numIslandsByDFS(r, c - 1, n, m, grid);
+        if (c + 1 < m)
+            numIslandsByDFS(r, c + 1, n, m, grid);
+            
+    }
+
+    public int numIslands(char[][] grid) {
+        int m = grid.length, n = grid[0].length, count = 0;
+        for(int r = 0; r < m; r++) {
+            for(int c = 0; c < n; c++) {
+                if(grid[r][c] == '1') {
+                    count++;
+                    numIslandsByDFS(r, c, n, m, grid);
+                }
+            }
+        }
+        return count;
+    }
+
+
+
     public static void main(String[] args) {
 
     }
