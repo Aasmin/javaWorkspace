@@ -24,9 +24,9 @@ public class l001{
 		addEdge(graph, 4, 6, 3);
         addEdge(graph, 5, 6, 8);
         
-        addEdge(graph, 2, 7, 8);
-        addEdge(graph, 7, 8, 8);
-        addEdge(graph, 8, 2, 8);
+        // addEdge(graph, 2, 7, 8);
+        // addEdge(graph, 7, 8, 8);
+        // addEdge(graph, 8, 2, 8);
 
         
         // addEdge(graph, 2, 5, 2);
@@ -223,6 +223,33 @@ public class l001{
     }
 
     //Breadth First Search
+    public static void BFS00(int src,boolean[] vis){  
+		LinkedList<pair> que=new LinkedList<>();
+		que.addLast(new pair(src,src+""));
+
+		int desti=6;
+
+		while(que.size()!=0){
+			pair rvtx=que.removeFirst();
+
+			if(vis[rvtx.vtx]){
+				System.out.println("Cycle: " + rvtx.psf);
+				continue;
+			}
+
+			if(rvtx.vtx==desti){
+				System.out.println("destinantion: " + rvtx.psf);
+			}
+
+			vis[rvtx.vtx]=true;
+
+			for(Edge e: graph[rvtx.vtx]){
+				if(!vis[e.v])
+				   que.addLast(new pair(e.v, rvtx.psf+ e.v));
+			}
+		}
+    }
+
 	public static void BFS(int src,boolean[] vis){  //delimiter method
 		LinkedList<pair> que=new LinkedList<>();
 		que.addLast(new pair(src,src+""));
@@ -334,7 +361,7 @@ public class l001{
 
         // System.out.println(getConnectedComponent());
 
-        BFS(0, visited);
+        BFS00(0, visited);
     }
 
     public static void solve() {
