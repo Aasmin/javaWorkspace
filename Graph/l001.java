@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class l001{
     public static class Edge{
@@ -6,7 +7,7 @@ public class l001{
         Edge(int v, int w) {this.v = v; this.w = w;}
     }
     
-    public static int N = 7;    //N = Vertex
+    public static int N = 9;    //N = Vertex
     public static ArrayList<Edge>[] graph;    //Tp access: graph[r].get(c);
     // public static ArrayList<ArrayList<Edge>> graph;  //graph.get(r).get(c);
 
@@ -18,10 +19,15 @@ public class l001{
 		addEdge(graph, 0, 3, 10);
 		addEdge(graph, 1, 2, 10);
 		addEdge(graph, 2, 3, 40);
-		// addEdge(graph, 3, 4, 2);
+		addEdge(graph, 3, 4, 2);
 		addEdge(graph, 4, 5, 2);
 		addEdge(graph, 4, 6, 3);
         addEdge(graph, 5, 6, 8);
+        
+        addEdge(graph, 2, 7, 8);
+        addEdge(graph, 7, 8, 8);
+        addEdge(graph, 8, 2, 8);
+
         
         // addEdge(graph, 2, 5, 2);
         
@@ -202,6 +208,117 @@ public class l001{
     }
 
 
+    // Graph 3 
+    public static class pair {
+        int vtx;
+        String psf;
+        int level;
+
+        pair(int vtx, String psf) {
+            this.vtx = vtx; this.psf = psf;
+        } 
+        pair(int vtx, String psf, int lvl) {
+            this.vtx = vtx; this.psf = psf; this.level = lvl;
+        } 
+    }
+
+    //Breadth First Search
+	public static void BFS(int src,boolean[] vis){  //delimiter method
+		LinkedList<pair> que=new LinkedList<>();
+		que.addLast(new pair(src,src+""));
+		que.addLast(null);
+		int desti=6;
+
+		int level=0;
+		while(que.size()!=1){
+			pair rvtx=que.removeFirst();
+
+			if(vis[rvtx.vtx]){
+				System.out.println("Cycle: " + rvtx.psf);
+				continue;
+			}
+
+			if(rvtx.vtx==desti){
+				System.out.println("destinantion: " + rvtx.psf + " -> " + level);
+			}
+
+			vis[rvtx.vtx]=true;
+
+			for(Edge e: graph[rvtx.vtx]){
+				if(!vis[e.v])
+				   que.addLast(new pair(e.v,rvtx.psf+ e.v));
+			}
+
+			if(que.getFirst()==null){
+				level++;
+				que.removeFirst();
+				que.addLast(null);
+			}
+		}
+    }
+    
+    public static void BFS_02(int src,boolean[] vis){
+		LinkedList<pair> que=new LinkedList<>();
+		que.addLast(new pair(src,src+"", 0));   //addding levels in the pair
+		que.addLast(null);
+		int desti=6;
+
+		while(que.size()!=0){
+			pair rvtx=que.removeFirst();
+
+			if(vis[rvtx.vtx]){
+				System.out.println("Cycle: " + rvtx.psf);
+				continue;
+			}
+
+			if(rvtx.vtx==desti){
+				System.out.println("destinantion: " + rvtx.psf + " -> " + rvtx.level);
+			}
+
+			vis[rvtx.vtx]=true;
+
+			for(Edge e: graph[rvtx.vtx]){
+				if(!vis[e.v])
+				   que.addLast(new pair(e.v,rvtx.psf+ e.v, rvtx.level+1));
+			}
+		}
+	}
+
+
+// void BFS_03(int src, boolean[] vis)
+// {
+
+//     queue<pair<int, string>> que;
+//     que.push({src, to_string(src) + ""});
+
+//     int desti = 6;
+
+//     while (que.size() != 0)
+//     {
+//         pair<int, string> vtx = que.front();
+//         que.pop();
+
+//         if (vis[vtx.first])
+//         { //cycle.
+//             cout << "Cycle: " << vtx.second << endl;
+//             continue;
+//         }
+
+//         if (vtx.first == desti)
+//         {
+//             cout << "destination: " << vtx.second << endl;
+//         }
+
+//         vis[vtx.first] = true;
+//         for (Edge e : graph[vtx.first])
+//         {
+//             if (!vis[e.v])
+//                 que.push({e.v, vtx.second + to_string(e.v)});
+//         }
+//     }
+// }
+
+
     static void set1() {
         visited = new boolean[N];
         // String str = "";    int wei = 0;
@@ -215,7 +332,9 @@ public class l001{
 
         // hamiltonianPath(2, 2, visited, "", 1);
 
-        System.out.println(getConnectedComponent());
+        // System.out.println(getConnectedComponent());
+
+        BFS(0, visited);
     }
 
     public static void solve() {

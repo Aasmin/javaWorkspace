@@ -123,6 +123,11 @@ public class leetcode {
     }
 
 
+    // Count the number of distinct island: 
+    // An island consider to be the same as another iff one island can be translated (and not rotated/reflected) to other island.
+    
+
+    
     public static void main(String[] args) {
 
     }
