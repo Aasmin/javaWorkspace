@@ -24,9 +24,9 @@ public class l001{
 		addEdge(graph, 4, 6, 3);
         addEdge(graph, 5, 6, 8);
         
-        // addEdge(graph, 2, 7, 8);
-        // addEdge(graph, 7, 8, 8);
-        // addEdge(graph, 8, 2, 8);
+        addEdge(graph, 2, 7, 8);
+        addEdge(graph, 7, 8, 8);
+        addEdge(graph, 8, 2, 8);
 
         
         // addEdge(graph, 2, 5, 2);
@@ -250,7 +250,7 @@ public class l001{
 		}
     }
 
-	public static void BFS(int src,boolean[] vis){  //delimiter method
+	public static void BFS01(int src,boolean[] vis){  //delimiter method
 		LinkedList<pair> que=new LinkedList<>();
 		que.addLast(new pair(src,src+""));
 		que.addLast(null);
@@ -312,39 +312,62 @@ public class l001{
 	}
 
 
-// void BFS_03(int src, boolean[] vis)
-// {
+    public static void BFS_04(int src, boolean[] vis) { // ideal for detecting cycle
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        int desti = 6;
+        int cycle = 0;
+        int level = 0;
+        while(que.size() != 0) {
+            int size = que.size();
+            while(size-- > 0) {
+                int rvtx = que.removeFirst();
+                
+                if (vis[rvtx])  //cycle
+                { 
+                    System.out.println("Cycle No. " + cycle + ": " + rvtx );
+                    cycle++;
+                    continue;
+                }
 
-//     queue<pair<int, string>> que;
-//     que.push({src, to_string(src) + ""});
+                if(rvtx == desti)   
+                    System.out.println("Destination: " + level);
+    
+                vis[rvtx] = true;  //Marking outsode the loop
+                for(Edge e : graph[rvtx]) {
+                    if(!vis[e.v]) {
+                        que.addLast(e.v);
+                    }
+                }
+            }
+            level++;
+        }
+    }
 
-//     int desti = 6;
-
-//     while (que.size() != 0)
-//     {
-//         pair<int, string> vtx = que.front();
-//         que.pop();
-
-//         if (vis[vtx.first])
-//         { //cycle.
-//             cout << "Cycle: " << vtx.second << endl;
-//             continue;
-//         }
-
-//         if (vtx.first == desti)
-//         {
-//             cout << "destination: " << vtx.second << endl;
-//         }
-
-//         vis[vtx.first] = true;
-//         for (Edge e : graph[vtx.first])
-//         {
-//             if (!vis[e.v])
-//                 que.push({e.v, vtx.second + to_string(e.v)});
-//         }
-//     }
-// }
-
+    public static void BFS_05(int src, boolean[] vis) { //ideal for detecting length - fastest
+        LinkedList<Integer> que = new LinkedList<>();
+        que.addLast(src);
+        vis[src] = true;    // Mark the source (0th location)
+        int desti = 6;
+        int level = 0;
+        while(que.size() != 0) {
+            int size = que.size();
+            while(size-- > 0) {
+                int rvtx = que.removeFirst();
+    
+                if(rvtx == desti)   
+                    System.out.println("Destination: " + level);
+    
+                for(Edge e : graph[rvtx]) {
+                    if(!vis[e.v]) {
+                        vis[e.v] = true;  //Marking inside the loop
+                        que.addLast(e.v);
+                    }
+                }
+            }
+            level++;
+        }
+    }
 
     static void set1() {
         visited = new boolean[N];
@@ -361,7 +384,7 @@ public class l001{
 
         // System.out.println(getConnectedComponent());
 
-        BFS00(0, visited);
+        BFS_04(0, visited);
     }
 
     public static void solve() {
